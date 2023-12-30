@@ -8,6 +8,7 @@ enum E_OBJECT {
 	E_TILE = 20000,
 	E_WALL = 20100,
 	E_ITEM = 20200,
+	E_EFFECT = 30000,
 };
 
 class Scene

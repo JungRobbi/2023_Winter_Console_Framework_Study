@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "Input.h"
+#include "Skill.h"
 
 unsigned long long Scene::global_id = 1;
 
@@ -42,35 +43,90 @@ void Scene::Initialize()
 
 void Scene::Update()
 {
-	if (Input::keys[224]) { // ↑/↓/←/→
-		Vec2 my_pos = objects[my_id]->GetPos();
-		if (Input::keys[72]) { // ↑
-			if (my_pos.y - 1 > 0)
-				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y - 1 });
-		}
-		if (Input::keys[80]) { // ↓
-			if (my_pos.y + 1 < StageSizeY)
-				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y + 1 });
-		}
-		if (Input::keys[75]) { // ←
-			if (my_pos.x - 1 > 0)
-				objects[my_id]->SetPos(Vec2{ my_pos.x - 1, my_pos.y });
-		}
-		if (Input::keys[77]) { // →
-			if (my_pos.x + 1 < StageSizeX)
-				objects[my_id]->SetPos(Vec2{ my_pos.x + 1, my_pos.y });
-		}
-	}
-
+	// 원본 stage 복사
 	for (int i{}; i < stage.size(); ++i) {
 		for (int j{}; j < stage[i].size(); ++j) {
 			scene[i][j] = stage[i][j];
 		}
 	}
 
+	///////
+	//Input 처리
+	///////
+	if (Input::keys[224]) { // ↑/↓/←/→
+		Vec2 my_pos = objects[my_id]->GetPos();
+		if (Input::keys[72]) { // ↑
+			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
+			if (my_pos.y - 1 > 0)
+				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y - 1 });
+		}
+		if (Input::keys[80]) { // ↓
+			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
+			if (my_pos.y + 1 < StageSizeY)
+				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y + 1 });
+		}
+		if (Input::keys[75]) { // ←
+			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
+			if (my_pos.x - 1 > 0)
+				objects[my_id]->SetPos(Vec2{ my_pos.x - 1, my_pos.y });
+		}
+		if (Input::keys[77]) { // →
+			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
+			if (my_pos.x + 1 < StageSizeX)
+				objects[my_id]->SetPos(Vec2{ my_pos.x + 1, my_pos.y });
+		}
+	}
+	if (Input::keys['a']) {
+		Vec2 my_pos = objects[my_id]->GetPos();
+		E_DIRECTION my_dir = objects[my_id]->GetDirection();
+
+		// createQueue 만들어야 함. (임시 상태)
+		switch (my_dir)
+		{
+		case E_UP:
+			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x, my_pos.y - 1 }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			break;
+		case E_DOWN:
+			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x, my_pos.y + 1 }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			break;
+		case E_LEFT:
+			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x - 1, my_pos.y }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			break;
+		case E_RIGHT:
+			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x + 1, my_pos.y }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			break;
+		default:
+			break;
+		}
+	}
+	///////
+	///////
+	///////
+
+
+
+	// removeQueue 만들어야 함. (임시 상태)
+	vector<unsigned long long> toRemove;
 	for (auto& object : objects) {
+		if (object.second->GetRemoved()) {
+			toRemove.emplace_back(object.first);
+			continue;
+		}
+
+		object.second->Update();
+
 		auto pos = object.second->GetPos();
-		scene[pos.y][pos.x] = E_OBJECT::E_CLIENT;
+
+		if (object.second->GetId() < E_OBJECT::E_ENEMY) {
+			scene[pos.y][pos.x] = E_OBJECT::E_CLIENT;
+		}
+		else {
+			scene[pos.y][pos.x] = E_OBJECT::E_EFFECT;
+		}
+	}
+
+	for (int id : toRemove) {
+		objects.erase(id);
 	}
 }
 
@@ -94,6 +150,9 @@ void Scene::Render()
 				break;
 			case E_OBJECT::E_TILE + 1:
 				str += "■";
+				break;
+			case E_OBJECT::E_EFFECT:
+				str += "※";
 				break;
 			default:
 				str += "  ";
