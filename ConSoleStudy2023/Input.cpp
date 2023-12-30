@@ -30,9 +30,14 @@ void Input::Update()
 	//	MouseTimerReset();
 	//}
 	KeyClear();
+	static int prevKey = 80;
 
 	if (_kbhit()) {
-		keys[_getch()] = true;
+		int currentKey = _getch();
+		keys[currentKey] = true;
+		if (prevKey == 224)
+			keys[prevKey] = true;
+		prevKey = currentKey;
 	}
 }
 
