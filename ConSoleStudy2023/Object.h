@@ -14,6 +14,9 @@ public:
 	Object(Vec2 Pos, unsigned long long id);
 	virtual ~Object();
 
+	Vec2 GetPos();
+	void SetPos(Vec2 pos);
+
 	unsigned long long GetId();
 	void SetId(int id);
 };

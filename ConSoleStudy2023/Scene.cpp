@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Input.h"
-#include "Object.h"
+
+unsigned long long Scene::global_id = 1;
 
 Scene::Scene()
 {
@@ -12,6 +13,8 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
+	objects.emplace(my_id, make_shared<Object>(Vec2{ 0, 0 }, my_id));
+
 	for (int i{}; i < 10; ++i) {
 		scene.emplace_back();
 		for (int j{}; j < 10; ++j) {
@@ -32,16 +35,25 @@ void Scene::Initialize()
 
 void Scene::Update()
 {
-	/*for (int i{}; i < 10; ++i) {
-		for (int j{}; j < 10; ++j) {
-			if ((i + j) & 1) {
-				scene[i][j] = E_TILE;
-			}
-			else {
-				scene[i][j] = E_TILE + 1;
-			}
+	if (Input::keys[224]) { // ก่/ก้/ก็/กๆ
+		if (Input::keys[72]) { // ก่
+
 		}
-	}*/
+		if (Input::keys[80]) { // ก้
+
+		}
+		if (Input::keys[75]) { // ก็
+
+		}
+		if (Input::keys[77]) { // กๆ
+
+		}
+	}
+
+	for (auto& object : objects) {
+		auto pos = object.second->GetPos();
+		scene[pos.y][pos.x] = E_OBJECT::E_CLIENT;
+	}
 }
 
 void Scene::Render()
@@ -56,10 +68,13 @@ void Scene::Render()
 			
 			switch (scene[i][j])
 			{
-			case E_TILE:
+			case E_OBJECT::E_CLIENT:
+				str += "C ";
+				break;
+			case E_OBJECT::E_TILE:
 				str += "A ";
 				break;
-			case E_TILE + 1:
+			case E_OBJECT::E_TILE + 1:
 				str += "B ";
 				break;
 			default:

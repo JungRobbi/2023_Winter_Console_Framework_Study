@@ -12,6 +12,16 @@ Object::~Object()
 {
 }
 
+Vec2 Object::GetPos()
+{
+	return position;
+}
+
+void Object::SetPos(Vec2 pos)
+{
+	position = pos;
+}
+
 unsigned long long Object::GetId()
 {
 	return object_id;

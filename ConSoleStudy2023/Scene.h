@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "Object.h"
 
 enum E_OBJECT {
 	E_CLIENT = 0,
@@ -12,7 +13,11 @@ enum E_OBJECT {
 class Scene
 {
 	vector<vector<int>> scene;
+	unordered_map<unsigned long long, shared_ptr<Object>> objects;
 
+	unsigned long long my_id = 0;
+
+	static unsigned long long global_id;
 public:
 	Scene();
 	~Scene();
