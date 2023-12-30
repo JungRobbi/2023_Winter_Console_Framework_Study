@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <memory>
 #include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 using namespace chrono;

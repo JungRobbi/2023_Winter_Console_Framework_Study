@@ -18,11 +18,18 @@ void Scene::Initialize()
 	for (int i{}; i < 10; ++i) {
 		scene.emplace_back();
 		for (int j{}; j < 10; ++j) {
+			scene[i].emplace_back(E_TILE);
+		}
+	}
+
+	for (int i{}; i < 10; ++i) {
+		stage.emplace_back();
+		for (int j{}; j < 10; ++j) {
 			if ((i + j) & 1) {
-				scene[i].emplace_back(E_TILE);
+				stage[i].emplace_back(E_TILE);
 			}
 			else {
-				scene[i].emplace_back(E_TILE + 1);
+				stage[i].emplace_back(E_TILE + 1);
 			}
 		}
 	}
@@ -36,17 +43,28 @@ void Scene::Initialize()
 void Scene::Update()
 {
 	if (Input::keys[224]) { // ¡è/¡é/¡ç/¡æ
+		Vec2 my_pos = objects[my_id]->GetPos();
 		if (Input::keys[72]) { // ¡è
-
+			if (my_pos.y - 1 > 0)
+				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y - 1 });
 		}
 		if (Input::keys[80]) { // ¡é
-
+			if (my_pos.y + 1 < StageSizeY)
+				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y + 1 });
 		}
 		if (Input::keys[75]) { // ¡ç
-
+			if (my_pos.x - 1 > 0)
+				objects[my_id]->SetPos(Vec2{ my_pos.x - 1, my_pos.y });
 		}
 		if (Input::keys[77]) { // ¡æ
+			if (my_pos.x + 1 < StageSizeX)
+				objects[my_id]->SetPos(Vec2{ my_pos.x + 1, my_pos.y });
+		}
+	}
 
+	for (int i{}; i < stage.size(); ++i) {
+		for (int j{}; j < stage[i].size(); ++j) {
+			scene[i][j] = stage[i][j];
 		}
 	}
 
@@ -69,13 +87,13 @@ void Scene::Render()
 			switch (scene[i][j])
 			{
 			case E_OBJECT::E_CLIENT:
-				str += "C ";
+				str += "¨Í";
 				break;
 			case E_OBJECT::E_TILE:
-				str += "A ";
+				str += "¡à";
 				break;
 			case E_OBJECT::E_TILE + 1:
-				str += "B ";
+				str += "¡á";
 				break;
 			default:
 				str += "  ";

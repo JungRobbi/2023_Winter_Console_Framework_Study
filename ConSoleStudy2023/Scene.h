@@ -12,6 +12,7 @@ enum E_OBJECT {
 
 class Scene
 {
+	vector<vector<int>> stage;
 	vector<vector<int>> scene;
 	unordered_map<unsigned long long, shared_ptr<Object>> objects;
 
