@@ -36,12 +36,18 @@
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
       <Filter>소스 파일\System</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>
