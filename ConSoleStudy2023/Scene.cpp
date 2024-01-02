@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Input.h"
 #include "Skill.h"
+#include "Player.h"
 
 unsigned long long Scene::global_id = 1;
 
@@ -14,7 +15,7 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	objects.emplace(my_id, make_shared<Object>(Vec2{ 0, 0 }, my_id));
+	objects.emplace(my_id, make_shared<Player>(Vec2{ 0, 0 }, my_id));
 
 	for (int i{}; i < 10; ++i) {
 		scene.emplace_back();
@@ -26,7 +27,10 @@ void Scene::Initialize()
 	for (int i{}; i < 10; ++i) {
 		stage.emplace_back();
 		for (int j{}; j < 10; ++j) {
-			if ((i + j) & 1) {
+			if (i != 0 && j != 0 && i != 9 && j != 9) {
+				stage[i].emplace_back(E_TILE + 2);
+			}
+			else if ((i + j) & 1) {
 				stage[i].emplace_back(E_TILE);
 			}
 			else {
@@ -113,16 +117,20 @@ void Scene::Update()
 			continue;
 		}
 
+		if (object.second->GetId() == my_id)
+			continue;
+
 		object.second->Update();
 
 		auto pos = object.second->GetPos();
 
-		if (object.second->GetId() < E_OBJECT::E_ENEMY) {
-			scene[pos.y][pos.x] = E_OBJECT::E_CLIENT;
-		}
-		else {
+		if (object.second->GetId() >= E_OBJECT::E_ENEMY) {
 			scene[pos.y][pos.x] = E_OBJECT::E_EFFECT;
 		}
+	}
+	{
+		auto pos = objects[my_id]->GetPos();
+		scene[pos.y][pos.x] = E_OBJECT::E_CLIENT;
 	}
 
 	for (int id : toRemove) {
