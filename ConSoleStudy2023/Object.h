@@ -17,6 +17,7 @@ protected:
 	unsigned long long object_id;
 
 	bool removed;
+
 public:
 	Object();
 	Object(Vec2 Pos, unsigned long long id);

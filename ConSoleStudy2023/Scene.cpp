@@ -15,6 +15,13 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
+	Object_Shapes[E_OBJECT::E_CLIENT] = "б┌";
+	Object_Shapes[E_OBJECT::E_CLIENT + 1] = "б┘";
+	Object_Shapes[E_OBJECT::E_TILE] = "  ";
+	Object_Shapes[E_OBJECT::E_TILE + 1] = "бр";
+	Object_Shapes[E_OBJECT::E_TILE + 2] = "бс";
+	Object_Shapes[E_OBJECT::E_EFFECT] = "б╪";
+
 	objects.emplace(my_id, make_shared<Player>(Vec2{ 0, 0 }, my_id));
 
 	for (int i{}; i < 10; ++i) {
@@ -28,13 +35,13 @@ void Scene::Initialize()
 		stage.emplace_back();
 		for (int j{}; j < 10; ++j) {
 			if (i != 0 && j != 0 && i != 9 && j != 9) {
-				stage[i].emplace_back(E_TILE + 2);
-			}
-			else if ((i + j) & 1) {
 				stage[i].emplace_back(E_TILE);
 			}
-			else {
+			else if ((i + j) & 1) {
 				stage[i].emplace_back(E_TILE + 1);
+			}
+			else {
+				stage[i].emplace_back(E_TILE + 2);
 			}
 		}
 	}
@@ -147,25 +154,7 @@ void Scene::Render()
 
 	for (int i{}; i < scene.size(); ++i) {
 		for (int j{}; j < scene[i].size(); ++j) {
-			
-			switch (scene[i][j])
-			{
-			case E_OBJECT::E_CLIENT:
-				str += "и═";
-				break;
-			case E_OBJECT::E_TILE:
-				str += "бр";
-				break;
-			case E_OBJECT::E_TILE + 1:
-				str += "бс";
-				break;
-			case E_OBJECT::E_EFFECT:
-				str += "б╪";
-				break;
-			default:
-				str += "  ";
-				break;
-			}
+			str += Object_Shapes[scene[i][j]];
 		}
 		str += '\n';
 	}
