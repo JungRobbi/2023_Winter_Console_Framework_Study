@@ -4,6 +4,7 @@
 #include "Player.h"
 
 unsigned long long Scene::global_id = 1;
+unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
 
 Scene::Scene() : my_id(0)
 {
@@ -21,6 +22,9 @@ void Scene::Initialize()
 	Object_Shapes[E_OBJECT::E_TILE + 1] = "□";
 	Object_Shapes[E_OBJECT::E_TILE + 2] = "■";
 	Object_Shapes[E_OBJECT::E_TILE + 3] = "▣";
+	Object_Shapes[E_OBJECT::E_TILE + 4] = "⊙";
+	Object_Shapes[E_OBJECT::E_TILE + 5] = "◎";
+	Object_Shapes[E_OBJECT::E_TILE + 6] = "●";
 	Object_Shapes[E_OBJECT::E_EFFECT] = "※";
 
 	{
@@ -37,7 +41,6 @@ void Scene::Initialize()
 		Object_Animation[E_OBJECT::E_TILE + 2].emplace_back(E_OBJECT::E_TILE + 2);
 	}
 	{
-		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 1);
 		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 3);
 		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 2);
 		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT);
@@ -115,9 +118,8 @@ void Scene::Update()
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 
 		// createQueue 만들어야 함. (임시 상태)
-		auto attack = make_shared<Skill>(Vec2{ my_pos.x, my_pos.y }, E_OBJECT::E_EFFECT, global_id++ + E_OBJECT::E_EFFECT, 20.f);
+		auto attack = make_shared<Skill>(Vec2{ my_pos.x, my_pos.y }, E_OBJECT::E_EFFECT, global_effect_id, EFFECT_MAX);
 		attack->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_EFFECT].size());
-		
 		switch (my_dir)
 		{
 		case E_UP:
@@ -135,7 +137,11 @@ void Scene::Update()
 		default:
 			break;
 		}
-		objects[global_id++ + E_OBJECT::E_EFFECT] = attack;
+		objects[global_effect_id++] = attack;
+
+		if (global_effect_id > E_OBJECT::E_EFFECT + 50) {
+			global_effect_id = E_OBJECT::E_EFFECT;
+		}
 	}
 	///////
 	///////

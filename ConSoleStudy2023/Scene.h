@@ -14,6 +14,7 @@ class Scene
 
 
 	static unsigned long long global_id;
+	static unsigned long long global_effect_id;
 public:
 	Scene();
 	~Scene();

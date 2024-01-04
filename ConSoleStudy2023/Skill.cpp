@@ -16,9 +16,12 @@ Skill::~Skill()
 
 void Skill::Update()
 {
-	Object::Update();
 	durationTime -= 0.01f;
-	if (durationTime < 0.0) {
+	animationTime += 0.001f * animationSpeed;
+	if (durationTime < 0.0 || animationTime > animationStateMAX) {
 		removed = true;
+		return;
 	}
+	animationState = (int)animationTime;
+
 }

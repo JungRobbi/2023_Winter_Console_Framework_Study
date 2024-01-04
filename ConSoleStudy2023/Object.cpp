@@ -69,3 +69,8 @@ void Object::SetAnimationStateMAX(int i)
 { 
 	animationStateMAX = i;
 }
+
+void Object::SetAnimationSpeed(float f)
+{ 
+	animationSpeed = f;
+}

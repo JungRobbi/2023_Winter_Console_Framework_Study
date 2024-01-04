@@ -31,6 +31,7 @@ protected:
 	int animationState = 0;
 	int animationStateMAX = 1;
 	float animationTime = 0.f;
+	float animationSpeed = 1.f;
 public:
 	Object();
 	Object(Vec2 Pos, unsigned long long id);
@@ -53,5 +54,6 @@ public:
 	int GetAnimationState();
 
 	void SetAnimationStateMAX(int i);
+	void SetAnimationSpeed(float f);
 };
 
