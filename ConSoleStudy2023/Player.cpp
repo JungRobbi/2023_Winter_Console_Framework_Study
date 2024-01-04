@@ -1,11 +1,13 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player() : Object()
 {
+	objectType = E_OBJECT::E_CLIENT;
 }
 
-Player::Player(Vec2 Pos, unsigned long long id) : Object(Pos, id)
+Player::Player(Vec2 Pos, int type, unsigned long long id) : Object(Pos, id)
 {
+	objectType = type;
 }
 
 Player::~Player()
@@ -14,4 +16,5 @@ Player::~Player()
 
 void Player::Update()
 {
+	Object::Update();
 }

@@ -11,6 +11,5 @@
 using namespace std;
 using namespace chrono;
 
-
-static const int StageSizeX = 10;
-static const int StageSizeY = 10;
+static const int StageSizeX = 11;
+static const int StageSizeY = 11;

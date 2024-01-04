@@ -7,7 +7,7 @@ class Skill :
     float durationTime;
 public:
     Skill();
-    Skill(Vec2 Pos, unsigned long long id, int Time);
+    Skill(Vec2 Pos, int type, unsigned long long id, int Time);
     ~Skill();
 
     void Update();

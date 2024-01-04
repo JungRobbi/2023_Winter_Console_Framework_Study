@@ -7,7 +7,7 @@ class Player
 
 public:
 	Player();
-	Player(Vec2 Pos, unsigned long long id);
+	Player(Vec2 Pos, int type, unsigned long long id);
 	~Player();
 
 	void Update();

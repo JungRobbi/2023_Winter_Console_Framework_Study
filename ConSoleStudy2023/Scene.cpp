@@ -5,7 +5,7 @@
 
 unsigned long long Scene::global_id = 1;
 
-Scene::Scene()
+Scene::Scene() : my_id(0)
 {
 }
 
@@ -20,21 +20,44 @@ void Scene::Initialize()
 	Object_Shapes[E_OBJECT::E_TILE] = "  ";
 	Object_Shapes[E_OBJECT::E_TILE + 1] = "□";
 	Object_Shapes[E_OBJECT::E_TILE + 2] = "■";
+	Object_Shapes[E_OBJECT::E_TILE + 3] = "▣";
 	Object_Shapes[E_OBJECT::E_EFFECT] = "※";
 
-	objects.emplace(my_id, make_shared<Player>(Vec2{ 0, 0 }, my_id));
+	{
+		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT);
+		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT + 1);
+	}	
+	{
+		Object_Animation[E_OBJECT::E_TILE].emplace_back(E_OBJECT::E_TILE);
+	}	
+	{
+		Object_Animation[E_OBJECT::E_TILE + 1].emplace_back(E_OBJECT::E_TILE + 1);
+	}	
+	{
+		Object_Animation[E_OBJECT::E_TILE + 2].emplace_back(E_OBJECT::E_TILE + 2);
+	}
+	{
+		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 1);
+		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 3);
+		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 2);
+		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT);
+	}
 
-	for (int i{}; i < 10; ++i) {
+	auto player = make_shared<Player>(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
+	player->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
+	objects[my_id] = player;
+
+	for (int i{}; i < StageSizeY; ++i) {
 		scene.emplace_back();
-		for (int j{}; j < 10; ++j) {
+		for (int j{}; j < StageSizeX; ++j) {
 			scene[i].emplace_back(E_TILE);
 		}
 	}
 
-	for (int i{}; i < 10; ++i) {
+	for (int i{}; i < StageSizeY; ++i) {
 		stage.emplace_back();
-		for (int j{}; j < 10; ++j) {
-			if (i != 0 && j != 0 && i != 9 && j != 9) {
+		for (int j{}; j < StageSizeX; ++j) {
+			if (i != 0 && j != 0 && i != StageSizeY - 1 && j != StageSizeX - 1) {
 				stage[i].emplace_back(E_TILE);
 			}
 			else if ((i + j) & 1) {
@@ -92,23 +115,27 @@ void Scene::Update()
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 
 		// createQueue 만들어야 함. (임시 상태)
+		auto attack = make_shared<Skill>(Vec2{ my_pos.x, my_pos.y }, E_OBJECT::E_EFFECT, global_id++ + E_OBJECT::E_EFFECT, 20.f);
+		attack->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_EFFECT].size());
+		
 		switch (my_dir)
 		{
 		case E_UP:
-			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x, my_pos.y - 1 }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			attack->SetPos(Vec2{ my_pos.x, my_pos.y - 1 });
 			break;
 		case E_DOWN:
-			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x, my_pos.y + 1 }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			attack->SetPos(Vec2{ my_pos.x, my_pos.y + 1 });
 			break;
 		case E_LEFT:
-			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x - 1, my_pos.y }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			attack->SetPos(Vec2{ my_pos.x - 1, my_pos.y });
 			break;
 		case E_RIGHT:
-			objects.emplace(global_id + E_OBJECT::E_EFFECT, make_shared<Skill>(Vec2{ my_pos.x + 1, my_pos.y }, global_id++ + E_OBJECT::E_EFFECT, 20.f));
+			attack->SetPos(Vec2{ my_pos.x + 1, my_pos.y });
 			break;
 		default:
 			break;
 		}
+		objects[global_id++ + E_OBJECT::E_EFFECT] = attack;
 	}
 	///////
 	///////
@@ -119,27 +146,25 @@ void Scene::Update()
 	// removeQueue 만들어야 함. (임시 상태)
 	vector<unsigned long long> toRemove;
 	for (auto& object : objects) {
+		if (nullptr == object.second || object.second->GetId() == my_id)
+			continue;
+
 		if (object.second->GetRemoved()) {
 			toRemove.emplace_back(object.first);
 			continue;
 		}
 
-		if (object.second->GetId() == my_id)
-			continue;
-
 		object.second->Update();
 
 		auto pos = object.second->GetPos();
-
-		if (object.second->GetId() >= E_OBJECT::E_ENEMY) {
-			scene[pos.y][pos.x] = E_OBJECT::E_EFFECT;
-		}
+		scene[pos.y][pos.x] = Object_Animation[object.second->GetType()][object.second->GetAnimationState()];
 	}
-	{
+	if (nullptr != objects[my_id]) {
+		objects[my_id]->Update();
+
 		auto pos = objects[my_id]->GetPos();
-		scene[pos.y][pos.x] = E_OBJECT::E_CLIENT;
+		scene[pos.y][pos.x] = Object_Animation[objects[my_id]->GetType()][objects[my_id]->GetAnimationState()];
 	}
-
 	for (int id : toRemove) {
 		objects.erase(id);
 	}

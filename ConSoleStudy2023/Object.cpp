@@ -19,6 +19,11 @@ Vec2 Object::GetPos()
 
 void Object::Update()
 {
+	animationTime += 0.001f;
+	if (animationTime >= animationStateMAX) {
+		animationTime = 0.f;
+	}
+	animationState = (int)animationTime;
 }
 
 void Object::SetPos(Vec2 pos)
@@ -48,4 +53,19 @@ void Object::SetDirection(E_DIRECTION dir)
 
 bool Object::GetRemoved() {
 	return removed;
+}
+
+int Object::GetType() 
+{ 
+	return objectType;
+}
+
+int Object::GetAnimationState()
+{ 
+	return animationState;
+}
+
+void Object::SetAnimationStateMAX(int i)
+{ 
+	animationStateMAX = i;
 }
