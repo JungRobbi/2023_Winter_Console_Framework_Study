@@ -36,8 +36,10 @@ protected:
 	float HP = 100.f;
 	float HPMAX = 100.f;
 	float AttackDamage = 10.f;
+	float AttackCoolTime = 1.f;
+	float MovementCoolTime = 1.f;
 	float Defence = 1.f;
-	float Speed = 1.f;
+
 public:
 	Object();
 	Object(Vec2 Pos, unsigned long long id);
@@ -61,5 +63,8 @@ public:
 
 	void SetAnimationStateMAX(int i);
 	void SetAnimationSpeed(float f);
+
+
+	void Move(E_DIRECTION dir, int step);
 };
 

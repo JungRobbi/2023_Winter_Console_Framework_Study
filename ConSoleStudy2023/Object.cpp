@@ -70,6 +70,27 @@ void Object::SetAnimationStateMAX(int i)
 	animationStateMAX = i;
 }
 
+void Object::Move(E_DIRECTION dir, int step)
+{
+	switch (dir)
+	{
+	case E_UP:
+
+		break;
+	case E_DOWN:
+
+		break;
+	case E_LEFT:
+
+		break;
+	case E_RIGHT:
+
+		break;
+	default:
+		break;
+	}
+}
+
 void Object::SetAnimationSpeed(float f)
 { 
 	animationSpeed = f;

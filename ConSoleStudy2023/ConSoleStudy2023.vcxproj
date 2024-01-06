@@ -136,6 +136,7 @@
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="stdafx.h" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
