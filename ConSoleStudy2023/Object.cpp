@@ -19,7 +19,7 @@ Vec2 Object::GetPos()
 
 void Object::Update()
 {
-	animationTime += 0.001f;
+	animationTime += 0.001f * animationSpeed;
 	if (animationTime >= animationStateMAX) {
 		animationTime = 0.f;
 	}

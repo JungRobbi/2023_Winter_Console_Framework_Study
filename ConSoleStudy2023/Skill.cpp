@@ -5,7 +5,7 @@ Skill::Skill() : Object()
 	objectType = E_OBJECT::E_EFFECT;
 }
 
-Skill::Skill(Vec2 Pos, int type, unsigned long long id, int Time) : Object(Pos, id), durationTime(Time)
+Skill::Skill(Vec2 Pos, int type, unsigned long long id, int Time) : Object(Pos, id), durationTimeMAX(Time)
 {
 	objectType = type;
 }
@@ -16,12 +16,9 @@ Skill::~Skill()
 
 void Skill::Update()
 {
-	durationTime -= 0.01f;
-	animationTime += 0.001f * animationSpeed;
-	if (durationTime < 0.0 || animationTime > animationStateMAX) {
+	Object::Update();
+	durationTime = animationTime;
+	if (durationTime >= durationTimeMAX) {
 		removed = true;
-		return;
 	}
-	animationState = (int)animationTime;
-
 }

@@ -118,7 +118,7 @@ void Scene::Update()
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 
 		// createQueue 만들어야 함. (임시 상태)
-		auto attack = make_shared<Skill>(Vec2{ my_pos.x, my_pos.y }, E_OBJECT::E_EFFECT, global_effect_id, EFFECT_MAX);
+		auto attack = make_shared<Skill>(Vec2{ my_pos.x, my_pos.y }, E_OBJECT::E_EFFECT, global_effect_id, 20.f);
 		attack->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_EFFECT].size());
 		switch (my_dir)
 		{
@@ -139,7 +139,7 @@ void Scene::Update()
 		}
 		objects[global_effect_id++] = attack;
 
-		if (global_effect_id > E_OBJECT::E_EFFECT + 50) {
+		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
 			global_effect_id = E_OBJECT::E_EFFECT;
 		}
 	}
