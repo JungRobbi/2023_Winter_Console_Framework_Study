@@ -3,6 +3,7 @@
 #include "Skill.h"
 #include "Player.h"
 #include "Timer.h"
+#include "Monster.h"
 
 unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
@@ -31,6 +32,9 @@ void Scene::Initialize()
 	{
 		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT);
 		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT + 1);
+	}
+	{
+		Object_Animation[E_OBJECT::E_ENEMY].emplace_back(E_OBJECT::E_CLIENT + 1);
 	}	
 	{
 		Object_Animation[E_OBJECT::E_TILE].emplace_back(E_OBJECT::E_TILE);
@@ -47,9 +51,14 @@ void Scene::Initialize()
 		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT);
 	}
 
-	auto player = make_shared<Player>(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
-	player->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
-	objects[my_id] = player;
+	objects[my_id] = make_shared<Player>(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
+	objects[my_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
+	
+	objects[global_id] = make_shared<Monster>(Vec2{ 3, 3 }, E_OBJECT::E_ENEMY, global_id);
+	objects[global_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_ENEMY].size());
+	++global_id;
+
+
 
 	for (int i{}; i < StageSizeY; ++i) {
 		scene.emplace_back();
@@ -95,23 +104,23 @@ void Scene::Update(double elapsedTime)
 		Vec2 my_pos = objects[my_id]->GetPos();
 		if (Input::keys[72]) { // ก่
 			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
-			if (my_pos.y - 1 > 0)
-				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y - 1 });
+			if (my_pos.y - 1 >= 0)
+				objects[my_id]->Move(E_DIRECTION::E_UP, 1);
 		}
 		if (Input::keys[80]) { // ก้
 			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
 			if (my_pos.y + 1 < StageSizeY)
-				objects[my_id]->SetPos(Vec2{ my_pos.x, my_pos.y + 1 });
+				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
 		}
 		if (Input::keys[75]) { // ก็
 			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
-			if (my_pos.x - 1 > 0)
-				objects[my_id]->SetPos(Vec2{ my_pos.x - 1, my_pos.y });
+			if (my_pos.x - 1 >= 0)
+				objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
 		}
 		if (Input::keys[77]) { // กๆ
 			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
 			if (my_pos.x + 1 < StageSizeX)
-				objects[my_id]->SetPos(Vec2{ my_pos.x + 1, my_pos.y });
+				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
 		}
 	}
 	if (Input::keys['a']) {

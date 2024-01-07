@@ -18,28 +18,36 @@ enum E_DIRECTION {
 	E_UP, E_DOWN, E_LEFT, E_RIGHT
 };
 
+static random_device rd;
+static default_random_engine dre(rd());
+static uniform_int_distribution<int> rand_dirUid(0, 3);
+
 class Object
 {
 protected:
 	Vec2 position;
 	E_DIRECTION direction;
 	unsigned long long object_id;
-	int objectType;
+	int objectType = -1;
 
-	bool removed;
+	bool removed = false;
 
 	int animationState = 0;
 	int animationStateMAX = 1;
-	float animationTime = 0.f;
+	double animationTime = 0.f;
 	float animationSpeed = 1.f;
 
 	float HP = 100.f;
 	float HPMAX = 100.f;
 	float AttackDamage = 10.f;
-	float AttackCoolTime = 1.f;
-	float MovementCoolTime = 1.f;
+	double AttackCoolTime = 1.f;
+	double MovementCoolTime = 1.f;
 	float Defence = 1.f;
 
+	double AttackCoolTimeTimer = 0.f;
+	double MovementCoolTimeTimer = 0.f;
+	bool b_Attack_able = false;
+	bool b_Move_able = false;
 public:
 	Object();
 	Object(Vec2 Pos, unsigned long long id);

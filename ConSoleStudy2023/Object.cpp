@@ -21,9 +21,25 @@ void Object::Update(double elapsedTime)
 {
 	animationTime += elapsedTime * animationSpeed;
 	if (animationTime >= animationStateMAX) {
-		animationTime = animationTime - animationStateMAX;
+		animationTime -= animationStateMAX;
 	}
 	animationState = (int)animationTime;
+
+	if (false == b_Attack_able) {
+		AttackCoolTimeTimer += elapsedTime;
+		if (AttackCoolTimeTimer >= AttackCoolTime) {
+			AttackCoolTimeTimer = 0.0;
+			b_Attack_able = true;
+		}
+	}
+
+	if (false == b_Move_able) {
+		MovementCoolTimeTimer += elapsedTime;
+		if (MovementCoolTimeTimer >= MovementCoolTime) {
+			MovementCoolTimeTimer = 0.0;
+			b_Move_able = true;
+		}
+	}
 }
 
 void Object::SetPos(Vec2 pos)
@@ -75,16 +91,16 @@ void Object::Move(E_DIRECTION dir, int step)
 	switch (dir)
 	{
 	case E_UP:
-
+		position.y -= 1;
 		break;
 	case E_DOWN:
-
+		position.y += 1;
 		break;
 	case E_LEFT:
-
+		position.x -= 1;
 		break;
 	case E_RIGHT:
-
+		position.x += 1;
 		break;
 	default:
 		break;
