@@ -25,19 +25,19 @@ void Monster::Update(double elapsedTime)
 		switch (dir)
 		{
 		case E_UP:
-			if (position.y - 1 >= 0)
+			if (position.y - 1 < 0)
 				return;
 			break;
 		case E_DOWN:
-			if (position.y + 1 < StageSizeY)
+			if (position.y + 1 >= StageSizeY)
 				return;
 			break;
 		case E_LEFT:
-			if (position.x - 1 >= 0)
+			if (position.x - 1 < 0)
 				return;
 			break;
 		case E_RIGHT:
-			if (position.x + 1 < StageSizeY)
+			if (position.x + 1 >= StageSizeX)
 				return;
 			break;
 		default:
