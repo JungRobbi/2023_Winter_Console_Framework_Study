@@ -17,7 +17,7 @@ void Input::Initialize()
 	MouseClear();
 }
 
-void Input::Update()
+void Input::Update(double elapsedTime)
 {
 	//KeyInputTime += 0.01; // ms ¥‹¿ß
 	//MouseInputTime += 0.01;

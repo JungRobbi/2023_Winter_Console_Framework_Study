@@ -17,11 +17,11 @@ Vec2 Object::GetPos()
 	return position;
 }
 
-void Object::Update()
+void Object::Update(double elapsedTime)
 {
-	animationTime += 0.001f * animationSpeed;
+	animationTime += elapsedTime * animationSpeed;
 	if (animationTime >= animationStateMAX) {
-		animationTime = 0.f;
+		animationTime = animationTime - animationStateMAX;
 	}
 	animationState = (int)animationTime;
 }

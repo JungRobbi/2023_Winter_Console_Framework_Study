@@ -13,8 +13,8 @@ int main(int argc, char** argv)
 	
 	while (true) {
 		Timer::Update();
-		Input::Update();
-		scene->Update();
+		Input::Update(Timer::GetElapsedTimeSeconds());
+		scene->Update(Timer::GetElapsedTimeSeconds());
 		scene->Render();
 
 		Timer::RenderTimer();

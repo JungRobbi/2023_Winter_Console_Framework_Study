@@ -14,9 +14,9 @@ Skill::~Skill()
 {
 }
 
-void Skill::Update()
+void Skill::Update(double elapsedTime)
 {
-	Object::Update();
+	Object::Update(elapsedTime);
 	durationTime = animationTime;
 	if (durationTime >= durationTimeMAX) {
 		removed = true;

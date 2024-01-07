@@ -14,7 +14,7 @@ Player::~Player()
 {
 }
 
-void Player::Update()
+void Player::Update(double elapsedTime)
 {
-	Object::Update();
+	Object::Update(elapsedTime);
 }

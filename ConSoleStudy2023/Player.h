@@ -10,6 +10,6 @@ public:
 	Player(Vec2 Pos, int type, unsigned long long id);
 	~Player();
 
-	void Update();
+	void Update(double elapsedTime);
 };
 

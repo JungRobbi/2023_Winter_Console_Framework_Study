@@ -34,6 +34,11 @@ long long Timer::GetElapsedTimeMicro()
 	return std::chrono::duration_cast<std::chrono::microseconds>(m_elapsedTime).count();
 }
 
+double Timer::GetElapsedTimeSeconds()
+{
+	return (double)GetElapsedTimeMicro() / 1'000'000;
+}
+
 double Timer::GetPlayTimeSeconds()
 {
 	return m_PlayTime_Seconds / 10000;
@@ -56,7 +61,7 @@ void Timer::RenderTimer()
 	std::cout << m_PlayTime_Seconds / 10000 << "\ts  " << std::endl;
 	std::cout << std::fixed;
 	std::cout.precision(1);
-	std::cout << "                   fps : " << (1.0 / ((double)GetElapsedTimeMicro() / 1'000'000)) << std::endl;
+	std::cout << "                   fps : " << 1.0 / GetElapsedTimeSeconds() << std::endl;
 	std::cout.unsetf(std::ios::scientific);
 	std::cout.precision(4);
 }

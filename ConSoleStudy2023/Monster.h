@@ -10,7 +10,7 @@ public:
 	Monster(Vec2 Pos, int type, unsigned long long id);
 	~Monster();
 
-	void Update();
+	void Update(double elapsedTime);
 
 	void SetTarget(shared_ptr<Object> tar);
 };

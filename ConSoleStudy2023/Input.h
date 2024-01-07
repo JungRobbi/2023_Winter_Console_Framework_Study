@@ -17,7 +17,7 @@ public:
 
 public:
 	static void Initialize();
-	static void Update();
+	static void Update(double elapsedTime);
 
 	static void KeyClear();
 	static void KeyTimerReset();

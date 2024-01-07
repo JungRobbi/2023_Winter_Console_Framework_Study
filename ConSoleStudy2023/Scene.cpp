@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Skill.h"
 #include "Player.h"
+#include "Timer.h"
 
 unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
@@ -78,7 +79,7 @@ void Scene::Initialize()
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }
 
-void Scene::Update()
+void Scene::Update(double elapsedTime)
 {
 	// 원본 stage 복사
 	for (int i{}; i < stage.size(); ++i) {
@@ -160,13 +161,13 @@ void Scene::Update()
 			continue;
 		}
 
-		object.second->Update();
+		object.second->Update(Timer::GetElapsedTimeSeconds());
 
 		auto pos = object.second->GetPos();
 		scene[pos.y][pos.x] = Object_Animation[object.second->GetType()][object.second->GetAnimationState()];
 	}
 	if (nullptr != objects[my_id]) {
-		objects[my_id]->Update();
+		objects[my_id]->Update(Timer::GetElapsedTimeSeconds());
 
 		auto pos = objects[my_id]->GetPos();
 		scene[pos.y][pos.x] = Object_Animation[objects[my_id]->GetType()][objects[my_id]->GetAnimationState()];

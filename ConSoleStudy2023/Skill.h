@@ -11,6 +11,6 @@ public:
     Skill(Vec2 Pos, int type, unsigned long long id, int Time);
     ~Skill();
 
-    void Update();
+    void Update(double elapsedTime);
 };
 

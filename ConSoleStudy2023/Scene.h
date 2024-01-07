@@ -20,7 +20,7 @@ public:
 	~Scene();
 
 	void Initialize();
-	void Update();
+	void Update(double elapsedTime);
 	void Render();
 };
 

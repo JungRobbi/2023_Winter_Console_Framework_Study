@@ -14,9 +14,9 @@ Monster::~Monster()
 {
 }
 
-void Monster::Update()
+void Monster::Update(double elapsedTime)
 {
-	Object::Update();
+	Object::Update(elapsedTime);
 }
 
 void Monster::SetTarget(shared_ptr<Object> tar)

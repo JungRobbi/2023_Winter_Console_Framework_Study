@@ -45,7 +45,7 @@ public:
 	Object(Vec2 Pos, unsigned long long id);
 	virtual ~Object();
 
-	virtual void Update();
+	virtual void Update(double elapsedTime);
 
 	Vec2 GetPos();
 	void SetPos(Vec2 pos);

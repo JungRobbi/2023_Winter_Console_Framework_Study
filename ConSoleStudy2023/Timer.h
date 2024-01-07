@@ -13,10 +13,10 @@ public:
 	static void Initialize();
 	static void Update();
 	static long long GetElapsedTimeMicro();
+	static double GetElapsedTimeSeconds();
 	static double GetPlayTimeSeconds();
 	static short GetPlayTimeMinute();
 	static unsigned long long GetPlayTimeHour();
-	static long long GetGameFrame();
 
 	static void RenderTimer();
 };
