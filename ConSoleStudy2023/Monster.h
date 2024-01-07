@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+#include "MonsterState.h"
 
 class Monster
 	: public Object

@@ -19,6 +19,9 @@
     <Filter Include="소스 파일\System">
       <UniqueIdentifier>{c6c51689-e3d4-4248-a06a-e449bf809eb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\FSM">
+      <UniqueIdentifier>{77846dd1-e41a-4c5f-a3a8-369e57ecb429}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>소스 파일\System</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterState.cpp">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>소스 파일\System</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterState.h">
+      <Filter>소스 파일\Game\FSM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
