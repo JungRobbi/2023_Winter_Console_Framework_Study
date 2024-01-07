@@ -16,5 +16,8 @@ public:
 	static double GetPlayTimeSeconds();
 	static short GetPlayTimeMinute();
 	static unsigned long long GetPlayTimeHour();
+	static long long GetGameFrame();
+
+	static void RenderTimer();
 };
 

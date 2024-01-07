@@ -48,3 +48,15 @@ unsigned long long Timer::GetPlayTimeHour()
 {
 	return m_PlayTime_Hour;
 }
+
+void Timer::RenderTimer()
+{
+	std::cout << "                   PlayTime : " << m_PlayTime_Hour << " h  ";
+	std::cout << m_PlayTime_Minute << " m  ";
+	std::cout << m_PlayTime_Seconds / 10000 << "\ts  " << std::endl;
+	std::cout << std::fixed;
+	std::cout.precision(1);
+	std::cout << "                   fps : " << (1.0 / ((double)GetElapsedTimeMicro() / 1'000'000)) << std::endl;
+	std::cout.unsetf(std::ios::scientific);
+	std::cout.precision(4);
+}

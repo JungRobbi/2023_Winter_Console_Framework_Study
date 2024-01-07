@@ -17,8 +17,6 @@ int main(int argc, char** argv)
 		scene->Update();
 		scene->Render();
 
-		cout << "                   PlayTime : " << Timer::GetPlayTimeHour() << " h  ";
-		cout << Timer::GetPlayTimeMinute() << " m  ";
-		cout << Timer::GetPlayTimeSeconds() << "\ts  " << endl;
+		Timer::RenderTimer();
 	}
 }
