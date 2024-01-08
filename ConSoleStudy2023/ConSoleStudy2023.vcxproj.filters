@@ -54,7 +54,7 @@
     <ClCompile Include="Timer.cpp">
       <Filter>소스 파일\System</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterState.cpp">
+    <ClCompile Include="FSMState.cpp">
       <Filter>소스 파일\Game\FSM</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,7 +80,7 @@
     <ClInclude Include="Timer.h">
       <Filter>소스 파일\System</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterState.h">
+    <ClInclude Include="FSMState.h">
       <Filter>소스 파일\Game\FSM</Filter>
     </ClInclude>
   </ItemGroup>
