@@ -130,6 +130,7 @@ void Scene::Update(double elapsedTime)
 		// createQueue 만들어야 함. (임시 상태)
 		auto attack = make_shared<Skill>(Vec2{ my_pos.x, my_pos.y }, E_OBJECT::E_EFFECT, global_effect_id, 20.f);
 		attack->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_EFFECT].size());
+		attack->SetAnimationSpeed(8.f);
 		switch (my_dir)
 		{
 		case E_UP:

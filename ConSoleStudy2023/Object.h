@@ -72,6 +72,13 @@ public:
 	void SetAnimationStateMAX(int i);
 	void SetAnimationSpeed(float f);
 
+	bool GetAttackable();
+	bool GetMoveable();
+	void SetAttackable(bool b);
+	void SetMoveable(bool b);
+
+
+	void SetMoveTimer(double d);
 
 	void Move(E_DIRECTION dir, int step);
 };

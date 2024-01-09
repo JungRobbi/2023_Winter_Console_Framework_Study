@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FSM.cpp" />
     <ClCompile Include="FSMState.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterFSM.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -138,16 +140,20 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="stdafx.h" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="MonsterWanderState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FSM.h" />
     <ClInclude Include="FSMState.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterFSM.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="MonsterWanderState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

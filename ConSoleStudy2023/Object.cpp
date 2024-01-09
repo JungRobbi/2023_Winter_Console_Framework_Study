@@ -111,3 +111,28 @@ void Object::SetAnimationSpeed(float f)
 { 
 	animationSpeed = f;
 }
+
+void Object::SetAttackable(bool b)
+{
+	b_Attack_able = b;
+}
+
+void Object::SetMoveable(bool b)
+{
+	b_Move_able = b;
+}
+
+bool Object::GetAttackable()
+{ 
+	return b_Attack_able;
+}
+
+bool Object::GetMoveable()
+{ 
+	return b_Move_able;
+}
+
+void Object::SetMoveTimer(double d)
+{
+	MovementCoolTimeTimer = d;
+}

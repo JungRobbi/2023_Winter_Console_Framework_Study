@@ -57,6 +57,15 @@
     <ClCompile Include="FSMState.cpp">
       <Filter>소스 파일\Game\FSM</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterWanderState.cpp">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterFSM.cpp">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -81,6 +90,15 @@
       <Filter>소스 파일\System</Filter>
     </ClInclude>
     <ClInclude Include="FSMState.h">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterWanderState.h">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterFSM.h">
       <Filter>소스 파일\Game\FSM</Filter>
     </ClInclude>
   </ItemGroup>
