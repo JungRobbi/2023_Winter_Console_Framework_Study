@@ -5,6 +5,9 @@
 class Monster
 	: public Object
 {
+	E_FSM_STATE currentState; 
+	E_FSM_STATE flag;
+
 	shared_ptr<Object> target{ nullptr };
 	shared_ptr<FSM> monsterFSM;
 public:
@@ -15,4 +18,6 @@ public:
 	void Update(double elapsedTime);
 
 	void SetTarget(shared_ptr<Object> tar);
+
+	void SetFSMState(E_FSM_STATE state);
 };

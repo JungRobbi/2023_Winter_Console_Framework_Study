@@ -136,3 +136,8 @@ void Object::SetMoveTimer(double d)
 {
 	MovementCoolTimeTimer = d;
 }
+
+void Object::SetAttackTimer(double d)
+{
+	AttackCoolTimeTimer = d;
+}

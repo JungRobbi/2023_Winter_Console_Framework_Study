@@ -21,7 +21,7 @@ public:
 		currentState->Execute(owner);
 	};
 
-	virtual void ChangeState(shared_ptr<FSMState>& newState)
+	virtual void ChangeState(shared_ptr<FSMState> newState)
 	{
 		currentState->Exit(owner);
 		currentState = newState;

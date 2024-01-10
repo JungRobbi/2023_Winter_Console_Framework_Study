@@ -58,8 +58,6 @@ void Scene::Initialize()
 	objects[global_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_ENEMY].size());
 	++global_id;
 
-
-
 	for (int i{}; i < StageSizeY; ++i) {
 		scene.emplace_back();
 		for (int j{}; j < StageSizeX; ++j) {

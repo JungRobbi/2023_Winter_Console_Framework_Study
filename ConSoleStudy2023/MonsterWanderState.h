@@ -9,7 +9,6 @@ class MonsterWanderState :
 public:
     void Enter(Object* owner)
     { 
-        std::cout << "                 MonsterWanderState Enter!" << std::endl;
     }
     void Execute(Object* owner)
     {
@@ -43,11 +42,11 @@ public:
 				}
 
 				owner->Move(dir, 1);
+				dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
 			}
 		}
     }
     void Exit(Object* owner)
     { 
-        std::cout << "                 MonsterWanderState Exit!" << std::endl;
     }
 };

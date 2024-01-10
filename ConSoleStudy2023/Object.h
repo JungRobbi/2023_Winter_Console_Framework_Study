@@ -79,6 +79,7 @@ public:
 
 
 	void SetMoveTimer(double d);
+	void SetAttackTimer(double d);
 
 	void Move(E_DIRECTION dir, int step);
 };
