@@ -50,13 +50,14 @@ void Scene::Initialize()
 		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 2);
 		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT);
 	}
+	{
+		Object_Animation[E_OBJECT::E_EFFECT + 1].emplace_back(E_OBJECT::E_EFFECT);
+	}
 
 	objects[my_id] = make_shared<Player>(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
 	objects[my_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
 	
-	objects[global_id] = make_shared<Monster>(Vec2{ 3, 3 }, E_OBJECT::E_ENEMY, global_id);
-	objects[global_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_ENEMY].size());
-	++global_id;
+	AddMonster(Vec2{ 3, 3 }, E_OBJECT::E_ENEMY);
 
 	for (int i{}; i < StageSizeY; ++i) {
 		scene.emplace_back();
@@ -127,26 +128,24 @@ void Scene::Update(double elapsedTime)
 
 		// createQueue 만들어야 함. (임시 상태)
 		auto attack = make_shared<Skill>(Vec2{ my_pos.x, my_pos.y }, E_OBJECT::E_EFFECT, global_effect_id, 20.f);
-		attack->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_EFFECT].size());
-		attack->SetAnimationSpeed(8.f);
+
 		switch (my_dir)
 		{
 		case E_UP:
-			attack->SetPos(Vec2{ my_pos.x, my_pos.y - 1 });
+			AddSkill(Vec2{ my_pos.x, my_pos.y - 1 }, E_OBJECT::E_EFFECT, 8.f, 20.f);
 			break;
 		case E_DOWN:
-			attack->SetPos(Vec2{ my_pos.x, my_pos.y + 1 });
+			AddSkill(Vec2{ my_pos.x, my_pos.y + 1 }, E_OBJECT::E_EFFECT, 8.f, 20.f);
 			break;
 		case E_LEFT:
-			attack->SetPos(Vec2{ my_pos.x - 1, my_pos.y });
+			AddSkill(Vec2{ my_pos.x - 1, my_pos.y }, E_OBJECT::E_EFFECT, 8.f, 20.f);
 			break;
 		case E_RIGHT:
-			attack->SetPos(Vec2{ my_pos.x + 1, my_pos.y });
+			AddSkill(Vec2{ my_pos.x + 1, my_pos.y }, E_OBJECT::E_EFFECT, 8.f, 20.f);
 			break;
 		default:
 			break;
 		}
-		objects[global_effect_id++] = attack;
 
 		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
 			global_effect_id = E_OBJECT::E_EFFECT;
@@ -199,4 +198,26 @@ void Scene::Render()
 		str += '\n';
 	}
 	cout << str << endl;
+}
+
+void Scene::AddMonster(Vec2 pos, E_OBJECT type)
+{
+	objects[global_id] = make_shared<Monster>(pos, type, global_id);
+	objects[global_id]->SetAnimationStateMAX(Object_Animation[type].size());
+	++global_id;
+}
+
+void Scene::AddSkill(Vec2 pos, E_OBJECT type, double holdingTime)
+{
+	objects[global_effect_id] = make_shared<Skill>(pos, type, global_effect_id, holdingTime);
+	objects[global_effect_id]->SetAnimationStateMAX(Object_Animation[type].size());
+	++global_effect_id;
+}
+
+void Scene::AddSkill(Vec2 pos, E_OBJECT type, float animateSpeed, double holdingTime)
+{
+	objects[global_effect_id] = make_shared<Skill>(pos, type, global_effect_id, holdingTime);
+	objects[global_effect_id]->SetAnimationStateMAX(Object_Animation[type].size());
+	objects[global_effect_id]->SetAnimationSpeed(animateSpeed);
+	++global_effect_id;
 }

@@ -6,7 +6,7 @@ Monster::Monster()
 	: Object(), monsterFSM(make_shared<FSM>(this, make_shared<MonsterWanderState>())),
 	flag(E_FSM_STATE::E_FSM_WANDER), currentState(E_FSM_STATE::E_FSM_WANDER)
 {
-	objectType = E_OBJECT::E_CLIENT;
+	objectType = E_OBJECT::E_ENEMY;
 }
 
 Monster::Monster(Vec2 Pos, int type, unsigned long long id) 

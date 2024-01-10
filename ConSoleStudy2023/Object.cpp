@@ -105,6 +105,7 @@ void Object::Move(E_DIRECTION dir, int step)
 	default:
 		break;
 	}
+	direction = dir;
 }
 
 void Object::SetAnimationSpeed(float f)

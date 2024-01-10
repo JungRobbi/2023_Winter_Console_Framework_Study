@@ -15,6 +15,7 @@ class Scene
 
 	static unsigned long long global_id;
 	static unsigned long long global_effect_id;
+
 public:
 	Scene();
 	~Scene();
@@ -22,5 +23,9 @@ public:
 	void Initialize();
 	void Update(double elapsedTime);
 	void Render();
+
+	void AddMonster(Vec2 pos, E_OBJECT type);
+	void AddSkill(Vec2 pos, E_OBJECT type, double holdingTime);
+	void AddSkill(Vec2 pos, E_OBJECT type, float animateSpeed, double holdingTime);
 };
 
