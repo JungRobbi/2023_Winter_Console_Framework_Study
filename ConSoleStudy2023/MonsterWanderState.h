@@ -24,18 +24,22 @@ public:
 				case E_UP:
 					if (owner_pos.y - 1 < 0)
 						return;
+					owner->SetDirection(E_DIRECTION::E_UP);
 					break;
 				case E_DOWN:
 					if (owner_pos.y + 1 >= StageSizeY)
 						return;
+					owner->SetDirection(E_DIRECTION::E_DOWN);
 					break;
 				case E_LEFT:
 					if (owner_pos.x - 1 < 0)
 						return;
+					owner->SetDirection(E_DIRECTION::E_LEFT);
 					break;
 				case E_RIGHT:
 					if (owner_pos.x + 1 >= StageSizeX)
 						return;
+					owner->SetDirection(E_DIRECTION::E_RIGHT);
 					break;
 				default:
 					break;
