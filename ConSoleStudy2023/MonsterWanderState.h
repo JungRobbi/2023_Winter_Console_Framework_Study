@@ -1,7 +1,7 @@
 #pragma once
+#include "stdafx.h"
 #include "FSMState.h"
 #include "Monster.h"
-#include <iostream>
 
 class MonsterWanderState :
     public FSMState
@@ -41,7 +41,13 @@ public:
 					break;
 				}
 				owner->Move(dir, 1);
-				dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
+				auto target = dynamic_cast<Monster*>(owner)->GetTarget();
+				if (target) {
+					auto pos = target->GetPos();
+					if (MONSTER_EYESIGHT >= DistanceVec2(pos, owner_pos)) {
+						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
+					}
+				}
 			}
 		}
     }

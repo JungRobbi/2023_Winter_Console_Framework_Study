@@ -17,7 +17,10 @@ public:
 
 	void Update(double elapsedTime);
 
+	shared_ptr<Object> GetTarget();
 	void SetTarget(shared_ptr<Object> tar);
 
 	void SetFSMState(E_FSM_STATE state);
 };
+
+double DistanceVec2(Vec2 a, Vec2 b);

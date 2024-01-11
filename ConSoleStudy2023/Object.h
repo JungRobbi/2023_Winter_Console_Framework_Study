@@ -10,14 +10,6 @@ enum E_OBJECT {
 	E_EFFECT = 30000,
 };
 
-struct Vec2 {
-	int x, y;
-};
-
-enum E_DIRECTION {
-	E_UP, E_DOWN, E_LEFT, E_RIGHT
-};
-
 static random_device rd;
 static default_random_engine dre(rd());
 static uniform_int_distribution<int> rand_dirUid(0, 3);

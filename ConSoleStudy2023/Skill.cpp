@@ -17,7 +17,7 @@ Skill::~Skill()
 void Skill::Update(double elapsedTime)
 {
 	Object::Update(elapsedTime);
-	durationTime = animationTime;
+	durationTime += elapsedTime;
 	if (durationTime >= durationTimeMAX) {
 		removed = true;
 	}

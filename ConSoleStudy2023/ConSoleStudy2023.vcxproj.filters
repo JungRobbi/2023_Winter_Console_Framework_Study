@@ -22,15 +22,12 @@
     <Filter Include="소스 파일\Game\FSM">
       <UniqueIdentifier>{77846dd1-e41a-4c5f-a3a8-369e57ecb429}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\PCH">
+      <UniqueIdentifier>{ab6c90c1-d255-4bf3-956c-deaa4a1172ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.h">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
@@ -65,6 +62,12 @@
     </ClCompile>
     <ClCompile Include="MonsterAttackState.cpp">
       <Filter>소스 파일\Game\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일\PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.h">
+      <Filter>소스 파일\PCH</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

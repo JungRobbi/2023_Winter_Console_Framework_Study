@@ -8,8 +8,11 @@
 unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
 
+Scene* Scene::MainScene = nullptr;
+
 Scene::Scene() : my_id(0)
 {
+	MainScene = this;
 }
 
 Scene::~Scene()
@@ -160,19 +163,19 @@ void Scene::Update(double elapsedTime)
 	// removeQueue 만들어야 함. (임시 상태)
 	vector<unsigned long long> toRemove;
 	for (auto& object : objects) {
-		if (nullptr == object.second || object.second->GetId() == my_id)
+		if (nullptr == object.second || object.second->GetId() == my_id || object.second->GetRemoved())
 			continue;
-
+		object.second->Update(Timer::GetElapsedTimeSeconds());
+	}
+	for (auto& object : objects) {
 		if (object.second->GetRemoved()) {
 			toRemove.emplace_back(object.first);
 			continue;
 		}
-
-		object.second->Update(Timer::GetElapsedTimeSeconds());
-
 		auto pos = object.second->GetPos();
 		scene[pos.y][pos.x] = Object_Animation[object.second->GetType()][object.second->GetAnimationState()];
 	}
+
 	if (nullptr != objects[my_id]) {
 		objects[my_id]->Update(Timer::GetElapsedTimeSeconds());
 
@@ -200,21 +203,23 @@ void Scene::Render()
 	cout << str << endl;
 }
 
-void Scene::AddMonster(Vec2 pos, E_OBJECT type)
+void Scene::AddMonster(Vec2 pos, int type)
 {
 	objects[global_id] = make_shared<Monster>(pos, type, global_id);
 	objects[global_id]->SetAnimationStateMAX(Object_Animation[type].size());
+	// 임시
+	dynamic_cast<Monster*>(objects[global_id].get())->SetTarget(objects[my_id]);
 	++global_id;
 }
 
-void Scene::AddSkill(Vec2 pos, E_OBJECT type, double holdingTime)
+void Scene::AddSkill(Vec2 pos, int type, double holdingTime)
 {
 	objects[global_effect_id] = make_shared<Skill>(pos, type, global_effect_id, holdingTime);
 	objects[global_effect_id]->SetAnimationStateMAX(Object_Animation[type].size());
 	++global_effect_id;
 }
 
-void Scene::AddSkill(Vec2 pos, E_OBJECT type, float animateSpeed, double holdingTime)
+void Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
 {
 	objects[global_effect_id] = make_shared<Skill>(pos, type, global_effect_id, holdingTime);
 	objects[global_effect_id]->SetAnimationStateMAX(Object_Animation[type].size());

@@ -44,6 +44,11 @@ void Monster::Update(double elapsedTime)
 	}
 }
 
+shared_ptr<Object> Monster::GetTarget()
+{
+	return target;
+}
+
 void Monster::SetTarget(shared_ptr<Object> tar)
 {
 	target = tar;
@@ -52,4 +57,8 @@ void Monster::SetTarget(shared_ptr<Object> tar)
 void Monster::SetFSMState(E_FSM_STATE state)
 {
 	flag = state;
+}
+
+double DistanceVec2(Vec2 a, Vec2 b) {
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
