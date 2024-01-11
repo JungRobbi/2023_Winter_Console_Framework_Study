@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "Scene.h"
 
 Object::Object() : position{ 0, 0 }, object_id(0), direction(E_RIGHT)
 {
@@ -65,10 +66,6 @@ E_DIRECTION Object::GetDirection()
 void Object::SetDirection(E_DIRECTION dir)
 {
 	direction = dir;
-}
-
-bool Object::GetRemoved() {
-	return removed;
 }
 
 int Object::GetType() 

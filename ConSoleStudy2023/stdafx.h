@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <random>
 #include <cmath>
+#include <list>
 
 using namespace std;
 using namespace chrono;

@@ -1,4 +1,5 @@
 #include "Skill.h"
+#include "Scene.h"
 
 Skill::Skill() : Object()
 {
@@ -19,6 +20,6 @@ void Skill::Update(double elapsedTime)
 	Object::Update(elapsedTime);
 	durationTime += elapsedTime;
 	if (durationTime >= durationTimeMAX) {
-		removed = true;
+		Scene::MainScene->RemoveObject(object_id);
 	}
 }

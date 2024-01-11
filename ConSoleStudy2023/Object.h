@@ -22,8 +22,6 @@ protected:
 	unsigned long long object_id;
 	int objectType = -1;
 
-	bool removed = false;
-
 	int animationState = 0;
 	int animationStateMAX = 1;
 	double animationTime = 0.f;
@@ -55,8 +53,6 @@ public:
 
 	E_DIRECTION GetDirection();
 	void SetDirection(E_DIRECTION pos);
-
-	bool GetRemoved();
 
 	int GetType();
 	int GetAnimationState();

@@ -15,6 +15,9 @@ class Scene
 
 	static unsigned long long global_id;
 	static unsigned long long global_effect_id;
+
+	list<shared_ptr<Object>> createQueue;
+	list<unsigned long long> removeQueue;
 public:
 	static Scene* MainScene;
 public:
@@ -25,8 +28,11 @@ public:
 	void Update(double elapsedTime);
 	void Render();
 
-	void AddMonster(Vec2 pos, int type);
-	void AddSkill(Vec2 pos, int type, double holdingTime);
-	void AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime);
+	void AddObject(Vec2 pos, int type, unsigned long long id);
+	void AddMonster(Vec2 pos, int type, unsigned long long id);
+	void AddSkill(Vec2 pos, int type, double holdingTime, unsigned long long id);
+	void AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime, unsigned long long id);
+
+	void RemoveObject(unsigned long long id);
 };
 
