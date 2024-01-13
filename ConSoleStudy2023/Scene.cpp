@@ -58,9 +58,13 @@ void Scene::Initialize()
 	}
 
 	
-	AddObject(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
+	//AddObject(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
 
-	AddMonster(Vec2{ 3, 3 }, E_OBJECT::E_ENEMY, global_id++);
+	objects[my_id] = make_shared<Player>(Vec2{StageSizeX / 2, StageSizeY / 2}, E_OBJECT::E_CLIENT, my_id);
+	objects[my_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
+
+
+	AddMonster(Vec2{ 3, 3 }, E_OBJECT::E_ENEMY);
 
 	for (int i{}; i < StageSizeY; ++i) {
 		scene.emplace_back();
@@ -135,23 +139,10 @@ void Scene::Update(double elapsedTime)
 	if (Input::keys['a']) {
 		Vec2 my_pos = objects[my_id]->GetPos();
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
-
-		switch (my_dir)
-		{
-		case E_UP:
-			AddSkill(Vec2{ my_pos.x, my_pos.y - 1 }, E_OBJECT::E_EFFECT, 8.f, 1.f, global_effect_id++);
-			break;
-		case E_DOWN:
-			AddSkill(Vec2{ my_pos.x, my_pos.y + 1 }, E_OBJECT::E_EFFECT, 8.f, 1.f, global_effect_id++);
-			break;
-		case E_LEFT:
-			AddSkill(Vec2{ my_pos.x - 1, my_pos.y }, E_OBJECT::E_EFFECT, 8.f, 1.f, global_effect_id++);
-			break;
-		case E_RIGHT:
-			AddSkill(Vec2{ my_pos.x + 1, my_pos.y }, E_OBJECT::E_EFFECT, 8.f, 1.f, global_effect_id++);
-			break;
-		default:
-			break;
+		auto p = my_pos + my_dir;
+		if (p.x >= 0 && p.x < StageSizeX &&
+			p.y >= 0 && p.y < StageSizeY) {
+			AddSkill(my_pos + my_dir, E_OBJECT::E_EFFECT, 8.f, 1.f);
 		}
 
 		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
@@ -177,7 +168,7 @@ void Scene::Update(double elapsedTime)
 		scene[pos.y][pos.x] = Object_Animation[object.second->GetType()][object.second->GetAnimationState()];
 	}
 	//Player Update, Render
-	if (nullptr != objects[my_id]) {
+	if (objects.end() != objects.find(my_id)) {
 		objects[my_id]->Update(Timer::GetElapsedTimeSeconds());
 
 		auto pos = objects[my_id]->GetPos();
@@ -187,7 +178,7 @@ void Scene::Update(double elapsedTime)
 	//Delete 처리
 	while (removeQueue.size()) {
 		auto id = *removeQueue.begin();
-		objects[id] = nullptr;
+		objects.erase(id);
 		removeQueue.pop_front();
 	}
 }
@@ -208,39 +199,39 @@ void Scene::Render()
 	cout << str << endl;
 }
 
-void Scene::AddObject(Vec2 pos, int type, unsigned long long id)
+void Scene::AddObject(Vec2 pos, int type)
 {
 	if (type == E_OBJECT::E_CLIENT) {
-		auto object = make_shared<Player>(pos, type, id);
+		auto object = make_shared<Player>(pos, type, global_id++);
 		object->SetAnimationStateMAX(Object_Animation[type].size());
 		createQueue.push_back(object);
 	}
 	else {
-		auto object = make_shared<Object>(pos, id);
+		auto object = make_shared<Object>(pos, global_id++);
 		object->SetAnimationStateMAX(Object_Animation[type].size());
 		createQueue.push_back(object);
 	}
 }
 
-void Scene::AddMonster(Vec2 pos, int type, unsigned long long id)
+void Scene::AddMonster(Vec2 pos, int type)
 {
-	auto object = make_shared<Monster>(pos, type, id);
+	auto object = make_shared<Monster>(pos, type, global_id++);
 	object->SetAnimationStateMAX(Object_Animation[type].size());
 	//임시
 	object->SetTarget(objects[my_id]);
 	createQueue.push_back(object);
 }
 
-void Scene::AddSkill(Vec2 pos, int type, double holdingTime, unsigned long long id)
+void Scene::AddSkill(Vec2 pos, int type, double holdingTime)
 {
-	auto object = make_shared<Skill>(pos, type, id, holdingTime);
+	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
 	object->SetAnimationStateMAX(Object_Animation[type].size());
 	createQueue.push_back(object);
 }
 
-void Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime, unsigned long long id)
+void Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
 {
-	auto object = make_shared<Skill>(pos, type, id, holdingTime);
+	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
 	object->SetAnimationStateMAX(Object_Animation[type].size());
 	object->SetAnimationSpeed(animateSpeed);
 	createQueue.push_back(object);

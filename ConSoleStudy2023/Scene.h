@@ -28,10 +28,10 @@ public:
 	void Update(double elapsedTime);
 	void Render();
 
-	void AddObject(Vec2 pos, int type, unsigned long long id);
-	void AddMonster(Vec2 pos, int type, unsigned long long id);
-	void AddSkill(Vec2 pos, int type, double holdingTime, unsigned long long id);
-	void AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime, unsigned long long id);
+	void AddObject(Vec2 pos, int type);
+	void AddMonster(Vec2 pos, int type);
+	void AddSkill(Vec2 pos, int type, double holdingTime);
+	void AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime);
 
 	void RemoveObject(unsigned long long id);
 };
