@@ -175,7 +175,7 @@ void Scene::Update(double elapsedTime)
 		auto p = my_pos + my_dir;
 		if (p.x >= 0 && p.x < StageSizeX &&
 			p.y >= 0 && p.y < StageSizeY) {
-			AddSkill(my_pos + my_dir, E_OBJECT::E_EFFECT, 5.f, 1.f);
+			AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 		}
 
 		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
@@ -188,7 +188,50 @@ void Scene::Update(double elapsedTime)
 		auto p = my_pos + my_dir;
 		if (p.x >= 0 && p.x < StageSizeX &&
 			p.y >= 0 && p.y < StageSizeY) {
-			AddSkill(my_pos + my_dir, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
+			AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
+		}
+
+		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+			global_effect_id = E_OBJECT::E_EFFECT;
+		}
+	}
+	if (Input::keys['d']) {
+		Vec2 my_pos = objects[my_id]->GetPos();
+		E_DIRECTION my_dir = objects[my_id]->GetDirection();
+		{
+			auto p = my_pos + my_dir + my_dir;
+			if (p.x >= 0 && p.x < StageSizeX &&
+				p.y >= 0 && p.y < StageSizeY) {
+				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+			}
+		}
+		{
+			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
+			if (p.x >= 0 && p.x < StageSizeX &&
+				p.y >= 0 && p.y < StageSizeY) {
+				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+			}
+		}
+		{
+			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
+			if (p.x >= 0 && p.x < StageSizeX &&
+				p.y >= 0 && p.y < StageSizeY) {
+				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+			}
+		}
+		{
+			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
+			if (p.x >= 0 && p.x < StageSizeX &&
+				p.y >= 0 && p.y < StageSizeY) {
+				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+			}
+		}
+		{
+			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
+			if (p.x >= 0 && p.x < StageSizeX &&
+				p.y >= 0 && p.y < StageSizeY) {
+				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+			}
 		}
 
 		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
