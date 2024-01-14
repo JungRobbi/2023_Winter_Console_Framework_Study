@@ -105,6 +105,16 @@ void Object::Move(E_DIRECTION dir, int step)
 	direction = dir;
 }
 
+int Object::GetSight()
+{
+	return sight;
+}
+
+void Object::SetSight(int i)
+{
+	sight = i;
+}
+
 void Object::SetAnimationSpeed(float f)
 { 
 	animationSpeed = f;

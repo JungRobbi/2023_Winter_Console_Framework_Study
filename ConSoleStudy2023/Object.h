@@ -39,6 +39,8 @@ protected:
 	double MovementCoolTimeTimer = 0.f;
 	bool b_Attack_able = false;
 	bool b_Move_able = false;
+
+	int sight = 3;
 public:
 	Object();
 	Object(Vec2 Pos, unsigned long long id);
@@ -66,10 +68,12 @@ public:
 	void SetAttackable(bool b);
 	void SetMoveable(bool b);
 
-
 	void SetMoveTimer(double d);
 	void SetAttackTimer(double d);
 
 	void Move(E_DIRECTION dir, int step);
+
+	int GetSight();
+	void SetSight(int i);
 };
 

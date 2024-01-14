@@ -19,8 +19,6 @@ static const int StageSizeY = 101;
 
 static const float EFFECT_MAX = 1000000.f;
 
-static const int MONSTER_EYESIGHT = 2;
-
 enum E_DIRECTION {
 	E_UP, E_DOWN, E_LEFT, E_RIGHT
 };

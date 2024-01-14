@@ -18,7 +18,6 @@ class Scene
 	list<unsigned long long> removeQueue;
 
 	unsigned long long my_id = 0;
-	int my_sight = 5;
 public:
 	static Scene* MainScene;
 public:

@@ -67,7 +67,7 @@ void Scene::Initialize()
 
 	objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 	objects[my_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
-
+	objects[my_id]->SetSight(5);
 
 	AddMonster(Vec2{ 3, 3 }, E_OBJECT::E_ENEMY);
 
@@ -221,8 +221,9 @@ void Scene::Render()
 	if (nullptr == objects[my_id])
 		return;
 
-	for (int i{ objects[my_id]->GetPos().y - my_sight }; i < objects[my_id]->GetPos().y + my_sight; ++i) {
-		for (int j{ objects[my_id]->GetPos().x - my_sight }; j < objects[my_id]->GetPos().x + my_sight; ++j) {
+	auto sight = objects[my_id]->GetSight();
+	for (int i{ objects[my_id]->GetPos().y - sight}; i < objects[my_id]->GetPos().y + sight; ++i) {
+		for (int j{ objects[my_id]->GetPos().x - sight }; j < objects[my_id]->GetPos().x + sight; ++j) {
 			if (i < 0 || j < 0 || i >= StageSizeY || j >= StageSizeX) {
 				str += "  ";
 			}
