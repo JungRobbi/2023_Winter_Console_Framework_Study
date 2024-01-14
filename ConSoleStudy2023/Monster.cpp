@@ -1,5 +1,6 @@
 #include "Monster.h"
 #include "MonsterWanderState.h"
+#include "MonsterTrackingState.h"
 #include "MonsterAttackState.h"
 
 Monster::Monster() 
@@ -32,6 +33,9 @@ void Monster::Update(double elapsedTime)
 			case E_FSM_STATE::E_FSM_WANDER:
 				monsterFSM->ChangeState(std::make_shared<MonsterWanderState>());
 				break;
+			case E_FSM_STATE::E_FSM_TRACKING:
+				monsterFSM->ChangeState(std::make_shared<MonsterTrackingState>());
+				break;
 			case E_FSM_STATE::E_FSM_ATTACK:
 				monsterFSM->ChangeState(std::make_shared<MonsterAttackState>());
 				break;
@@ -59,10 +63,18 @@ void Monster::SetFSMState(E_FSM_STATE state)
 	flag = state;
 }
 
+// 원형 거리
 //double DistanceVec2(Vec2 a, Vec2 b) {
 //	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 //}
 
+
+// (가로 + 세로) 값
+//double DistanceVec2(Vec2 a, Vec2 b) {
+//	return abs(a.x - b.x) + abs(a.y - b.y);
+//}
+
+// 바라보는 시야
 double DistanceVec2(Vec2 a, Vec2 b) {
-	return abs(a.x - b.x) + abs(a.y - b.y);
+	return max(abs(a.x - b.x), abs(a.y - b.y));
 }

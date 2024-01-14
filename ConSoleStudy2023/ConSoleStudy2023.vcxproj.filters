@@ -69,6 +69,9 @@
     <ClCompile Include="stdafx.h">
       <Filter>소스 파일\PCH</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterTrackingState.cpp">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -102,6 +105,9 @@
       <Filter>소스 파일\Game\FSM</Filter>
     </ClInclude>
     <ClInclude Include="MonsterAttackState.h">
+      <Filter>소스 파일\Game\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterTrackingState.h">
       <Filter>소스 파일\Game\FSM</Filter>
     </ClInclude>
   </ItemGroup>
