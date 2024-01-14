@@ -34,5 +34,7 @@ public:
 	void AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime);
 
 	void RemoveObject(unsigned long long id);
+
+	vector<unsigned long long> CollideCheck(Vec2 position);
 };
 

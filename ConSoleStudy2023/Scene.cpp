@@ -111,6 +111,23 @@ void Scene::Update(double elapsedTime)
 	}
 
 	///////
+	//Collide 贸府
+	///////
+	for (auto& object : objects) {
+		auto v = CollideCheck(object.second->GetPos());
+		
+		for (auto id : v) {
+			if (id == object.second->GetId())
+				continue;
+			cout << "Collide " << id << endl;
+		}
+	}
+
+	///////
+	///////
+	///////
+
+	///////
 	//Input 贸府
 	///////
 	if (Input::keys[224]) { // ¤/￠/＄/℃
@@ -240,4 +257,16 @@ void Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
 void Scene::RemoveObject(unsigned long long id)
 {
 	removeQueue.emplace_back(id);
+}
+
+vector<unsigned long long> Scene::CollideCheck(Vec2 position)
+{
+	vector<unsigned long long> v{};
+
+	for (auto& object : objects) {
+		if (object.second->GetPos() == position)
+			v.emplace_back(object.second->GetId());
+	}
+
+	return v;
 }

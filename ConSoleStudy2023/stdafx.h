@@ -44,4 +44,9 @@ struct Vec2 {
 			break;
 		}
 	}
+
+	bool operator==(const Vec2 rhs) 
+	{
+		return x == rhs.x && y == rhs.y;
+	}
 };
