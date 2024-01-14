@@ -23,12 +23,13 @@ void Scene::Initialize()
 {
 	Object_Shapes[E_OBJECT::E_CLIENT] = "¡Ú";
 	Object_Shapes[E_OBJECT::E_CLIENT + 1] = "¡Ù";
+	Object_Shapes[E_OBJECT::E_WALL] = "¡á";
 	Object_Shapes[E_OBJECT::E_TILE] = "  ";
 	Object_Shapes[E_OBJECT::E_TILE + 1] = "¡à";
 	Object_Shapes[E_OBJECT::E_TILE + 2] = "¡á";
-	Object_Shapes[E_OBJECT::E_TILE + 3] = "¢Ã";
-	Object_Shapes[E_OBJECT::E_TILE + 4] = "¢Á";
-	Object_Shapes[E_OBJECT::E_TILE + 5] = "¡Ý";
+	Object_Shapes[E_OBJECT::E_TILE + 3] = "¦¡ ";
+	Object_Shapes[E_OBJECT::E_TILE + 4] = "¦¢ ";
+	Object_Shapes[E_OBJECT::E_TILE + 5] = "¦« ";
 	Object_Shapes[E_OBJECT::E_TILE + 6] = "¡Ü";
 	Object_Shapes[E_OBJECT::E_EFFECT] = "¨ç";
 	Object_Shapes[E_OBJECT::E_EFFECT + 1] = "¨è";
@@ -64,7 +65,7 @@ void Scene::Initialize()
 	
 	//AddObject(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
 
-	objects[my_id] = make_shared<Player>(Vec2{StageSizeX / 2, StageSizeY / 2}, E_OBJECT::E_CLIENT, my_id);
+	objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 	objects[my_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
 
 
@@ -80,15 +81,16 @@ void Scene::Initialize()
 	for (int i{}; i < StageSizeY; ++i) {
 		stage.emplace_back();
 		for (int j{}; j < StageSizeX; ++j) {
-			if (i != 0 && j != 0 && i != StageSizeY - 1 && j != StageSizeX - 1) {
-				stage[i].emplace_back(E_TILE);
-			}
-			else if ((i + j) & 1) {
+			if (i == 0 || j == 0 || i == StageSizeY - 1 || j == StageSizeX - 1)
 				stage[i].emplace_back(E_TILE + 1);
-			}
-			else {
-				stage[i].emplace_back(E_TILE + 2);
-			}
+			else if (i % 10 == 9 && j % 10 == 9) 
+				stage[i].emplace_back(E_TILE + 5);
+			else if (j % 10 == 9) 
+				stage[i].emplace_back(E_TILE + 4);
+			else if (i % 10 == 9) 
+				stage[i].emplace_back(E_TILE + 3);
+			else 
+				stage[i].emplace_back(E_TILE);
 		}
 	}
 
@@ -216,10 +218,17 @@ void Scene::Render()
 
 	string str{};
 
+	if (nullptr == objects[my_id])
+		return;
 
-	for (int i{}; i < scene.size(); ++i) {
-		for (int j{}; j < scene[i].size(); ++j) {
-			str += Object_Shapes[scene[i][j]];
+	for (int i{ objects[my_id]->GetPos().y - my_sight }; i < objects[my_id]->GetPos().y + my_sight; ++i) {
+		for (int j{ objects[my_id]->GetPos().x - my_sight }; j < objects[my_id]->GetPos().x + my_sight; ++j) {
+			if (i < 0 || j < 0 || i >= StageSizeY || j >= StageSizeX) {
+				str += "  ";
+			}
+			else {
+				str += Object_Shapes[scene[i][j]];
+			}
 		}
 		str += '\n';
 	}
