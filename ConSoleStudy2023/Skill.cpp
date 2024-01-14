@@ -17,9 +17,27 @@ Skill::~Skill()
 
 void Skill::Update(double elapsedTime)
 {
-	Object::Update(elapsedTime);
-	durationTime += elapsedTime;
-	if (durationTime >= durationTimeMAX) {
+	animationTime += elapsedTime * animationSpeed;
+	if (animationTime >= animationStateMAX) {
+		animationTime -= animationStateMAX;
 		Scene::MainScene->RemoveObject(object_id);
+		return;
+	}
+	animationState = (int)animationTime;
+
+	if (false == b_Attack_able) {
+		AttackCoolTimeTimer += elapsedTime;
+		if (AttackCoolTimeTimer >= AttackCoolTime) {
+			AttackCoolTimeTimer = 0.0;
+			b_Attack_able = true;
+		}
+	}
+
+	if (false == b_Move_able) {
+		MovementCoolTimeTimer += elapsedTime;
+		if (MovementCoolTimeTimer >= MovementCoolTime) {
+			MovementCoolTimeTimer = 0.0;
+			b_Move_able = true;
+		}
 	}
 }

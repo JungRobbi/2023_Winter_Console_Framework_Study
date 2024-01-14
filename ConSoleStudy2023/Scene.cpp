@@ -30,7 +30,10 @@ void Scene::Initialize()
 	Object_Shapes[E_OBJECT::E_TILE + 4] = "¢Á";
 	Object_Shapes[E_OBJECT::E_TILE + 5] = "¡Ý";
 	Object_Shapes[E_OBJECT::E_TILE + 6] = "¡Ü";
-	Object_Shapes[E_OBJECT::E_EFFECT] = "¡Ø";
+	Object_Shapes[E_OBJECT::E_EFFECT] = "¨ç";
+	Object_Shapes[E_OBJECT::E_EFFECT + 1] = "¨è";
+	Object_Shapes[E_OBJECT::E_EFFECT + 2] = "¨é";
+	Object_Shapes[E_OBJECT::E_EFFECT_ATTACK] = "¡Ø";
 
 	{
 		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT);
@@ -49,12 +52,13 @@ void Scene::Initialize()
 		Object_Animation[E_OBJECT::E_TILE + 2].emplace_back(E_OBJECT::E_TILE + 2);
 	}
 	{
-		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 3);
-		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_TILE + 2);
+		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT + 2);
+		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT + 1);
 		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT);
+		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT_ATTACK);
 	}
 	{
-		Object_Animation[E_OBJECT::E_EFFECT + 1].emplace_back(E_OBJECT::E_EFFECT);
+		Object_Animation[E_OBJECT::E_EFFECT + 1].emplace_back(E_OBJECT::E_EFFECT_ATTACK);
 	}
 
 	
@@ -114,12 +118,18 @@ void Scene::Update(double elapsedTime)
 	//Collide Ã³¸®
 	///////
 	for (auto& object : objects) {
-		auto v = CollideCheck(object.second->GetPos());
-		
-		for (auto id : v) {
-			if (id == object.second->GetId())
-				continue;
-			cout << "Collide " << id << endl;
+		if (object.second->GetType() == E_OBJECT::E_ENEMY) {
+
+			auto colliderList = CollideCheck(object.second->GetPos());
+			for (auto collideId : colliderList) {
+				if (collideId == object.second->GetId())
+					continue;
+				if (objects[collideId]->GetType() == E_OBJECT::E_EFFECT) {
+					if (E_OBJECT::E_EFFECT_ATTACK == Object_Animation[objects[collideId]->GetType()][objects[collideId]->GetAnimationState()]) {
+						RemoveObject(object.second->GetId());
+					}
+				}
+			}
 		}
 	}
 
@@ -159,7 +169,7 @@ void Scene::Update(double elapsedTime)
 		auto p = my_pos + my_dir;
 		if (p.x >= 0 && p.x < StageSizeX &&
 			p.y >= 0 && p.y < StageSizeY) {
-			AddSkill(my_pos + my_dir, E_OBJECT::E_EFFECT, 8.f, 1.f);
+			AddSkill(my_pos + my_dir, E_OBJECT::E_EFFECT, 5.f, 1.f);
 		}
 
 		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {

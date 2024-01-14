@@ -4,10 +4,11 @@
 enum E_OBJECT {
 	E_CLIENT = 0,
 	E_ENEMY = 10000,
-	E_TILE = 20000,
-	E_WALL = 20100,
-	E_ITEM = 20200,
+	E_WALL = 20000,
+	E_ITEM = 20100,
+	E_TILE = 20200,
 	E_EFFECT = 30000,
+	E_EFFECT_ATTACK = 40000,
 };
 
 static random_device rd;
