@@ -67,9 +67,13 @@ void Scene::Initialize()
 
 	objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 	objects[my_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
-	objects[my_id]->SetSight(5);
+	objects[my_id]->SetSight(10);
 
-	AddMonster(Vec2{ 3, 3 }, E_OBJECT::E_ENEMY);
+
+	int num_monster{ 100 };
+	for (int i{}; i < num_monster; ++i) {
+		AddMonster(Vec2{ (int)(StageSizeX * rand_realUid(dre)), (int)(StageSizeY * rand_realUid(dre)) }, E_OBJECT::E_ENEMY);
+	}
 
 	for (int i{}; i < StageSizeY; ++i) {
 		scene.emplace_back();
@@ -126,7 +130,7 @@ void Scene::Update(double elapsedTime)
 			for (auto collideId : colliderList) {
 				if (collideId == object.second->GetId())
 					continue;
-				if (objects[collideId]->GetType() == E_OBJECT::E_EFFECT) {
+				if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
 					if (E_OBJECT::E_EFFECT_ATTACK == Object_Animation[objects[collideId]->GetType()][objects[collideId]->GetAnimationState()]) {
 						RemoveObject(object.second->GetId());
 					}
@@ -172,6 +176,19 @@ void Scene::Update(double elapsedTime)
 		if (p.x >= 0 && p.x < StageSizeX &&
 			p.y >= 0 && p.y < StageSizeY) {
 			AddSkill(my_pos + my_dir, E_OBJECT::E_EFFECT, 5.f, 1.f);
+		}
+
+		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+			global_effect_id = E_OBJECT::E_EFFECT;
+		}
+	}
+	if (Input::keys['s']) {
+		Vec2 my_pos = objects[my_id]->GetPos();
+		E_DIRECTION my_dir = objects[my_id]->GetDirection();
+		auto p = my_pos + my_dir;
+		if (p.x >= 0 && p.x < StageSizeX &&
+			p.y >= 0 && p.y < StageSizeY) {
+			AddSkill(my_pos + my_dir, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
 		}
 
 		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {

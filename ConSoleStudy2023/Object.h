@@ -14,6 +14,7 @@ enum E_OBJECT {
 static random_device rd;
 static default_random_engine dre(rd());
 static uniform_int_distribution<int> rand_dirUid(0, 3);
+static uniform_real_distribution<float> rand_realUid(0, 1);
 
 class Object
 {
