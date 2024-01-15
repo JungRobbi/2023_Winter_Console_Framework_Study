@@ -12,6 +12,7 @@ public:
     void Update(double elapsedTime);
 
     int GetAnimationState();
+    int GetAnimationStateMAX();
 
     void SetAnimationStateMAX(int i);
     void SetAnimationSpeed(float f);

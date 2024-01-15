@@ -1,5 +1,6 @@
 #include "Skill.h"
 #include "Scene.h"
+#include "AnimationComponent.h"
 
 Skill::Skill() : Object()
 {
@@ -17,13 +18,13 @@ Skill::~Skill()
 
 void Skill::Update(double elapsedTime)
 {
-	//animationTime += elapsedTime * animationSpeed;
-	//if (animationTime >= animationStateMAX) {
-	//	animationTime -= animationStateMAX;
-	//	Scene::MainScene->RemoveObject(object_id);
-	//	return;
-	//}
-	//animationState = (int)animationTime;
+	/*auto animationComponent = GetComponent<AnimationComponent>();
+
+	if (animationComponent->GetAnimationState() + 1
+		== animationComponent->GetAnimationStateMAX()) {
+		Scene::MainScene->RemoveObject(object_id);
+		return;
+	}*/
 
 	if (false == b_Attack_able) {
 		AttackCoolTimeTimer += elapsedTime;

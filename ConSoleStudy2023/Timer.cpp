@@ -1,11 +1,11 @@
 #include "Timer.h"
 #include <iostream>
 
-std::chrono::steady_clock::time_point Timer::m_prevTime{};
-std::chrono::nanoseconds Timer::m_elapsedTime{};
-double Timer::m_PlayTime_Seconds{};
-short Timer::m_PlayTime_Minute{};
-unsigned long long Timer::m_PlayTime_Hour{};
+Timer* Timer::GetInstance()
+{
+	static Timer* instance = new Timer();
+	return instance;
+}
 
 void Timer::Initialize()
 {

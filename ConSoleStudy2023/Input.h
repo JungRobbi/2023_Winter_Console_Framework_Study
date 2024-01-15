@@ -3,25 +3,36 @@
 
 class Input
 {
-	static double KeyInputTime;
-	static double MouseInputTime;
+	double KeyInputTime;
+	double MouseInputTime;
+
+	bool keys[256];
+	bool keyUp[256];
+	bool keyDown[256];
+	bool keysToggle[256];
+	bool keysOnlyToggle[256];
+
+	bool LMouse;
+	bool RMouse;
+
+private:
+	Input() = default;
+	Input(const Input&) = delete;
+	Input& operator=(const Input&) = delete;
+	Input(Input&&) = delete;
+	Input& operator=(Input&&) = delete;
+	~Input() = default;
 public:
-	static bool keys[256];
-	static bool keyUp[256];
-	static bool keyDown[256];
-	static bool keysToggle[256];
-	static bool keysOnlyToggle[256];
+	static Input* GetInstance();
 
-	static bool LMouse;
-	static bool RMouse;
+	void Initialize();
+	void Update(double elapsedTime);
 
-public:
-	static void Initialize();
-	static void Update(double elapsedTime);
+	void KeyClear();
+	void KeyTimerReset();
 
-	static void KeyClear();
-	static void KeyTimerReset();
+	void MouseClear();
+	void MouseTimerReset();
 
-	static void MouseClear();
-	static void MouseTimerReset();
+	bool GetKey(unsigned char key);
 };

@@ -1,15 +1,13 @@
 #pragma once
 #include "stdafx.h"
 #include "Object.h"
+#include "AnimationMGR.h"
 
 class Scene
 {
 	vector<vector<int>> stage;
 	vector<vector<int>> scene;
 	unordered_map<unsigned long long, shared_ptr<Object>> objects;
-
-	unordered_map<int, string> Object_Shapes{};
-	unordered_map<int, vector<int>> Object_Animation{};
 
 	static unsigned long long global_id;
 	static unsigned long long global_effect_id;
@@ -18,6 +16,8 @@ class Scene
 	list<unsigned long long> removeQueue;
 
 	unsigned long long my_id = 0;
+
+	AnimationMGR* animationMGR;
 public:
 	static Scene* MainScene;
 public:

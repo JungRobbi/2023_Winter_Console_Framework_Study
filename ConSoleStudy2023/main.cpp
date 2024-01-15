@@ -8,15 +8,17 @@ int main(int argc, char** argv)
 	shared_ptr<Scene> scene = make_shared<Scene>();
 	scene->Initialize();
 
-	Timer::Initialize();
-	Input::Initialize();
+	auto timer = Timer::GetInstance();
+	auto input = Input::GetInstance();
+	timer->Initialize();
+	input->Initialize();
 	
 	while (true) {
-		Timer::Update();
-		Input::Update(Timer::GetElapsedTimeSeconds());
-		scene->Update(Timer::GetElapsedTimeSeconds());
+		timer->Update();
+		input->Update(timer->GetElapsedTimeSeconds());
+		scene->Update(timer->GetElapsedTimeSeconds());
 		scene->Render();
 
-		Timer::RenderTimer();
+		timer->RenderTimer();
 	}
 }

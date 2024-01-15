@@ -2,15 +2,11 @@
 #include "Input.h"
 #include <conio.h>
 
-double Input::KeyInputTime;
-double Input::MouseInputTime;
-bool Input::keys[256];
-bool Input::keyUp[256];
-bool Input::keyDown[256];
-bool Input::keysToggle[256];
-bool Input::keysOnlyToggle[256];
-bool Input::LMouse;
-bool Input::RMouse;
+Input* Input::GetInstance()
+{
+	static Input* instance = new Input();
+	return instance;
+}
 
 void Input::Initialize()
 {
@@ -30,7 +26,6 @@ void Input::Update(double elapsedTime)
 	//if (MouseInputTime > 10 * 1000) { // 10초 이상 누를 시 Clear
 	//	MouseTimerReset();
 	//}
-	KeyClear();
 	static int prevKey = 80;
 
 	if (_kbhit()) {
@@ -67,4 +62,9 @@ void Input::MouseClear()
 void Input::MouseTimerReset()
 {
 	MouseInputTime = 0.f;
+}
+
+bool Input::GetKey(unsigned char key)
+{
+	return keys[key];
 }

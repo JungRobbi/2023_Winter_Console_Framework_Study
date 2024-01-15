@@ -3,21 +3,29 @@
 
 class Timer
 {
-	static std::chrono::steady_clock::time_point m_prevTime;
-	static std::chrono::nanoseconds m_elapsedTime;
-	static double m_PlayTime_Seconds;
-	static short m_PlayTime_Minute;
-	static unsigned long long m_PlayTime_Hour;
+	std::chrono::steady_clock::time_point m_prevTime;
+	std::chrono::nanoseconds m_elapsedTime;
+	double m_PlayTime_Seconds;
+	short m_PlayTime_Minute;
+	unsigned long long m_PlayTime_Hour;
+
+private:
+	Timer() = default;
+	Timer(const Timer&) = delete;
+	Timer& operator=(const Timer&) = delete;
+	Timer(Timer&&) = delete;
+	Timer& operator=(Timer&&) = delete;
+	~Timer() = default;
 public:
+	static Timer* GetInstance();
 
-	static void Initialize();
-	static void Update();
-	static long long GetElapsedTimeMicro();
-	static double GetElapsedTimeSeconds();
-	static double GetPlayTimeSeconds();
-	static short GetPlayTimeMinute();
-	static unsigned long long GetPlayTimeHour();
-
-	static void RenderTimer();
+	void Initialize();
+	void Update();
+	long long GetElapsedTimeMicro();
+	double GetElapsedTimeSeconds();
+	double GetPlayTimeSeconds();
+	short GetPlayTimeMinute();
+	unsigned long long GetPlayTimeHour();
+	void RenderTimer();
 };
 

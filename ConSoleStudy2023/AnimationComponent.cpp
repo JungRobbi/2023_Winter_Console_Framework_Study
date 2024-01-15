@@ -18,6 +18,11 @@ int AnimationComponent::GetAnimationState()
 	return animationState;
 }
 
+int AnimationComponent::GetAnimationStateMAX()
+{
+	return animationStateMAX;
+}
+
 void AnimationComponent::SetAnimationStateMAX(int i)
 {
 	animationStateMAX = i;

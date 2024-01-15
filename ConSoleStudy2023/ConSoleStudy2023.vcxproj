@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationComponent.cpp" />
+    <ClCompile Include="AnimationMGR.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="FSM.cpp" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="AnimationMGR.h" />
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="FSM.h" />

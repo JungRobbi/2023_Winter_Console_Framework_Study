@@ -25,55 +25,16 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	Object_Shapes[E_OBJECT::E_CLIENT] = "≮";
-	Object_Shapes[E_OBJECT::E_CLIENT + 1] = "≠";
-	Object_Shapes[E_OBJECT::E_WALL] = "♂";
-	Object_Shapes[E_OBJECT::E_TILE] = "  ";
-	Object_Shapes[E_OBJECT::E_TILE + 1] = "∴";
-	Object_Shapes[E_OBJECT::E_TILE + 2] = "♂";
-	Object_Shapes[E_OBJECT::E_TILE + 3] = "Α ";
-	Object_Shapes[E_OBJECT::E_TILE + 4] = "Β ";
-	Object_Shapes[E_OBJECT::E_TILE + 5] = "Λ ";
-	Object_Shapes[E_OBJECT::E_TILE + 6] = "≤";
-	Object_Shapes[E_OBJECT::E_EFFECT] = "ㄧ";
-	Object_Shapes[E_OBJECT::E_EFFECT + 1] = "ㄨ";
-	Object_Shapes[E_OBJECT::E_EFFECT + 2] = "ㄩ";
-	Object_Shapes[E_OBJECT::E_EFFECT_ATTACK] = "∝";
-
-	{
-		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT);
-		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT + 1);
-	}
-	{
-		Object_Animation[E_OBJECT::E_ENEMY].emplace_back(E_OBJECT::E_CLIENT + 1);
-	}	
-	{
-		Object_Animation[E_OBJECT::E_TILE].emplace_back(E_OBJECT::E_TILE);
-	}	
-	{
-		Object_Animation[E_OBJECT::E_TILE + 1].emplace_back(E_OBJECT::E_TILE + 1);
-	}	
-	{
-		Object_Animation[E_OBJECT::E_TILE + 2].emplace_back(E_OBJECT::E_TILE + 2);
-	}
-	{
-		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT + 2);
-		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT + 1);
-		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT);
-		Object_Animation[E_OBJECT::E_EFFECT].emplace_back(E_OBJECT::E_EFFECT_ATTACK);
-	}
-	{
-		Object_Animation[E_OBJECT::E_EFFECT + 1].emplace_back(E_OBJECT::E_EFFECT_ATTACK);
-	}
-
-	
+	animationMGR = AnimationMGR::GetInstance();
+	animationMGR->Initialize();
 	//AddObject(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
 
 	{
 		objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 		objects[my_id]->AddComponent<PlayerMovementComponent>();
 		auto component = objects[my_id]->AddComponent<AnimationComponent>();
-		component->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
+		component->SetAnimationStateMAX(animationMGR->GetAnimationShape(E_OBJECT::E_CLIENT).size());
+		component->SetAnimationSpeed(2.f);
 		objects[my_id]->SetSight(10);
 
 	}
@@ -113,6 +74,7 @@ void Scene::Initialize()
 
 void Scene::Update(double elapsedTime)
 {
+	auto timer = Timer::GetInstance();
 	//Create 贸府
 	while (createQueue.size()) {
 		auto value = *createQueue.begin();
@@ -140,7 +102,7 @@ void Scene::Update(double elapsedTime)
 					continue;
 		
 				if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
-					if (E_OBJECT::E_EFFECT_ATTACK == Object_Animation[objects[collideId]->GetType()][objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
+					if (E_OBJECT::E_EFFECT_ATTACK == animationMGR->GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
 						RemoveObject(object.second->GetId());
 					}
 				}
@@ -155,30 +117,31 @@ void Scene::Update(double elapsedTime)
 	///////
 	//Input 贸府
 	///////
-	if (Input::keys[224]) { // ¤/￠/＄/℃
+	auto input = Input::GetInstance();
+	if (input->GetKey(224)) { // ¤/￠/＄/℃
 		Vec2 my_pos = objects[my_id]->GetPos();
-		if (Input::keys[72]) { // ¤
+		if (input->GetKey(72)) { // ¤
 			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
 			if (my_pos.y - 1 >= 0)
 				objects[my_id]->Move(E_DIRECTION::E_UP, 1);
 		}
-		if (Input::keys[80]) { // ￠
+		if (input->GetKey(80)) { // ￠
 			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
 			if (my_pos.y + 1 < StageSizeY)
 				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
 		}
-		if (Input::keys[75]) { // ＄
+		if (input->GetKey(75)) { // ＄
 			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
 			if (my_pos.x - 1 >= 0)
 				objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
 		}
-		if (Input::keys[77]) { // ℃
+		if (input->GetKey(77)) { // ℃
 			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
 			if (my_pos.x + 1 < StageSizeX)
 				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
 		}
 	}
-	if (Input::keys['a']) {
+	if (input->GetKey('a')) {
 		Vec2 my_pos = objects[my_id]->GetPos();
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 		auto p = my_pos + my_dir;
@@ -191,7 +154,7 @@ void Scene::Update(double elapsedTime)
 			global_effect_id = E_OBJECT::E_EFFECT;
 		}
 	}
-	if (Input::keys['s']) {
+	if (input->GetKey('s')) {
 		Vec2 my_pos = objects[my_id]->GetPos();
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 		auto p = my_pos + my_dir;
@@ -204,7 +167,7 @@ void Scene::Update(double elapsedTime)
 			global_effect_id = E_OBJECT::E_EFFECT;
 		}
 	}
-	if (Input::keys['d']) {
+	if (input->GetKey('d')) {
 		Vec2 my_pos = objects[my_id]->GetPos();
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 		{
@@ -256,22 +219,24 @@ void Scene::Update(double elapsedTime)
 	for (auto& object : objects) {
 		if (nullptr == object.second || object.second->GetId() == my_id)
 			continue;
-		object.second->Update(Timer::GetElapsedTimeSeconds());
+		object.second->Update(timer->GetElapsedTimeSeconds());
 	}
 	//Player 力寇 Render
 	for (auto& object : objects) {
 		if (nullptr == object.second || object.second->GetId() == my_id)
 			continue;
 		auto pos = object.second->GetPos();
-		scene[pos.y][pos.x] = Object_Animation[object.second->GetType()][object.second->GetComponent<AnimationComponent>()->GetAnimationState()];
+		scene[pos.y][pos.x] = animationMGR->GetAnimationShape(object.second->GetType())[object.second->GetComponent<AnimationComponent>()->GetAnimationState()];
 	}
 	//Player Update, Render
 	if (objects.end() != objects.find(my_id)) {
-		objects[my_id]->Update(Timer::GetElapsedTimeSeconds());
+		objects[my_id]->Update(timer->GetElapsedTimeSeconds());
 
 		auto pos = objects[my_id]->GetPos();
-		scene[pos.y][pos.x] = Object_Animation[objects[my_id]->GetType()][objects[my_id]->GetComponent<AnimationComponent>()->GetAnimationState()];
+		scene[pos.y][pos.x] = animationMGR->GetAnimationShape(objects[my_id]->GetType())[objects[my_id]->GetComponent<AnimationComponent>()->GetAnimationState()];
 	}
+
+	input->KeyClear();
 
 	//Delete 贸府
 	while (removeQueue.size()) {
@@ -297,7 +262,7 @@ void Scene::Render()
 				str += "  ";
 			}
 			else {
-				str += Object_Shapes[scene[i][j]];
+				str += animationMGR->GetShape(scene[i][j]);
 			}
 		}
 		str += '\n';
@@ -311,13 +276,13 @@ void Scene::AddObject(Vec2 pos, int type)
 		auto object = make_shared<Player>(pos, type, global_id++);
 		object->AddComponent<MovementComponent>();
 		auto component = object->AddComponent<AnimationComponent>();
-		component->SetAnimationStateMAX(Object_Animation[type].size());
+		component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 		createQueue.push_back(object);
 	}
 	else {
 		auto object = make_shared<Object>(pos, global_id++);
 		auto component = object->AddComponent<AnimationComponent>();
-		component->SetAnimationStateMAX(Object_Animation[type].size());
+		component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 		createQueue.push_back(object);
 	}
 }
@@ -327,7 +292,7 @@ void Scene::AddMonster(Vec2 pos, int type)
 	auto object = make_shared<Monster>(pos, type, global_id++);
 	object->AddComponent<MovementComponent>();
 	auto component = object->AddComponent<AnimationComponent>();
-	component->SetAnimationStateMAX(Object_Animation[type].size());
+	component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 	//烙矫
 	object->SetTarget(objects[my_id]);
 	createQueue.push_back(object);
@@ -337,8 +302,7 @@ void Scene::AddSkill(Vec2 pos, int type, double holdingTime)
 {
 	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
 	auto component = object->AddComponent<AnimationComponent>();
-	component->SetAnimationStateMAX(Object_Animation[type].size());
-	object->AddComponent<AnimationComponent>();
+	component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 	createQueue.push_back(object);
 }
 
@@ -346,9 +310,8 @@ void Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
 {
 	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
 	auto component = object->AddComponent<AnimationComponent>();
-	component->SetAnimationStateMAX(Object_Animation[type].size());
+	component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 	component->SetAnimationSpeed(animateSpeed);
-	object->AddComponent<AnimationComponent>();
 	createQueue.push_back(object);
 }
 

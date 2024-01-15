@@ -23,6 +23,16 @@ enum E_DIRECTION {
 	E_UP, E_DOWN, E_LEFT, E_RIGHT
 };
 
+enum E_OBJECT {
+	E_CLIENT = 0,
+	E_ENEMY = 10000,
+	E_WALL = 20000,
+	E_ITEM = 20100,
+	E_TILE = 20200,
+	E_EFFECT = 30000,
+	E_EFFECT_ATTACK = 40000,
+};
+
 struct Vec2 {
 	int x, y;
 
