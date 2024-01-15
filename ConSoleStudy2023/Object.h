@@ -80,5 +80,29 @@ public:
 
 	int GetSight();
 	void SetSight(int i);
+
+	template<class T>
+	std::shared_ptr<T> AddComponent();
+
+	template<class T>
+	std::shared_ptr<T> GetComponent();
 };
 
+template<class T>
+inline std::shared_ptr<T> Object::AddComponent()
+{
+	std::shared_ptr<T> component = make_shared<T>();
+	components.push_back(component);
+	return component;
+}
+
+template<class T>
+inline std::shared_ptr<T> Object::GetComponent()
+{
+	for (auto component : components) {
+		if (dynamic_cast<T*>(component.get())) {
+			return component;
+		}
+	}
+	return nullptr;
+}

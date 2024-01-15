@@ -87,6 +87,9 @@
     <ClCompile Include="PlayerMovementComponent.cpp">
       <Filter>소스 파일\Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>소스 파일\Game\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -135,6 +138,9 @@
       <Filter>소스 파일\Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMovementComponent.h">
+      <Filter>소스 파일\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
       <Filter>소스 파일\Game\Components</Filter>
     </ClInclude>
   </ItemGroup>

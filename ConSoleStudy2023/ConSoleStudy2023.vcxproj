@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="FSM.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="MonsterWanderState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="FSM.h" />
