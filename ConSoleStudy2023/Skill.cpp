@@ -17,13 +17,13 @@ Skill::~Skill()
 
 void Skill::Update(double elapsedTime)
 {
-	animationTime += elapsedTime * animationSpeed;
-	if (animationTime >= animationStateMAX) {
-		animationTime -= animationStateMAX;
-		Scene::MainScene->RemoveObject(object_id);
-		return;
-	}
-	animationState = (int)animationTime;
+	//animationTime += elapsedTime * animationSpeed;
+	//if (animationTime >= animationStateMAX) {
+	//	animationTime -= animationStateMAX;
+	//	Scene::MainScene->RemoveObject(object_id);
+	//	return;
+	//}
+	//animationState = (int)animationTime;
 
 	if (false == b_Attack_able) {
 		AttackCoolTimeTimer += elapsedTime;

@@ -26,12 +26,6 @@ void Object::Start()
 
 void Object::Update(double elapsedTime)
 {
-	animationTime += elapsedTime * animationSpeed;
-	if (animationTime >= animationStateMAX) {
-		animationTime -= animationStateMAX;
-	}
-	animationState = (int)animationTime;
-
 	if (false == b_Attack_able) {
 		AttackCoolTimeTimer += elapsedTime;
 		if (AttackCoolTimeTimer >= AttackCoolTime) {
@@ -82,16 +76,6 @@ int Object::GetType()
 	return objectType;
 }
 
-int Object::GetAnimationState()
-{ 
-	return animationState;
-}
-
-void Object::SetAnimationStateMAX(int i)
-{ 
-	animationStateMAX = i;
-}
-
 void Object::Move(E_DIRECTION dir, int step)
 {
 	switch (dir)
@@ -122,11 +106,6 @@ int Object::GetSight()
 void Object::SetSight(int i)
 {
 	sight = i;
-}
-
-void Object::SetAnimationSpeed(float f)
-{ 
-	animationSpeed = f;
 }
 
 void Object::SetAttackable(bool b)

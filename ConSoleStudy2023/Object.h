@@ -25,11 +25,6 @@ protected:
 	unsigned long long object_id;
 	int objectType = -1;
 
-	int animationState = 0;
-	int animationStateMAX = 1;
-	double animationTime = 0.f;
-	float animationSpeed = 1.f;
-
 	float HP = 100.f;
 	float HPMAX = 100.f;
 	float AttackDamage = 10.f;
@@ -63,10 +58,6 @@ public:
 	void SetDirection(E_DIRECTION pos);
 
 	int GetType();
-	int GetAnimationState();
-
-	void SetAnimationStateMAX(int i);
-	void SetAnimationSpeed(float f);
 
 	bool GetAttackable();
 	bool GetMoveable();
@@ -100,8 +91,9 @@ template<class T>
 inline std::shared_ptr<T> Object::GetComponent()
 {
 	for (auto component : components) {
-		if (dynamic_cast<T*>(component.get())) {
-			return component;
+		auto c = dynamic_pointer_cast<T>(component);
+		if (c) {
+			return c;
 		}
 	}
 	return nullptr;
