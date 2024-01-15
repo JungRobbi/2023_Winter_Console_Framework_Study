@@ -129,6 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackComponent.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="FSM.cpp" />
     <ClCompile Include="FSMState.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -136,8 +138,10 @@
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterAttackState.cpp" />
     <ClCompile Include="MonsterTrackingState.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerMovementComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -146,14 +150,18 @@
     <ClCompile Include="MonsterWanderState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackComponent.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="FSM.h" />
     <ClInclude Include="FSMState.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterAttackState.h" />
     <ClInclude Include="MonsterTrackingState.h" />
+    <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerMovementComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Timer.h" />

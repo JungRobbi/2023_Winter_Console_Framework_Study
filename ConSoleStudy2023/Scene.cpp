@@ -69,7 +69,6 @@ void Scene::Initialize()
 	objects[my_id]->SetAnimationStateMAX(Object_Animation[E_OBJECT::E_CLIENT].size());
 	objects[my_id]->SetSight(10);
 
-
 	int num_monster{ 100 };
 	for (int i{}; i < num_monster; ++i) {
 		AddMonster(Vec2{ (int)(StageSizeX * rand_realUid(dre)), (int)(StageSizeY * rand_realUid(dre)) }, E_OBJECT::E_ENEMY);
@@ -109,6 +108,7 @@ void Scene::Update(double elapsedTime)
 	//Create Ã³¸®
 	while (createQueue.size()) {
 		auto value = *createQueue.begin();
+		value->Start();
 		objects[value->GetId()] = value;
 		createQueue.pop_front();
 	}

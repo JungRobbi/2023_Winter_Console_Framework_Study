@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "Component.h"
 
 enum E_OBJECT {
 	E_CLIENT = 0,
@@ -42,11 +43,14 @@ protected:
 	bool b_Move_able = false;
 
 	int sight = 3;
+
+	list<shared_ptr<Component>> components;
 public:
 	Object();
 	Object(Vec2 Pos, unsigned long long id);
 	virtual ~Object();
 
+	virtual void Start();
 	virtual void Update(double elapsedTime);
 
 	Vec2 GetPos();

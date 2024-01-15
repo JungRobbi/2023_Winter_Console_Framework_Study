@@ -18,6 +18,12 @@ Vec2 Object::GetPos()
 	return position;
 }
 
+void Object::Start()
+{
+	for (auto& component : components) 
+		component->Start();
+}
+
 void Object::Update(double elapsedTime)
 {
 	animationTime += elapsedTime * animationSpeed;
@@ -41,6 +47,9 @@ void Object::Update(double elapsedTime)
 			b_Move_able = true;
 		}
 	}
+
+	for (auto& component : components)
+		component->Update(elapsedTime);
 }
 
 void Object::SetPos(Vec2 pos)
