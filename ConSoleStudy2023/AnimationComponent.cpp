@@ -23,6 +23,16 @@ int AnimationComponent::GetAnimationStateMAX()
 	return animationStateMAX;
 }
 
+double AnimationComponent::GetAnimationTime()
+{
+	return animationTime;
+}
+
+float AnimationComponent::GetAnimationSpeed()
+{
+	return animationSpeed;
+}
+
 void AnimationComponent::SetAnimationStateMAX(int i)
 {
 	animationStateMAX = i;

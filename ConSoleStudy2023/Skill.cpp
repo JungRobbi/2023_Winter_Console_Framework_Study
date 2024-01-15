@@ -18,27 +18,13 @@ Skill::~Skill()
 
 void Skill::Update(double elapsedTime)
 {
-	/*auto animationComponent = GetComponent<AnimationComponent>();
-
-	if (animationComponent->GetAnimationState() + 1
-		== animationComponent->GetAnimationStateMAX()) {
-		Scene::MainScene->RemoveObject(object_id);
-		return;
-	}*/
-
-	if (false == b_Attack_able) {
-		AttackCoolTimeTimer += elapsedTime;
-		if (AttackCoolTimeTimer >= AttackCoolTime) {
-			AttackCoolTimeTimer = 0.0;
-			b_Attack_able = true;
-		}
-	}
-
-	if (false == b_Move_able) {
-		MovementCoolTimeTimer += elapsedTime;
-		if (MovementCoolTimeTimer >= MovementCoolTime) {
-			MovementCoolTimeTimer = 0.0;
-			b_Move_able = true;
+	Object::Update(elapsedTime);
+	auto animationComponent = GetComponent<AnimationComponent>();
+	if (animationComponent) {
+		double currentTime = animationComponent->GetAnimationTime();
+		if (currentTime + elapsedTime * animationComponent->GetAnimationSpeed()
+			>= animationComponent->GetAnimationStateMAX()) {
+			Scene::MainScene->RemoveObject(object_id);
 		}
 	}
 }

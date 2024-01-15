@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include <stdlib.h>
 class AnimationComponent :
     public Component
 {
@@ -13,6 +14,8 @@ public:
 
     int GetAnimationState();
     int GetAnimationStateMAX();
+    double GetAnimationTime();
+    float GetAnimationSpeed();
 
     void SetAnimationStateMAX(int i);
     void SetAnimationSpeed(float f);
