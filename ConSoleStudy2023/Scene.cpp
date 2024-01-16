@@ -215,25 +215,18 @@ void Scene::Update(double elapsedTime)
 	///////
 
 
-	//Player 제외 Update
+	//Update
 	for (auto& object : objects) {
-		if (nullptr == object.second || object.second->GetId() == my_id)
+		if (nullptr == object.second)
 			continue;
 		object.second->Update(timer->GetElapsedTimeSeconds());
 	}
-	//Player 제외 Render
+	//Render
 	for (auto& object : objects) {
-		if (nullptr == object.second || object.second->GetId() == my_id)
+		if (nullptr == object.second)
 			continue;
 		auto pos = object.second->GetPos();
 		scene[pos.y][pos.x] = animationMGR->GetAnimationShape(object.second->GetType())[object.second->GetComponent<AnimationComponent>()->GetAnimationState()];
-	}
-	//Player Update, Render
-	if (objects.end() != objects.find(my_id)) {
-		objects[my_id]->Update(timer->GetElapsedTimeSeconds());
-
-		auto pos = objects[my_id]->GetPos();
-		scene[pos.y][pos.x] = animationMGR->GetAnimationShape(objects[my_id]->GetType())[objects[my_id]->GetComponent<AnimationComponent>()->GetAnimationState()];
 	}
 
 	input->KeyClear();
