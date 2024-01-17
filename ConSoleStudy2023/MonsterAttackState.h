@@ -40,8 +40,8 @@ public:
 					owner->SetDirection(dir);
 					E_DIRECTION my_dir = owner->GetDirection();
 					auto p = my_pos + my_dir;
-					if (p.x >= 0 && p.x < StageSizeX &&
-						p.y >= 0 && p.y < StageSizeY) {
+					if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+						p.y >= 0 && p.y < STAGE_SIZE_Y) {
 						Scene::MainScene->AddSkill(p, E_OBJECT::E_EFFECT + 1, 1.f, 1.0);
 					}
 					auto pos = target->GetPos();

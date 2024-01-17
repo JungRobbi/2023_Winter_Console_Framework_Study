@@ -1,9 +1,9 @@
 #include "Timer.h"
 #include <iostream>
 
-Timer* Timer::GetInstance()
+Timer& Timer::GetInstance()
 {
-	static Timer* instance = new Timer();
+	static Timer instance;
 	return instance;
 }
 

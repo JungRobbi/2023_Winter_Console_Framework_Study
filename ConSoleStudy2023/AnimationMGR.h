@@ -14,7 +14,7 @@ private:
 	AnimationMGR& operator=(AnimationMGR&&) = delete;
 	~AnimationMGR() = default;
 public:
-	static AnimationMGR* GetInstance();
+	static AnimationMGR& GetInstance();
 	void Initialize();
 	void Update(double elapsedTime);
 

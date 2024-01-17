@@ -17,7 +17,7 @@ private:
 	Timer& operator=(Timer&&) = delete;
 	~Timer() = default;
 public:
-	static Timer* GetInstance();
+	static Timer& GetInstance();
 
 	void Initialize();
 	void Update();

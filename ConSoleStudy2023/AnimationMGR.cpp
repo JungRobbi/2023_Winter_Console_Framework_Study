@@ -1,8 +1,8 @@
 #include "AnimationMGR.h"
 
-AnimationMGR* AnimationMGR::GetInstance()
+AnimationMGR& AnimationMGR::GetInstance()
 {
-	static AnimationMGR* instance = new AnimationMGR();
+	static AnimationMGR instance;
 	return instance;
 }
 

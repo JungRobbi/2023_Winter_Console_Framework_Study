@@ -14,8 +14,8 @@
 using namespace std;
 using namespace chrono;
 
-static const int StageSizeX = 101;
-static const int StageSizeY = 101;
+static const int STAGE_SIZE_X = 101;
+static const int STAGE_SIZE_Y = 101;
 
 static const float EFFECT_MAX = 1000000.f;
 

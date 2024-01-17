@@ -2,9 +2,9 @@
 #include "Input.h"
 #include <conio.h>
 
-Input* Input::GetInstance()
+Input& Input::GetInstance()
 {
-	static Input* instance = new Input();
+	static Input instance;
 	return instance;
 }
 

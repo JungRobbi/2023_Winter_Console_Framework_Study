@@ -25,9 +25,9 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	animationMGR = AnimationMGR::GetInstance();
+	animationMGR = &AnimationMGR::GetInstance();
 	animationMGR->Initialize();
-	//AddObject(Vec2{ StageSizeX / 2, StageSizeY / 2 }, E_OBJECT::E_CLIENT, my_id);
+	//AddObject(Vec2{ STAGE_SIZE_X / 2, STAGE_SIZE_Y / 2 }, E_OBJECT::E_CLIENT, my_id);
 
 	{
 		objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
@@ -40,20 +40,20 @@ void Scene::Initialize()
 	}
 	int num_monster{ 100 };
 	for (int i{}; i < num_monster; ++i) {
-		AddMonster(Vec2{ (int)(StageSizeX * rand_realUid(dre)), (int)(StageSizeY * rand_realUid(dre)) }, E_OBJECT::E_ENEMY);
+		AddMonster(Vec2{ (int)(STAGE_SIZE_X * rand_realUid(dre)), (int)(STAGE_SIZE_Y * rand_realUid(dre)) }, E_OBJECT::E_ENEMY);
 	}
 
-	for (int i{}; i < StageSizeY; ++i) {
+	for (int i{}; i < STAGE_SIZE_Y; ++i) {
 		scene.emplace_back();
-		for (int j{}; j < StageSizeX; ++j) {
+		for (int j{}; j < STAGE_SIZE_X; ++j) {
 			scene[i].emplace_back(E_TILE);
 		}
 	}
 
-	for (int i{}; i < StageSizeY; ++i) {
+	for (int i{}; i < STAGE_SIZE_Y; ++i) {
 		stage.emplace_back();
-		for (int j{}; j < StageSizeX; ++j) {
-			if (i == 0 || j == 0 || i == StageSizeY - 1 || j == StageSizeX - 1)
+		for (int j{}; j < STAGE_SIZE_X; ++j) {
+			if (i == 0 || j == 0 || i == STAGE_SIZE_Y - 1 || j == STAGE_SIZE_X - 1)
 				stage[i].emplace_back(E_TILE + 1);
 			else if (i % 10 == 9 && j % 10 == 9) 
 				stage[i].emplace_back(E_TILE + 5);
@@ -74,7 +74,7 @@ void Scene::Initialize()
 
 void Scene::Update(double elapsedTime)
 {
-	auto timer = Timer::GetInstance();
+	auto& timer = Timer::GetInstance();
 	//Create 贸府
 	while (createQueue.size()) {
 		auto value = *createQueue.begin();
@@ -117,36 +117,36 @@ void Scene::Update(double elapsedTime)
 	///////
 	//Input 贸府
 	///////
-	auto input = Input::GetInstance();
-	if (input->GetKey(224)) { // ¤/￠/＄/℃
+	auto& input = Input::GetInstance();
+	if (input.GetKey(224)) { // ¤/￠/＄/℃
 		Vec2 my_pos = objects[my_id]->GetPos();
-		if (input->GetKey(72)) { // ¤
+		if (input.GetKey(72)) { // ¤
 			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
 			if (my_pos.y - 1 >= 0)
 				objects[my_id]->Move(E_DIRECTION::E_UP, 1);
 		}
-		if (input->GetKey(80)) { // ￠
+		if (input.GetKey(80)) { // ￠
 			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-			if (my_pos.y + 1 < StageSizeY)
+			if (my_pos.y + 1 < STAGE_SIZE_Y)
 				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
 		}
-		if (input->GetKey(75)) { // ＄
+		if (input.GetKey(75)) { // ＄
 			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
 			if (my_pos.x - 1 >= 0)
 				objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
 		}
-		if (input->GetKey(77)) { // ℃
+		if (input.GetKey(77)) { // ℃
 			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-			if (my_pos.x + 1 < StageSizeX)
+			if (my_pos.x + 1 < STAGE_SIZE_X)
 				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
 		}
 	}
-	if (input->GetKey('a')) {
+	if (input.GetKey('a')) {
 		Vec2 my_pos = objects[my_id]->GetPos();
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 		auto p = my_pos + my_dir;
-		if (p.x >= 0 && p.x < StageSizeX &&
-			p.y >= 0 && p.y < StageSizeY) {
+		if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+			p.y >= 0 && p.y < STAGE_SIZE_Y) {
 			AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 		}
 
@@ -154,12 +154,12 @@ void Scene::Update(double elapsedTime)
 			global_effect_id = E_OBJECT::E_EFFECT;
 		}
 	}
-	if (input->GetKey('s')) {
+	if (input.GetKey('s')) {
 		Vec2 my_pos = objects[my_id]->GetPos();
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 		auto p = my_pos + my_dir;
-		if (p.x >= 0 && p.x < StageSizeX &&
-			p.y >= 0 && p.y < StageSizeY) {
+		if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+			p.y >= 0 && p.y < STAGE_SIZE_Y) {
 			AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
 		}
 
@@ -167,41 +167,41 @@ void Scene::Update(double elapsedTime)
 			global_effect_id = E_OBJECT::E_EFFECT;
 		}
 	}
-	if (input->GetKey('d')) {
+	if (input.GetKey('d')) {
 		Vec2 my_pos = objects[my_id]->GetPos();
 		E_DIRECTION my_dir = objects[my_id]->GetDirection();
 		{
 			auto p = my_pos + my_dir + my_dir;
-			if (p.x >= 0 && p.x < StageSizeX &&
-				p.y >= 0 && p.y < StageSizeY) {
+			if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+				p.y >= 0 && p.y < STAGE_SIZE_Y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 		}
 		{
 			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
-			if (p.x >= 0 && p.x < StageSizeX &&
-				p.y >= 0 && p.y < StageSizeY) {
+			if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+				p.y >= 0 && p.y < STAGE_SIZE_Y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 		}
 		{
 			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
-			if (p.x >= 0 && p.x < StageSizeX &&
-				p.y >= 0 && p.y < StageSizeY) {
+			if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+				p.y >= 0 && p.y < STAGE_SIZE_Y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 		}
 		{
 			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
-			if (p.x >= 0 && p.x < StageSizeX &&
-				p.y >= 0 && p.y < StageSizeY) {
+			if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+				p.y >= 0 && p.y < STAGE_SIZE_Y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 		}
 		{
 			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
-			if (p.x >= 0 && p.x < StageSizeX &&
-				p.y >= 0 && p.y < StageSizeY) {
+			if (p.x >= 0 && p.x < STAGE_SIZE_X &&
+				p.y >= 0 && p.y < STAGE_SIZE_Y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 		}
@@ -219,7 +219,7 @@ void Scene::Update(double elapsedTime)
 	for (auto& object : objects) {
 		if (nullptr == object.second)
 			continue;
-		object.second->Update(timer->GetElapsedTimeSeconds());
+		object.second->Update(timer.GetElapsedTimeSeconds());
 	}
 	//Render
 	for (auto& object : objects) {
@@ -229,7 +229,7 @@ void Scene::Update(double elapsedTime)
 		scene[pos.y][pos.x] = animationMGR->GetAnimationShape(object.second->GetType())[object.second->GetComponent<AnimationComponent>()->GetAnimationState()];
 	}
 
-	input->KeyClear();
+	input.KeyClear();
 
 	//Delete 贸府
 	while (removeQueue.size()) {
@@ -251,7 +251,7 @@ void Scene::Render()
 	auto sight = objects[my_id]->GetSight();
 	for (int i{ objects[my_id]->GetPos().y - sight}; i < objects[my_id]->GetPos().y + sight; ++i) {
 		for (int j{ objects[my_id]->GetPos().x - sight }; j < objects[my_id]->GetPos().x + sight; ++j) {
-			if (i < 0 || j < 0 || i >= StageSizeY || j >= StageSizeX) {
+			if (i < 0 || j < 0 || i >= STAGE_SIZE_Y || j >= STAGE_SIZE_X) {
 				str += "  ";
 			}
 			else {

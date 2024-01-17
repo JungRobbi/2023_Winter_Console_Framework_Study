@@ -26,7 +26,7 @@ public:
 						return;
 					break;
 				case E_DOWN:
-					if (owner_pos.y + 1 >= StageSizeY)
+					if (owner_pos.y + 1 >= STAGE_SIZE_Y)
 						return;
 					break;
 				case E_LEFT:
@@ -34,7 +34,7 @@ public:
 						return;
 					break;
 				case E_RIGHT:
-					if (owner_pos.x + 1 >= StageSizeX)
+					if (owner_pos.x + 1 >= STAGE_SIZE_X)
 						return;
 					break;
 				default:

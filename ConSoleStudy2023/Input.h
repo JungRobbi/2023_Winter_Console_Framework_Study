@@ -23,7 +23,7 @@ private:
 	Input& operator=(Input&&) = delete;
 	~Input() = default;
 public:
-	static Input* GetInstance();
+	static Input& GetInstance();
 
 	void Initialize();
 	void Update(double elapsedTime);
