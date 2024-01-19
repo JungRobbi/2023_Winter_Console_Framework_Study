@@ -77,14 +77,6 @@ int main()
 	MY_CLASS* monsterSkull;
 	MY_CLASS* mosterOgre;
 
-	// p == nullptr
-	if (nullptr == dynamic_cast<Child1*>(objects[0])) {
-		cout << "Child1 맞아유" << endl;
-	}
-	else {
-		cout << "Child1 아닙니다." << endl;
-	}
-
 }
 
 

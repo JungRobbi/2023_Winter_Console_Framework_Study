@@ -27,20 +27,26 @@ void Scene::Initialize()
 {
 	animationMGR = &AnimationMGR::GetInstance();
 	animationMGR->Initialize();
-	//AddObject(Vec2{ STAGE_SIZE_X / 2, STAGE_SIZE_Y / 2 }, E_OBJECT::E_CLIENT, my_id);
-
-	{
+	
+	{ // player 생성
 		objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 		objects[my_id]->AddComponent<PlayerMovementComponent>();
 		auto component = objects[my_id]->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR->GetAnimationShape(E_OBJECT::E_CLIENT).size());
 		component->SetAnimationSpeed(2.f);
 		objects[my_id]->SetSight(10);
-
 	}
+
 	int num_monster{ 100 };
 	for (int i{}; i < num_monster; ++i) {
-		AddMonster(Vec2{ (int)(STAGE_SIZE_X * rand_realUid(dre)), (int)(STAGE_SIZE_Y * rand_realUid(dre)) }, E_OBJECT::E_ENEMY);
+		AddMonster(Vec2{ (int)((STAGE_SIZE_X - 2) * rand_realUid(dre)) + 1, (int)((STAGE_SIZE_Y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
+	}
+
+	for (int i{}; i < STAGE_SIZE_Y; ++i) {
+		for (int j{}; j < STAGE_SIZE_X; ++j) {
+			if (i == 0 || j == 0 || i == STAGE_SIZE_Y - 1 || j == STAGE_SIZE_X - 1)
+				AddObject(Vec2{ j, i }, E_OBJECT::E_WALL);
+		}
 	}
 
 	for (int i{}; i < STAGE_SIZE_Y; ++i) {
@@ -53,9 +59,7 @@ void Scene::Initialize()
 	for (int i{}; i < STAGE_SIZE_Y; ++i) {
 		stage.emplace_back();
 		for (int j{}; j < STAGE_SIZE_X; ++j) {
-			if (i == 0 || j == 0 || i == STAGE_SIZE_Y - 1 || j == STAGE_SIZE_X - 1)
-				stage[i].emplace_back(E_TILE + 1);
-			else if (i % 10 == 9 && j % 10 == 9) 
+			if (i % 10 == 9 && j % 10 == 9) 
 				stage[i].emplace_back(E_TILE + 5);
 			else if (j % 10 == 9) 
 				stage[i].emplace_back(E_TILE + 4);
@@ -221,12 +225,15 @@ void Scene::Update(double elapsedTime)
 			continue;
 		object.second->Update(timer.GetElapsedTimeSeconds());
 	}
+
 	//Render
 	for (auto& object : objects) {
 		if (nullptr == object.second)
 			continue;
 		auto pos = object.second->GetPos();
-		scene[pos.y][pos.x] = animationMGR->GetAnimationShape(object.second->GetType())[object.second->GetComponent<AnimationComponent>()->GetAnimationState()];
+		auto ac = object.second->GetComponent<AnimationComponent>();
+		if (ac)
+			scene[pos.y][pos.x] = animationMGR->GetAnimationShape(object.second->GetType())[ac->GetAnimationState()];
 	}
 
 	input.KeyClear();
@@ -263,7 +270,7 @@ void Scene::Render()
 	cout << str << endl;
 }
 
-void Scene::AddObject(Vec2 pos, int type)
+shared_ptr<Object> Scene::AddObject(Vec2 pos, int type)
 {
 	if (type == E_OBJECT::E_CLIENT) {
 		auto object = make_shared<Player>(pos, type, global_id++);
@@ -271,16 +278,18 @@ void Scene::AddObject(Vec2 pos, int type)
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 		createQueue.push_back(object);
+		return object;
 	}
 	else {
-		auto object = make_shared<Object>(pos, global_id++);
+		auto object = make_shared<Object>(pos, type, global_id++);
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 		createQueue.push_back(object);
+		return object;
 	}
 }
 
-void Scene::AddMonster(Vec2 pos, int type)
+shared_ptr<Object> Scene::AddMonster(Vec2 pos, int type)
 {
 	auto object = make_shared<Monster>(pos, type, global_id++);
 	object->AddComponent<MovementComponent>();
@@ -289,23 +298,26 @@ void Scene::AddMonster(Vec2 pos, int type)
 	//임시
 	object->SetTarget(objects[my_id]);
 	createQueue.push_back(object);
+	return object;
 }
 
-void Scene::AddSkill(Vec2 pos, int type, double holdingTime)
+shared_ptr<Object> Scene::AddSkill(Vec2 pos, int type, double holdingTime)
 {
 	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
 	auto component = object->AddComponent<AnimationComponent>();
 	component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 	createQueue.push_back(object);
+	return object;
 }
 
-void Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
+shared_ptr<Object> Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
 {
 	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
 	auto component = object->AddComponent<AnimationComponent>();
 	component->SetAnimationStateMAX(animationMGR->GetAnimationShape(type).size());
 	component->SetAnimationSpeed(animateSpeed);
 	createQueue.push_back(object);
+	return object;
 }
 
 void Scene::RemoveObject(unsigned long long id)

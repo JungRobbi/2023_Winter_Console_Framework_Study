@@ -9,6 +9,11 @@ Object::Object(Vec2 Pos, unsigned long long id) : position(Pos), object_id(id), 
 {
 }
 
+Object::Object(Vec2 Pos, int type, unsigned long long id) : position(Pos), object_id(id), direction(E_RIGHT)
+{
+	objectType = type;
+}
+
 Object::~Object()
 {
 }
@@ -78,23 +83,18 @@ int Object::GetType()
 
 void Object::Move(E_DIRECTION dir, int step)
 {
-	switch (dir)
-	{
-	case E_UP:
-		position.y -= 1;
-		break;
-	case E_DOWN:
-		position.y += 1;
-		break;
-	case E_LEFT:
-		position.x -= 1;
-		break;
-	case E_RIGHT:
-		position.x += 1;
-		break;
-	default:
-		break;
-	}
+	auto colliderList = Scene::MainScene->CollideCheck(position + dir);
+	/*for (auto collideId : colliderList) {
+		if (collideId == object.second->GetId())
+			continue;
+
+		if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
+			if (E_OBJECT::E_EFFECT_ATTACK == animationMGR->GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
+				RemoveObject(object.second->GetId());
+			}
+		}
+	}*/
+	position += dir;
 	direction = dir;
 }
 

@@ -33,6 +33,7 @@ protected:
 public:
 	Object();
 	Object(Vec2 Pos, unsigned long long id);
+	Object(Vec2 Pos, int type, unsigned long long id);
 	virtual ~Object();
 
 	virtual void Start();

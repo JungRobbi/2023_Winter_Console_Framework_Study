@@ -15,7 +15,8 @@ void AnimationMGR::Initialize()
 	Object_Shapes[E_OBJECT::E_CLIENT + 1] = "б┘";
 	Object_Shapes[E_OBJECT::E_ENEMY] = "б▌";
 	Object_Shapes[E_OBJECT::E_ENEMY + 1] = "б█";
-	Object_Shapes[E_OBJECT::E_WALL] = "бс";
+	Object_Shapes[E_OBJECT::E_WALL] = "бр";
+	Object_Shapes[E_OBJECT::E_WALL + 1] = "бс";
 	Object_Shapes[E_OBJECT::E_TILE] = "  ";
 	Object_Shapes[E_OBJECT::E_TILE + 1] = "бр";
 	Object_Shapes[E_OBJECT::E_TILE + 2] = "бс";
@@ -35,6 +36,12 @@ void AnimationMGR::Initialize()
 	{
 		Object_Animation[E_OBJECT::E_ENEMY].emplace_back(E_OBJECT::E_ENEMY);
 		Object_Animation[E_OBJECT::E_ENEMY].emplace_back(E_OBJECT::E_ENEMY + 1);
+	}
+	{
+		Object_Animation[E_OBJECT::E_WALL].emplace_back(E_OBJECT::E_WALL);
+	}
+	{
+		Object_Animation[E_OBJECT::E_WALL + 1].emplace_back(E_OBJECT::E_WALL);
 	}
 	{
 		Object_Animation[E_OBJECT::E_TILE].emplace_back(E_OBJECT::E_TILE);

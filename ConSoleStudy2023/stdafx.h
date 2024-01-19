@@ -14,10 +14,10 @@
 using namespace std;
 using namespace chrono;
 
-static const int STAGE_SIZE_X = 101;
-static const int STAGE_SIZE_Y = 101;
+const int STAGE_SIZE_X = 101;
+const int STAGE_SIZE_Y = 101;
 
-static const float EFFECT_MAX = 1000000.f;
+const float EFFECT_MAX = 1000000.f;
 
 enum E_DIRECTION {
 	E_UP, E_DOWN, E_LEFT, E_RIGHT
@@ -48,6 +48,28 @@ struct Vec2 {
 			return Vec2{ x - 1, y };
 		case E_RIGHT:
 			return Vec2{ x + 1, y };
+		default:
+			break;
+		}
+	}
+
+	void operator+=(E_DIRECTION dir)
+	{
+		
+		switch (dir)
+		{
+		case E_UP:
+			y -= 1;
+			break;
+		case E_DOWN:
+			y += 1;
+			break;
+		case E_LEFT:
+			x -= 1;
+			break;
+		case E_RIGHT:
+			x += 1;
+			break;
 		default:
 			break;
 		}
