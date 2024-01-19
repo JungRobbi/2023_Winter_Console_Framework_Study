@@ -336,3 +336,15 @@ vector<unsigned long long> Scene::CollideCheck(Vec2 position)
 
 	return v;
 }
+
+vector<unsigned long long> Scene::CollideCheckForType(Vec2 position)
+{
+	vector<unsigned long long> v{};
+
+	for (auto& object : objects) {
+		if (object.second->GetPos() == position)
+			v.emplace_back(object.second->GetType());
+	}
+
+	return v;
+}

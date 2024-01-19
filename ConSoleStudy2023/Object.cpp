@@ -83,17 +83,13 @@ int Object::GetType()
 
 void Object::Move(E_DIRECTION dir, int step)
 {
-	auto colliderList = Scene::MainScene->CollideCheck(position + dir);
-	/*for (auto collideId : colliderList) {
-		if (collideId == object.second->GetId())
+	auto colliderList = Scene::MainScene->CollideCheckForType(position + dir);
+	for (auto collideId : colliderList) {
+		if (collideId == E_OBJECT::E_CLIENT)
 			continue;
-
-		if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
-			if (E_OBJECT::E_EFFECT_ATTACK == animationMGR->GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
-				RemoveObject(object.second->GetId());
-			}
-		}
-	}*/
+		else
+			return;
+	}
 	position += dir;
 	direction = dir;
 }

@@ -36,5 +36,6 @@ public:
 	void RemoveObject(unsigned long long id);
 
 	vector<unsigned long long> CollideCheck(Vec2 position);
+	vector<unsigned long long> CollideCheckForType(Vec2 position);
 };
 
