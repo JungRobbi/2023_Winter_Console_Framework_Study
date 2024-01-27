@@ -4,10 +4,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConSoleStudy2023", "ConSoleStudy2023\ConSoleStudy2023.vcxproj", "{B28B9B2D-893D-43A4-8665-1DAB2F9352C4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5} = {3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{265EBE1B-4441-4498-82B4-14726A8D2608}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5} = {3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestClient", "TestClient\TestClient.vcxproj", "{F4C0FC2D-1B9E-4791-85B2-7A6C9412B063}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5} = {3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServerLib", "ServerLib\ServerLib.vcxproj", "{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +52,14 @@ Global
 		{F4C0FC2D-1B9E-4791-85B2-7A6C9412B063}.Release|x64.Build.0 = Release|x64
 		{F4C0FC2D-1B9E-4791-85B2-7A6C9412B063}.Release|x86.ActiveCfg = Release|Win32
 		{F4C0FC2D-1B9E-4791-85B2-7A6C9412B063}.Release|x86.Build.0 = Release|Win32
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Debug|x64.ActiveCfg = Debug|x64
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Debug|x64.Build.0 = Debug|x64
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Debug|x86.ActiveCfg = Debug|Win32
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Debug|x86.Build.0 = Debug|Win32
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Release|x64.ActiveCfg = Release|x64
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Release|x64.Build.0 = Release|x64
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Release|x86.ActiveCfg = Release|Win32
+		{3BF819F4-0298-4A0A-AD59-ACFE6D64DED5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

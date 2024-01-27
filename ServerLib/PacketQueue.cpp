@@ -8,8 +8,8 @@ PacketQueue& PacketQueue::GetInstance()
 
 void PacketQueue::Initialize()
 {
-	SendQueue = std::list<char[MAX_BUFSIZE_SEND]>{};
-	RecvQueue = std::list<char[MAX_BUFSIZE_RECV]>{};
+	SendQueue = std::list<char[MAX_BUFSIZE]>{};
+	RecvQueue = std::list<char[MAX_BUFSIZE]>{};
 	SendQueueIndex = 0;
 	RecvQueueIndex = 0;
 }
@@ -22,7 +22,7 @@ void PacketQueue::AddSendPacket(void* packet)
 		SendQueue.emplace_back();
 
 	//이미 있는 Send 버퍼가 추가하려는 패킷을 담을 수 있다면
-	if (SendQueueIndex + p[0] < MAX_BUFSIZE_SEND) {
+	if (SendQueueIndex + p[0] < MAX_BUFSIZE) {
 		memcpy(SendQueue.back() + SendQueueIndex, p, p[0]);
 		SendQueueIndex += p[0];
 	}

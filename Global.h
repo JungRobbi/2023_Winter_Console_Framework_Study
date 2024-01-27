@@ -1,15 +1,13 @@
 #pragma once
-#include <winsock2.h>
-#include <Ws2tcpip.h>
-#include <mswsock.h>
-
 
 // 소켓 버퍼 크기
-const int MAX_BUFSIZE_RECV = 256;
-const int MAX_BUFSIZE_SEND = 4096;
+const int MAX_BUFSIZE = 1024;
+//const int MAX_BUFSIZE_RECV = 256;
+//const int MAX_BUFSIZE_SEND = 4096;
 
 const int MAX_CHATSIZE = 30;
 
+const int SERVERPORT = 9423;
 
 enum E_PACKET
 {

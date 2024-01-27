@@ -1,14 +1,15 @@
 #pragma once
+#include "stdafx.h"
 #include <list>
 #include <memory>
 
-#include "stdafx.h"
+#include "../Global.h"
 
 class PacketQueue
 {
 public:
-	std::list<char[MAX_BUFSIZE_SEND]> SendQueue;
-	std::list<char[MAX_BUFSIZE_RECV]> RecvQueue;
+	std::list<char[MAX_BUFSIZE]> SendQueue;
+	std::list<char[MAX_BUFSIZE]> RecvQueue;
 
 	short SendQueueIndex;
 	short RecvQueueIndex;
