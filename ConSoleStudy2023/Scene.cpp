@@ -13,8 +13,6 @@ unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
 
 Scene* Scene::MainScene = nullptr;
-vector<vector<int>> Scene::lobby{};
-vector<vector<int>> Scene::stage{};
 
 Scene::Scene() : my_id(0)
 {
@@ -23,33 +21,6 @@ Scene::Scene() : my_id(0)
 
 Scene::~Scene()
 {
-}
-
-void Scene::CreateMaps()
-{
-	for (int i{}; i < LOBBY_SIZE_Y; ++i) {
-		lobby.emplace_back();
-		for (int j{}; j < LOBBY_SIZE_X; ++j) {
-			if (i % 10 == 9 && j % 10 == 9)
-				lobby[i].emplace_back(E_TILE + 5);
-			else
-				lobby[i].emplace_back(E_TILE);
-		}
-	}
-
-	for (int i{}; i < STAGE_SIZE_Y; ++i) {
-		stage.emplace_back();
-		for (int j{}; j < STAGE_SIZE_X; ++j) {
-			if (i % 10 == 9 && j % 10 == 9)
-				stage[i].emplace_back(E_TILE + 5);
-			else if (j % 10 == 9)
-				stage[i].emplace_back(E_TILE + 4);
-			else if (i % 10 == 9)
-				stage[i].emplace_back(E_TILE + 3);
-			else
-				stage[i].emplace_back(E_TILE);
-		}
-	}
 }
 
 void Scene::Initialize()

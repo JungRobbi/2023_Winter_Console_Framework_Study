@@ -28,6 +28,9 @@
     <Filter Include="소스 파일\Game\Components">
       <UniqueIdentifier>{df84000f-3b86-450a-9556-f687b3077884}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Scenes">
+      <UniqueIdentifier>{ed00465e-0a0a-4461-aa45-19e529237d87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,9 +38,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>소스 파일\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>소스 파일\Game</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>소스 파일\Game</Filter>
@@ -96,13 +96,25 @@
     <ClCompile Include="test.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginScene.cpp">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="StageScene.cpp">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFramework.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
       <Filter>소스 파일\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>소스 파일\Game</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>소스 파일\Game</Filter>
@@ -150,6 +162,21 @@
       <Filter>소스 파일\Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="AnimationMGR.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyScene.h">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginScene.h">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="StageScene.h">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFramework.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>

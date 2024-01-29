@@ -3,6 +3,10 @@
 #include "Object.h"
 #include "AnimationMGR.h"
 
+enum class E_SCENE {
+	E_LOGIN, E_LOBBY, E_STAGE1,
+};
+
 class Scene
 {
 	vector<vector<int>> scene;
@@ -17,19 +21,16 @@ class Scene
 	unsigned long long my_id = 0;
 
 	AnimationMGR* animationMGR;
+	E_SCENE sceneType;
 public:
 	static Scene* MainScene;
-
-	static vector<vector<int>> lobby;
-	static vector<vector<int>> stage;
-	static void CreateMaps();
 public:
 	Scene();
-	~Scene();
+	virtual ~Scene();
 
-	void Initialize();
-	void Update(double elapsedTime);
-	void Render();
+	virtual void Initialize();
+	virtual void Update(double elapsedTime);
+	virtual void Render();
 
 	shared_ptr<Object> AddObject(Vec2 pos, int type);
 	shared_ptr<Object> AddMonster(Vec2 pos, int type);
