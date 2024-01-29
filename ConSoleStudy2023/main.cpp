@@ -5,6 +5,7 @@
 
 int main(int argc, char** argv)
 {
+	Scene::CreateMaps();
 	shared_ptr<Scene> scene = make_shared<Scene>();
 	scene->Initialize();
 

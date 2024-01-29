@@ -5,7 +5,6 @@
 
 class Scene
 {
-	vector<vector<int>> stage;
 	vector<vector<int>> scene;
 	unordered_map<unsigned long long, shared_ptr<Object>> objects;
 
@@ -20,6 +19,10 @@ class Scene
 	AnimationMGR* animationMGR;
 public:
 	static Scene* MainScene;
+
+	static vector<vector<int>> lobby;
+	static vector<vector<int>> stage;
+	static void CreateMaps();
 public:
 	Scene();
 	~Scene();
