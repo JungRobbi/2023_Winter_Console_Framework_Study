@@ -9,30 +9,27 @@ void CALLBACK recv_callback(DWORD err, DWORD num_bytes, LPWSAOVERLAPPED recv_ove
 	char* recv_buf = reinterpret_cast<EXP_OVER*>(recv_over)->_buf;
 	int recv_buf_Length = num_bytes;
 	auto& netWorkMGR = NetworkMGR::GetInstance();
-	{ // ��Ŷ ó��
+	{ // 패킷 수신
 		int remain_data = recv_buf_Length + netWorkMGR.tcpSocket->m_prev_remain;
-		while (remain_data > 0) {
-			unsigned char packet_size = recv_buf[0];
-			// ���� �����Ͱ� ���� ó���� ��Ŷ ũ�⺸�� ������ �߸� ���̴�. (Ȥ�� �� �°� ������ ���̴�.)
-			// Ȥ�� packet_size�� 0�� ��� ������ �� �κ��� ã�� ���̰ų� �����̴�.
-			if (packet_size > remain_data)
-				break;
-			else if (packet_size == 0) {
+		unsigned char packet_size = recv_buf[0];
+		while (remain_data > 0 && packet_size <= remain_data) {
+			if (packet_size == 0) {
 				remain_data = 0;
 				break;
 			}
 
-			//��Ŷ ó��
+			// 패킷 처리
 			netWorkMGR.Process_Packet(recv_buf);
+			cout << " RECV!" << endl;
 
-			//���� ��Ŷ �̵�, ���� ������ ����
+			// 다음 패킷 이동, 남은 데이터 갱신
 			recv_buf += packet_size;
 			remain_data -= packet_size;
 		}
-		//���� ������ ����
+		// 남은 데이터 저장
 		netWorkMGR.tcpSocket->m_prev_remain = remain_data;
 
-		//���� �����Ͱ� 0���� ũ�� recv_buf�� �� ������ �����Ѵ�.
+		// 남은 데이터가 0이 아닌 값을 가지면 recv_buf의 맨 앞으로 복사한다.
 		if (remain_data > 0) {
 			memcpy(netWorkMGR.tcpSocket->m_recvOverlapped._buf, recv_buf, remain_data);
 		}
@@ -95,22 +92,19 @@ void NetworkMGR::Update()
 {
 	SleepEx(0, true);
 	auto& packetQueue = PacketQueue::GetInstance();
-	// MSGSendQueue�� Ȯ���ϰ� ������ ������ ����
 	if (packetQueue.SendQueue.empty() || tcpSocket->m_fd == INVALID_SOCKET)
 		return;
 
 	while (!packetQueue.SendQueue.empty()) {
-		// ������ �۽�
 		char* send_buf = packetQueue.SendQueue.front();
 
 		int buf_size{};
-		while (1) {
+		while (true) {
 			if (buf_size + send_buf[buf_size] > MAX_BUFSIZE || send_buf[buf_size] == 0)
 				break;
 			buf_size += send_buf[buf_size];
 		}
 
-		// EXP_OVER ���·� ���� Ȥ�� buf ���·� ���� �� send �ؾ���
 		do_send(send_buf, buf_size);
 		packetQueue.PopSendPacket();
 	}
@@ -136,5 +130,15 @@ void NetworkMGR::do_send(const char* buf, short buf_size) {
 
 void NetworkMGR::Process_Packet(char* p_Packet)
 {
-	
+	E_PACKET type = static_cast<E_PACKET>(p_Packet[1]);
+	switch (type)
+	{
+	case E_PACKET::E_PACKET_NONE:
+		break;
+	case E_PACKET::E_PACKET_SC_CHAT:
+		SC_CHAT_PACKET* recvPacket = reinterpret_cast<SC_CHAT_PACKET*>(p_Packet);
+
+		cout << recvPacket->id << " CHAT : " << recvPacket->data << endl;
+		break;
+	}
 }

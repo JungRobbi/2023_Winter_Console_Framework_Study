@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+#include <string>
 
 // 소켓 버퍼 크기
 const int MAX_BUFSIZE = 1024;
@@ -9,7 +11,7 @@ const int MAX_CHATSIZE = 30;
 
 const int SERVERPORT = 9423;
 
-enum E_PACKET
+enum class E_PACKET
 {
 	E_PACKET_NONE = 0,
 
@@ -33,6 +35,7 @@ public:
 
 class SC_CHAT_PACKET : public PACKET_HEAD {
 public:
+	unsigned long long id;
 	char data[MAX_CHATSIZE];
 };
 
