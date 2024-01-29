@@ -1,4 +1,7 @@
 #pragma once
+
+enum class E_SCENE;
+
 class GameFramework
 {
 private:
@@ -14,5 +17,6 @@ public:
 	void Initialize();
 	void Run();
 	void Destroy();
-	void ChangeScene(E_SCENE type);
+
+	static void ChangeScene(E_SCENE type);
 };

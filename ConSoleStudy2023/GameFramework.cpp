@@ -4,6 +4,10 @@
 #include "Scene.h"
 #include "Timer.h"
 
+#include "LoginScene.h"
+#include "LobbyScene.h"
+#include "StageScene.h"
+
 GameFramework& GameFramework::GetInstance()
 {
 	static GameFramework instance;
@@ -16,22 +20,33 @@ void GameFramework::Initialize()
 	auto& input = Input::GetInstance();
 	timer.Initialize();
 	input.Initialize();
+
+	auto& animationMGR = AnimationMGR::GetInstance();
+	animationMGR.Initialize();
 }
 
 void GameFramework::Run()
 {
-	shared_ptr<Scene> scene = make_shared<Scene>();
-	scene->Initialize();
+	ChangeScene(E_SCENE::E_STAGE1);
+//	ChangeScene(E_SCENE::E_LOBBY);
 
+	Initialize();
 	auto& timer = Timer::GetInstance();
 	auto& input = Input::GetInstance();
 	while (true) {
 		timer.Update();
 		input.Update(timer.GetElapsedTimeSeconds());
-		scene->Update(timer.GetElapsedTimeSeconds());
-		scene->Render();
+		Scene::MainScene->Update(timer.GetElapsedTimeSeconds());
+		Scene::MainScene->Render();
 
-		timer.RenderTimer();
+
+		timer.RenderTimer();			                     
+		input.KeyClear();
+
+		if (Scene::MainScene->toChangeScene != E_SCENE::E_NONE) {
+			ChangeScene(Scene::MainScene->toChangeScene);
+			Scene::MainScene->toChangeScene = E_SCENE::E_NONE;
+		}
 	}
 }
 
@@ -43,13 +58,23 @@ void GameFramework::ChangeScene(E_SCENE type)
 {
 	switch (type)
 	{
-	case E_SCENE::E_LOGIN:
+	case E_SCENE::E_LOGIN: {
+		Scene::MainSceneShared = make_shared<LoginScene>();
+		Scene::MainSceneShared->Initialize();
 		break;
-	case E_SCENE::E_LOBBY:
+	}
+	case E_SCENE::E_LOBBY: {
+		Scene::MainSceneShared = make_shared<LobbyScene>();
+		Scene::MainSceneShared->Initialize();
 		break;
-	case E_SCENE::E_STAGE1:
+	}
+	case E_SCENE::E_STAGE1: {
+		Scene::MainSceneShared = make_shared<StageScene>();
+		Scene::MainSceneShared->Initialize();
 		break;
+	}
 	default:
 		break;
 	}
+	Scene::MainScene = Scene::MainSceneShared.get();
 }

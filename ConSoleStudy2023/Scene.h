@@ -4,11 +4,12 @@
 #include "AnimationMGR.h"
 
 enum class E_SCENE {
-	E_LOGIN, E_LOBBY, E_STAGE1,
+	E_NONE, E_LOGIN, E_LOBBY, E_STAGE1,
 };
 
 class Scene
 {
+protected:
 	vector<vector<int>> scene;
 	unordered_map<unsigned long long, shared_ptr<Object>> objects;
 
@@ -20,10 +21,11 @@ class Scene
 
 	unsigned long long my_id = 0;
 
-	AnimationMGR* animationMGR;
-	E_SCENE sceneType;
+
 public:
 	static Scene* MainScene;
+	static shared_ptr<Scene> MainSceneShared;
+	static E_SCENE toChangeScene;
 public:
 	Scene();
 	virtual ~Scene();
@@ -31,6 +33,9 @@ public:
 	virtual void Initialize();
 	virtual void Update(double elapsedTime);
 	virtual void Render();
+
+	void CreateObjects();
+	void DeleteObjects();
 
 	shared_ptr<Object> AddObject(Vec2 pos, int type);
 	shared_ptr<Object> AddMonster(Vec2 pos, int type);
