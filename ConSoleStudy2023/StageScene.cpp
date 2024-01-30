@@ -223,12 +223,10 @@ void StageScene::Update(double elapsedTime)
 			scene[pos.y][pos.x] = animationMGR.GetAnimationShape(object.second->GetType())[ac->GetAnimationState()];
 	}
 
-	if (input.GetKey('1')) {
+	if (input.GetKey('1')) 
 		toChangeScene = E_SCENE::E_LOBBY;
-	}
-	if (input.GetKey('2')) {
+	if (input.GetKey('2')) 
 		toChangeScene = E_SCENE::E_STAGE1;
-	}
 
 	DeleteObjects();
 }

@@ -20,3 +20,4 @@ public:
 
 	static void ChangeScene(E_SCENE type);
 };
+

@@ -19,8 +19,6 @@ int main()
 	packetQueue.AddSendPacket(&packet);
 
 	while (true) {
-
-
 		networkMGR.Update();
 	}
 }
