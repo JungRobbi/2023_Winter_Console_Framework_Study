@@ -163,6 +163,7 @@
     <ClCompile Include="MonsterAttackState.cpp" />
     <ClCompile Include="MonsterTrackingState.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="NetworkMGR.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMovementComponent.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="MonsterAttackState.h" />
     <ClInclude Include="MonsterTrackingState.h" />
     <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="NetworkMGR.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMovementComponent.h" />

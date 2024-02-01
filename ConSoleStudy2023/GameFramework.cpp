@@ -4,6 +4,8 @@
 #include "Scene.h"
 #include "Timer.h"
 
+#include "NetworkMGR.h"
+
 #include "LoginScene.h"
 #include "LobbyScene.h"
 #include "StageScene.h"
@@ -23,17 +25,23 @@ void GameFramework::Initialize()
 
 	auto& animationMGR = AnimationMGR::GetInstance();
 	animationMGR.Initialize();
+
+	auto& networkMGR = NetworkMGR::GetInstance();
+	networkMGR.Initialize();
 }
 
 void GameFramework::Run()
 {
-	ChangeScene(E_SCENE::E_STAGE1);
-//	ChangeScene(E_SCENE::E_LOBBY);
+//	ChangeScene(E_SCENE::E_STAGE1);
+	ChangeScene(E_SCENE::E_LOBBY);
 
 	Initialize();
 	auto& timer = Timer::GetInstance();
 	auto& input = Input::GetInstance();
+	auto& networkMGR = NetworkMGR::GetInstance();
 	while (true) {
+		networkMGR.Update();
+
 		timer.Update();
 		input.Update(timer.GetElapsedTimeSeconds());
 		Scene::MainScene->Update(timer.GetElapsedTimeSeconds());

@@ -31,6 +31,9 @@
     <Filter Include="소스 파일\Game\Scenes">
       <UniqueIdentifier>{ed00465e-0a0a-4461-aa45-19e529237d87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Network">
+      <UniqueIdentifier>{f3d0aa7e-12b4-430f-85e3-3279ccaf16ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,6 +114,9 @@
     <ClCompile Include="GameFramework.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkMGR.cpp">
+      <Filter>소스 파일\Game\Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -178,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="GameFramework.h">
       <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkMGR.h">
+      <Filter>소스 파일\Game\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
