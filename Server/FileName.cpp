@@ -250,6 +250,8 @@ void Process_Packet(shared_ptr<RemoteClient>& p_Client, char* p_Packet)
 		sendPacket.size = sizeof(SC_ADD_PLAYER_PACKET);
 		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_ADD_PLAYER);
 		sendPacket.id = p_Client->m_id;
+		sendPacket.posX = 5;
+		sendPacket.posY = 5;
 		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
 		break;
 	}
@@ -261,6 +263,9 @@ void Process_Packet(shared_ptr<RemoteClient>& p_Client, char* p_Packet)
 		sendPacket.size = sizeof(SC_ADD_MONSTER_PACKET);
 		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_ADD_MONSTER);
 		sendPacket.id = p_Client->m_id;
+		sendPacket.posX = 10;
+		sendPacket.posY = 10;
+		sendPacket.monsterType = 10000;
 		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
 		break;
 	}

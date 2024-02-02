@@ -289,9 +289,12 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 			Vec2{ recvPacket->posX, recvPacket->posY },
 			E_OBJECT::E_CLIENT, recvPacket->id);
 
-		object->AddComponent<MovementComponent>();
+		object->AddComponent<PlayerMovementComponent>();
+		object->SetSight(10);
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
+		component->SetAnimationSpeed(2.f);
+
 		createQueue.push_back(object);
 		break;
 	}
