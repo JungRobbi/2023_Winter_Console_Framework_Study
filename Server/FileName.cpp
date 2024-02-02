@@ -215,10 +215,12 @@ void Process_Packet(shared_ptr<RemoteClient>& p_Client, char* p_Packet)
 	auto& packetQueue = PacketQueue::GetInstance();
 	E_PACKET type = static_cast<E_PACKET>(p_Packet[1]);
 
-	switch (type) {
+	switch (type)
+	{
 	case E_PACKET::E_PACKET_NONE:
 		break;
-	case E_PACKET::E_PACKET_CS_CHAT:
+	case E_PACKET::E_PACKET_CS_CHAT: 
+	{
 		CS_CHAT_PACKET* recvPacket = reinterpret_cast<CS_CHAT_PACKET*>(p_Packet);
 
 		SC_CHAT_PACKET sendPacket;
@@ -229,4 +231,51 @@ void Process_Packet(shared_ptr<RemoteClient>& p_Client, char* p_Packet)
 		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
 		break;
 	}
+	case E_PACKET::E_PACKET_CS_LOGIN: 
+	{
+		CS_LOGIN_PACKET* recvPacket = reinterpret_cast<CS_LOGIN_PACKET*>(p_Packet);
+
+		SC_GIVE_ID_PACKET sendPacket;
+		sendPacket.size = sizeof(SC_GIVE_ID_PACKET);
+		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_GIVE_ID);
+		sendPacket.id = p_Client->m_id;
+		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
+		break;
+	}
+	case E_PACKET::E_PACKET_CS_TO_LOBBY: 
+	{
+		CS_TO_LOBBY_PACKET* recvPacket = reinterpret_cast<CS_TO_LOBBY_PACKET*>(p_Packet);
+
+		SC_ADD_PLAYER_PACKET sendPacket;
+		sendPacket.size = sizeof(SC_ADD_PLAYER_PACKET);
+		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_ADD_PLAYER);
+		sendPacket.id = p_Client->m_id;
+		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
+		break;
+	}
+	case E_PACKET::E_PACKET_CS_TO_STAGE1: 
+	{
+		CS_TO_STAGE1_PACKET* recvPacket = reinterpret_cast<CS_TO_STAGE1_PACKET*>(p_Packet);
+
+		SC_ADD_MONSTER_PACKET sendPacket;
+		sendPacket.size = sizeof(SC_ADD_MONSTER_PACKET);
+		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_ADD_MONSTER);
+		sendPacket.id = p_Client->m_id;
+		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
+		break;
+	}
+	case E_PACKET::E_PACKET_CS_MOVE: 
+	{
+		CS_MOVE_PACKET* recvPacket = reinterpret_cast<CS_MOVE_PACKET*>(p_Packet);
+
+		SC_MOVE_PACKET sendPacket;
+		sendPacket.size = sizeof(SC_MOVE_PACKET);
+		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_MOVE);
+		sendPacket.id = p_Client->m_id;
+		sendPacket.dir = recvPacket->dir;
+		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
+		break;
+	}
+	}
+
 }

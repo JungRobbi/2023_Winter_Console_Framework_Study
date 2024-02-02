@@ -27,6 +27,7 @@ enum class E_PACKET
 
 	E_PACKET_SC_CHAT,
 
+	E_PACKET_SC_GIVE_ID,
 	E_PACKET_SC_ADD_PLAYER,
 	E_PACKET_SC_ADD_MONSTER,
 
@@ -66,6 +67,11 @@ public:
 
 class CS_TO_STAGE1_PACKET : public PACKET_HEAD {
 public:
+};
+
+class SC_GIVE_ID_PACKET : public PACKET_HEAD {
+public:
+	unsigned long long id;
 };
 
 class SC_ADD_PLAYER_PACKET : public PACKET_HEAD {

@@ -59,19 +59,16 @@ void NetworkMGR::Initialize()
 	tcpSocket = make_shared<Socket>(SocketType::Tcp);
 
 	char isnet = 'n';
-	std::cout << "서버 연결 여부(y/n) : ";
+	std::cout << "서버 연결 여부(y) : ";
 	std::cin >> isnet;
 
-	if (isnet == 'n') {
+	if (isnet != 'y') {
 		b_isNet = false;
 		b_isLogin = true;
 		return;
 	}
 
 	system("cls");
-	//
-	// ����
-	//
 
 	std::cout << std::endl << " ======== Login ======== " << std::endl << std::endl;
 
@@ -82,8 +79,7 @@ void NetworkMGR::Initialize()
 	SERVERIP[server_s.size()] = '\0';
 	strcpy(SERVERIP, server_s.c_str());
 
-
-
+	system("cls");
 
 	tcpSocket->Bind(Endpoint::Any);
 	NetworkMGR::do_connetion();
@@ -133,14 +129,37 @@ void NetworkMGR::do_send(const char* buf, short buf_size) {
 void NetworkMGR::Process_Packet(char* p_Packet)
 {
 	E_PACKET type = static_cast<E_PACKET>(p_Packet[1]);
+
 	switch (type)
 	{
 	case E_PACKET::E_PACKET_NONE:
 		break;
-	case E_PACKET::E_PACKET_SC_CHAT:
+	case E_PACKET::E_PACKET_SC_CHAT: 
+	{
 		SC_CHAT_PACKET* recvPacket = reinterpret_cast<SC_CHAT_PACKET*>(p_Packet);
 
 		cout << recvPacket->id << " CHAT : " << recvPacket->data << endl;
+		break; 
+	}
+	case E_PACKET::E_PACKET_SC_GIVE_ID:
+	{
+		SC_GIVE_ID_PACKET* recvPacket = reinterpret_cast<SC_GIVE_ID_PACKET*>(p_Packet);
+
+		id = recvPacket->id;
 		break;
+	}
+	case E_PACKET::E_PACKET_SC_ADD_MONSTER:
+	{
+		SC_ADD_MONSTER_PACKET* recvPacket = reinterpret_cast<SC_ADD_MONSTER_PACKET*>(p_Packet);
+
+		break;
+	}
+	case E_PACKET::E_PACKET_SC_MOVE:
+	{
+		SC_MOVE_PACKET* recvPacket = reinterpret_cast<SC_MOVE_PACKET*>(p_Packet);
+		
+		break;
+	}
+
 	}
 }

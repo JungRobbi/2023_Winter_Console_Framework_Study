@@ -180,6 +180,7 @@
     <ClCompile Include="MonsterWanderState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Global.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="AnimationMGR.h" />
     <ClInclude Include="AttackComponent.h" />

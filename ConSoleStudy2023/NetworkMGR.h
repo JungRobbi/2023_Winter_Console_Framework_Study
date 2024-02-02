@@ -21,7 +21,7 @@ public:
 	char* SERVERIP;
 	shared_ptr<Socket> tcpSocket;
 
-	int id;
+	unsigned long long id;
 	string name;
 	bool is_mage;
 
