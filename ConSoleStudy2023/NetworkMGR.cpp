@@ -25,8 +25,6 @@ void CALLBACK recv_callback(DWORD err, DWORD num_bytes, LPWSAOVERLAPPED recv_ove
 			// 패킷 처리
 			netWorkMGR.Process_Packet(recv_buf);
 
-			cout << " RECV!" << endl;
-
 			// 다음 패킷 이동, 남은 데이터 갱신
 			recv_buf += packet_size;
 			remain_data -= packet_size;
@@ -142,8 +140,6 @@ void NetworkMGR::Process_Packet(char* p_Packet)
 	case E_PACKET::E_PACKET_SC_CHAT: 
 	{
 		SC_CHAT_PACKET* recvPacket = reinterpret_cast<SC_CHAT_PACKET*>(p_Packet);
-
-		cout << recvPacket->id << " CHAT : " << recvPacket->data << endl;
 		break; 
 	}
 	case E_PACKET::E_PACKET_SC_GIVE_ID:
@@ -151,7 +147,6 @@ void NetworkMGR::Process_Packet(char* p_Packet)
 		SC_GIVE_ID_PACKET* recvPacket = reinterpret_cast<SC_GIVE_ID_PACKET*>(p_Packet);
 
 		id = Scene::my_id = recvPacket->id;
-		cout << "GIVED ID! " << id << endl;
 		break;
 	}
 	case E_PACKET::E_PACKET_SC_ADD_PLAYER:

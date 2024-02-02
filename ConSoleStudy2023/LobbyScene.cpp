@@ -26,6 +26,7 @@ void LobbyScene::Initialize()
 {
 	auto& animationMGR = AnimationMGR::GetInstance();
 	auto& networkMGR = NetworkMGR::GetInstance();
+	auto& packetQueue = PacketQueue::GetInstance();
 
 	for (int i{}; i < LOBBY_SIZE_Y; ++i) {
 		lobby.emplace_back();
@@ -44,7 +45,7 @@ void LobbyScene::Initialize()
 		}
 	}
 
-	if (false == networkMGR.b_isNet) { 
+	if (false == networkMGR.b_isNet) { // Network X
 		{ // player 积己
 			objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 			objects[my_id]->AddComponent<PlayerMovementComponent>();
@@ -53,6 +54,12 @@ void LobbyScene::Initialize()
 			component->SetAnimationSpeed(2.f);
 			objects[my_id]->SetSight(10);
 		}
+	}
+	else { // Network O
+		CS_TO_LOBBY_PACKET sendPacket;
+		sendPacket.size = sizeof(CS_TO_LOBBY_PACKET);
+		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_TO_LOBBY);
+		packetQueue.AddSendPacket(&sendPacket);
 	}
 
 	Scene::Initialize();
@@ -78,6 +85,9 @@ void LobbyScene::Update(double elapsedTime)
 	//Collide 贸府
 	///////
 	for (auto& object : objects) {
+		if (nullptr == object.second)
+			continue;
+
 		if (object.second->GetType() == E_OBJECT::E_ENEMY) {
 
 			auto colliderList = CollideCheck(object.second->GetPos());

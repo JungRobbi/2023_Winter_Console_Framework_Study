@@ -92,6 +92,9 @@ void StageScene::Update(double elapsedTime)
 	//Collide Ã³¸®
 	///////
 	for (auto& object : objects) {
+		if (nullptr == object.second)
+			continue;
+
 		if (object.second->GetType() == E_OBJECT::E_ENEMY) {
 
 			auto colliderList = CollideCheck(object.second->GetPos());

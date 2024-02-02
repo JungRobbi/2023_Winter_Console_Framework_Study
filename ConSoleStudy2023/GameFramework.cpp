@@ -9,6 +9,7 @@
 #include "LoginScene.h"
 #include "LobbyScene.h"
 #include "StageScene.h"
+#include "../ServerLib/PacketQueue.h"
 
 GameFramework& GameFramework::GetInstance()
 {
@@ -28,6 +29,14 @@ void GameFramework::Initialize()
 
 	auto& networkMGR = NetworkMGR::GetInstance();
 	networkMGR.Initialize();
+
+	auto& packetQueue = PacketQueue::GetInstance();
+	packetQueue.Initialize();
+
+	CS_LOGIN_PACKET sendPacket;
+	sendPacket.size = sizeof(CS_LOGIN_PACKET);
+	sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_LOGIN);
+	packetQueue.AddSendPacket(&sendPacket);
 }
 
 void GameFramework::Run()
