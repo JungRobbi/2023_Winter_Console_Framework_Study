@@ -78,11 +78,16 @@ public:
 class SC_ADD_PLAYER_PACKET : public PACKET_HEAD {
 public:
 	unsigned long long id;
+	int posX;
+	int posY;
 };
 
 class SC_ADD_MONSTER_PACKET : public PACKET_HEAD {
 public:
 	unsigned long long id;
+	int posX;
+	int posY;
+	unsigned int monsterType;
 };
 
 //Movement

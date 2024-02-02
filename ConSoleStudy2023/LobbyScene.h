@@ -11,5 +11,7 @@ public:
 	virtual void Initialize();
 	virtual void Update(double elapsedTime);
 	virtual void Render();
+
+	virtual void ProcessPacket(char* p_Packet);
 };
 

@@ -17,8 +17,9 @@ unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
 Scene* Scene::MainScene{ nullptr };
 shared_ptr<Scene> Scene::MainSceneShared{ nullptr };
 E_SCENE Scene::toChangeScene { E_SCENE::E_NONE };
+unsigned long long Scene::my_id{ 0 };
 
-Scene::Scene() : my_id(0)
+Scene::Scene()
 {
 }
 
@@ -36,6 +37,7 @@ void Scene::Initialize()
 
 void Scene::Update(double elapsedTime)
 {
+	ProcessNetworkRecv();
 }
 
 void Scene::Render()
@@ -165,28 +167,4 @@ void Scene::ProcessNetworkRecv()
 
 void Scene::ProcessPacket(char* p_Packet)
 {
-	E_PACKET type = static_cast<E_PACKET>(p_Packet[1]);
-
-	switch (type)
-	{
-	case E_PACKET::E_PACKET_SC_ADD_PLAYER:
-	{
-		SC_ADD_PLAYER_PACKET* recvPacket = reinterpret_cast<SC_ADD_PLAYER_PACKET*>(p_Packet);
-
-		break;
-	}
-	case E_PACKET::E_PACKET_SC_ADD_MONSTER:
-	{
-		SC_ADD_MONSTER_PACKET* recvPacket = reinterpret_cast<SC_ADD_MONSTER_PACKET*>(p_Packet);
-
-		break;
-	}
-	case E_PACKET::E_PACKET_SC_MOVE:
-	{
-		SC_MOVE_PACKET* recvPacket = reinterpret_cast<SC_MOVE_PACKET*>(p_Packet);
-
-		break;
-	}
-
-	}
 }

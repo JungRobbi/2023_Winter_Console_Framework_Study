@@ -19,13 +19,13 @@ protected:
 	list<shared_ptr<Object>> createQueue;
 	list<unsigned long long> removeQueue;
 
-	unsigned long long my_id = 0;
 
 
 public:
 	static Scene* MainScene;
 	static shared_ptr<Scene> MainSceneShared;
 	static E_SCENE toChangeScene;
+	static unsigned long long my_id;
 public:
 	Scene();
 	virtual ~Scene();

@@ -16,8 +16,13 @@ void LoginScene::Initialize()
 
 void LoginScene::Update(double elapsedTime)
 {
+	Scene::Update(elapsedTime);
 }
 
 void LoginScene::Render()
+{
+}
+
+void LoginScene::ProcessPacket(char* p_Packet)
 {
 }

@@ -10,6 +10,7 @@
 #include "PlayerMovementComponent.h"
 
 #include "GameFramework.h"
+#include "NetworkMGR.h"
 
 #include <windows.h>
 
@@ -24,6 +25,7 @@ StageScene::~StageScene()
 void StageScene::Initialize()
 {
 	auto& animationMGR = AnimationMGR::GetInstance();
+	auto& networkMGR = NetworkMGR::GetInstance();
 
 	for (int i{}; i < STAGE_SIZE_Y; ++i) {
 		stage.emplace_back();
@@ -46,18 +48,20 @@ void StageScene::Initialize()
 		}
 	}
 
-	{ // player 积己
-		objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
-		objects[my_id]->AddComponent<PlayerMovementComponent>();
-		auto component = objects[my_id]->AddComponent<AnimationComponent>();
-		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
-		component->SetAnimationSpeed(2.f);
-		objects[my_id]->SetSight(10);
-	}
+	if (false == networkMGR.b_isNet) {
+		{ // player 积己
+			objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
+			objects[my_id]->AddComponent<PlayerMovementComponent>();
+			auto component = objects[my_id]->AddComponent<AnimationComponent>();
+			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
+			component->SetAnimationSpeed(2.f);
+			objects[my_id]->SetSight(10);
+		}
 
-	int num_monster{ 100 };
-	for (int i{}; i < num_monster; ++i) {
-		AddMonster(Vec2{ (int)((STAGE_SIZE_X - 2) * rand_realUid(dre)) + 1, (int)((STAGE_SIZE_Y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
+		int num_monster{ 100 };
+		for (int i{}; i < num_monster; ++i) {
+			AddMonster(Vec2{ (int)((STAGE_SIZE_X - 2) * rand_realUid(dre)) + 1, (int)((STAGE_SIZE_Y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
+		}
 	}
 
 	for (int i{}; i < STAGE_SIZE_Y; ++i) {
@@ -208,7 +212,9 @@ void StageScene::Update(double elapsedTime)
 	///////
 	///////
 
+
 	//Update
+	Scene::Update(elapsedTime);
 	for (auto& object : objects) {
 		if (nullptr == object.second)
 			continue;
@@ -256,4 +262,81 @@ void StageScene::Render()
 		str += '\n';
 	}
 	cout << str << endl;
+}
+
+void StageScene::ProcessPacket(char* p_Packet)
+{
+	E_PACKET type = static_cast<E_PACKET>(p_Packet[1]);
+	auto& animationMGR = AnimationMGR::GetInstance();
+
+	switch (type)
+	{
+	case E_PACKET::E_PACKET_SC_ADD_PLAYER:
+	{
+		SC_ADD_PLAYER_PACKET* recvPacket = reinterpret_cast<SC_ADD_PLAYER_PACKET*>(p_Packet);
+
+		auto object = make_shared<Player>(
+			Vec2{ recvPacket->posX, recvPacket->posY },
+			E_OBJECT::E_CLIENT, recvPacket->id);
+
+		object->AddComponent<MovementComponent>();
+		auto component = object->AddComponent<AnimationComponent>();
+		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
+		createQueue.push_back(object);
+		break;
+	}
+	case E_PACKET::E_PACKET_SC_ADD_MONSTER:
+	{
+		SC_ADD_MONSTER_PACKET* recvPacket = reinterpret_cast<SC_ADD_MONSTER_PACKET*>(p_Packet);
+
+		auto object = make_shared<Monster>(
+			Vec2{ recvPacket->posX, recvPacket->posY}, 
+			recvPacket->monsterType, recvPacket->id);
+
+		object->AddComponent<MovementComponent>();
+		auto component = object->AddComponent<AnimationComponent>();
+		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(recvPacket->monsterType).size());
+		//烙矫
+		if (0 != objects.count(my_id))
+			object->SetTarget(objects[my_id]);
+		createQueue.push_back(object);
+		break;
+	}
+	case E_PACKET::E_PACKET_SC_MOVE:
+	{
+		SC_MOVE_PACKET* recvPacket = reinterpret_cast<SC_MOVE_PACKET*>(p_Packet);
+		if (0 == objects.count(recvPacket->id))
+			break;
+
+		E_DIRECTION dir = static_cast<E_DIRECTION>(recvPacket->dir);
+		Vec2 my_pos = objects[recvPacket->id]->GetPos();
+
+		switch (dir)
+		{
+		case E_DIRECTION::E_UP:
+			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
+			if (my_pos.y - 1 >= 0)
+				objects[my_id]->Move(E_DIRECTION::E_UP, 1);
+			break;
+		case E_DIRECTION::E_DOWN:
+			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
+			if (my_pos.y + 1 < STAGE_SIZE_Y)
+				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
+			break;
+		case E_DIRECTION::E_LEFT:
+			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
+			if (my_pos.x - 1 >= 0)
+				objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
+			break;
+		case E_DIRECTION::E_RIGHT:
+			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
+			if (my_pos.x + 1 < STAGE_SIZE_X)
+				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
+			break;
+		}
+
+		break;
+
+	}
+	}
 }

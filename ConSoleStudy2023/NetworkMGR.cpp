@@ -2,6 +2,7 @@
 #include <string>
 #include "NetworkMGR.h"
 #include "../ServerLib/ServerLibHeaders.h"
+#include "Scene.h"
 
 #pragma comment(lib, "../x64/Release/ServerLib.lib")
 #pragma comment(lib, "WS2_32.LIB")
@@ -148,7 +149,7 @@ void NetworkMGR::Process_Packet(char* p_Packet)
 	{
 		SC_GIVE_ID_PACKET* recvPacket = reinterpret_cast<SC_GIVE_ID_PACKET*>(p_Packet);
 
-		id = recvPacket->id;
+		id = Scene::my_id = recvPacket->id;
 		break;
 	}
 	case E_PACKET::E_PACKET_SC_ADD_PLAYER:
