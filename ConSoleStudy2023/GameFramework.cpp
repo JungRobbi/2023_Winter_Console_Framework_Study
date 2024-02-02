@@ -35,7 +35,6 @@ void GameFramework::Run()
 //	ChangeScene(E_SCENE::E_STAGE1);
 	ChangeScene(E_SCENE::E_LOBBY);
 
-	Initialize();
 	auto& timer = Timer::GetInstance();
 	auto& input = Input::GetInstance();
 	auto& networkMGR = NetworkMGR::GetInstance();

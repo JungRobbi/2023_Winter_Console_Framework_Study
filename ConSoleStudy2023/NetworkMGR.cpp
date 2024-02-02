@@ -72,6 +72,7 @@ void NetworkMGR::Initialize()
 		b_isLogin = true;
 		return;
 	}
+	b_isNet = true;
 
 	std::cout << std::endl << " ======== Login ======== " << std::endl << std::endl;
 
@@ -150,6 +151,7 @@ void NetworkMGR::Process_Packet(char* p_Packet)
 		SC_GIVE_ID_PACKET* recvPacket = reinterpret_cast<SC_GIVE_ID_PACKET*>(p_Packet);
 
 		id = Scene::my_id = recvPacket->id;
+		cout << "GIVED ID! " << id << endl;
 		break;
 	}
 	case E_PACKET::E_PACKET_SC_ADD_PLAYER:

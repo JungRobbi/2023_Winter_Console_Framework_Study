@@ -12,7 +12,7 @@
 #include "GameFramework.h"
 #include "NetworkMGR.h"
 
-#include <windows.h>
+#include "../ServerLib/PacketQueue.h"
 
 LobbyScene::LobbyScene() : Scene()
 {
@@ -62,6 +62,8 @@ void LobbyScene::Update(double elapsedTime)
 {
 	auto& timer = Timer::GetInstance();
 	auto& animationMGR = AnimationMGR::GetInstance();
+	auto& networkMGR = NetworkMGR::GetInstance();
+	auto& packetQueue = PacketQueue::GetInstance();
 
 	// 원본 stage 복사
 	for (int i{}; i < lobby.size(); ++i) {
@@ -100,96 +102,111 @@ void LobbyScene::Update(double elapsedTime)
 	//Input 처리
 	///////
 	auto& input = Input::GetInstance();
-	if (input.GetKey(224)) { // ↑/↓/←/→
-		Vec2 my_pos = objects[my_id]->GetPos();
-		if (input.GetKey(72)) { // ↑
-			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
-			if (my_pos.y - 1 >= 0)
-				objects[my_id]->Move(E_DIRECTION::E_UP, 1);
+
+	if (false == networkMGR.b_isNet) {
+		if (input.GetKey(224)) { // ↑/↓/←/→
+			Vec2 my_pos = objects[my_id]->GetPos();
+			if (input.GetKey(72)) { // ↑
+				objects[my_id]->SetDirection(E_DIRECTION::E_UP);
+				if (my_pos.y - 1 >= 0)
+					objects[my_id]->Move(E_DIRECTION::E_UP, 1);
+			}
+			if (input.GetKey(80)) { // ↓
+				objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
+				if (my_pos.y + 1 < LOBBY_SIZE_Y)
+					objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
+			}
+			if (input.GetKey(75)) { // ←
+				objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
+				if (my_pos.x - 1 >= 0)
+					objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
+			}
+			if (input.GetKey(77)) { // →
+				objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
+				if (my_pos.x + 1 < LOBBY_SIZE_X)
+					objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
+			}
 		}
-		if (input.GetKey(80)) { // ↓
-			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-			if (my_pos.y + 1 < LOBBY_SIZE_Y)
-				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
+		if (input.GetKey('a')) {
+			Vec2 my_pos = objects[my_id]->GetPos();
+			E_DIRECTION my_dir = objects[my_id]->GetDirection();
+			auto p = my_pos + my_dir;
+			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
+				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+			}
+
+			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+				global_effect_id = E_OBJECT::E_EFFECT;
+			}
 		}
-		if (input.GetKey(75)) { // ←
-			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
-			if (my_pos.x - 1 >= 0)
-				objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
+		if (input.GetKey('s')) {
+			Vec2 my_pos = objects[my_id]->GetPos();
+			E_DIRECTION my_dir = objects[my_id]->GetDirection();
+			auto p = my_pos + my_dir;
+			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
+				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+				AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
+			}
+
+			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+				global_effect_id = E_OBJECT::E_EFFECT;
+			}
 		}
-		if (input.GetKey(77)) { // →
-			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-			if (my_pos.x + 1 < LOBBY_SIZE_X)
-				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
+		if (input.GetKey('d')) {
+			Vec2 my_pos = objects[my_id]->GetPos();
+			E_DIRECTION my_dir = objects[my_id]->GetDirection();
+			{
+				auto p = my_pos + my_dir + my_dir;
+				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
+					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
+				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
+					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
+				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
+					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
+				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
+					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
+				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
+					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+
+			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+				global_effect_id = E_OBJECT::E_EFFECT;
+			}
 		}
 	}
-	if (input.GetKey('a')) {
-		Vec2 my_pos = objects[my_id]->GetPos();
-		E_DIRECTION my_dir = objects[my_id]->GetDirection();
-		auto p = my_pos + my_dir;
-		if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-			p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-			AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-		}
-
-		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
-			global_effect_id = E_OBJECT::E_EFFECT;
-		}
-	}
-	if (input.GetKey('s')) {
-		Vec2 my_pos = objects[my_id]->GetPos();
-		E_DIRECTION my_dir = objects[my_id]->GetDirection();
-		auto p = my_pos + my_dir;
-		if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-			p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-			AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
-		}
-
-		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
-			global_effect_id = E_OBJECT::E_EFFECT;
-		}
-	}
-	if (input.GetKey('d')) {
-		Vec2 my_pos = objects[my_id]->GetPos();
-		E_DIRECTION my_dir = objects[my_id]->GetDirection();
-		{
-			auto p = my_pos + my_dir + my_dir;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+	else {
+		if (input.GetKey('g')) { // ↑/↓/←/→
+			CS_MOVE_PACKET sendPacket;
+			sendPacket.size = sizeof(CS_MOVE_PACKET);
+			sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_MOVE);
+			Vec2 my_pos = objects[my_id]->GetPos();
+			if (my_pos.x + 1 < LOBBY_SIZE_X) {
+				sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
+				packetQueue.AddSendPacket(&sendPacket);
 			}
-		}
-		{
-			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-			}
-		}
-		{
-			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-			}
-		}
-		{
-			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-			}
-		}
-		{
-			auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-			}
-		}
-
-		if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
-			global_effect_id = E_OBJECT::E_EFFECT;
 		}
 	}
 	///////
