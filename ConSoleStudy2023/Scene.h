@@ -46,5 +46,8 @@ public:
 
 	vector<unsigned long long> CollideCheck(Vec2 position);
 	vector<unsigned long long> CollideCheckForType(Vec2 position);
+
+	void ProcessNetworkRecv();
+	virtual void ProcessPacket(char* p_Packet);
 };
 

@@ -11,6 +11,8 @@
 
 #include "GameFramework.h"
 
+#include <windows.h>
+
 StageScene::StageScene() : Scene()
 {
 }

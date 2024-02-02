@@ -11,6 +11,7 @@ void CALLBACK recv_callback(DWORD err, DWORD num_bytes, LPWSAOVERLAPPED recv_ove
 	char* recv_buf = reinterpret_cast<EXP_OVER*>(recv_over)->_buf;
 	int recv_buf_Length = num_bytes;
 	auto& netWorkMGR = NetworkMGR::GetInstance();
+
 	{ // 패킷 수신
 		int remain_data = recv_buf_Length + netWorkMGR.tcpSocket->m_prev_remain;
 		unsigned char packet_size = recv_buf[0];
@@ -22,6 +23,7 @@ void CALLBACK recv_callback(DWORD err, DWORD num_bytes, LPWSAOVERLAPPED recv_ove
 
 			// 패킷 처리
 			netWorkMGR.Process_Packet(recv_buf);
+
 			cout << " RECV!" << endl;
 
 			// 다음 패킷 이동, 남은 데이터 갱신
@@ -62,13 +64,13 @@ void NetworkMGR::Initialize()
 	std::cout << "서버 연결 여부(y) : ";
 	std::cin >> isnet;
 
+	system("cls");
+
 	if (isnet != 'y') {
 		b_isNet = false;
 		b_isLogin = true;
 		return;
 	}
-
-	system("cls");
 
 	std::cout << std::endl << " ======== Login ======== " << std::endl << std::endl;
 
@@ -129,6 +131,7 @@ void NetworkMGR::do_send(const char* buf, short buf_size) {
 void NetworkMGR::Process_Packet(char* p_Packet)
 {
 	E_PACKET type = static_cast<E_PACKET>(p_Packet[1]);
+	auto& packetQueue = PacketQueue::GetInstance();
 
 	switch (type)
 	{
@@ -148,18 +151,10 @@ void NetworkMGR::Process_Packet(char* p_Packet)
 		id = recvPacket->id;
 		break;
 	}
+	case E_PACKET::E_PACKET_SC_ADD_PLAYER:
 	case E_PACKET::E_PACKET_SC_ADD_MONSTER:
-	{
-		SC_ADD_MONSTER_PACKET* recvPacket = reinterpret_cast<SC_ADD_MONSTER_PACKET*>(p_Packet);
-
-		break;
-	}
 	case E_PACKET::E_PACKET_SC_MOVE:
-	{
-		SC_MOVE_PACKET* recvPacket = reinterpret_cast<SC_MOVE_PACKET*>(p_Packet);
-		
+		packetQueue.AddRecvPacket(p_Packet);
 		break;
-	}
-
 	}
 }

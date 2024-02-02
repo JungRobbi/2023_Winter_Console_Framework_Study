@@ -9,9 +9,8 @@ PacketQueue& PacketQueue::GetInstance()
 void PacketQueue::Initialize()
 {
 	SendQueue = std::list<char[MAX_BUFSIZE]>{};
-	RecvQueue = std::list<char[MAX_BUFSIZE]>{};
+	RecvQueue = std::list<char[MAX_PACKETSIZE]>{};
 	SendQueueIndex = 0;
-	RecvQueueIndex = 0;
 }
 
 void PacketQueue::AddSendPacket(void* packet)
@@ -35,7 +34,10 @@ void PacketQueue::AddSendPacket(void* packet)
 
 void PacketQueue::AddRecvPacket(void* packet)
 {
-
+	char* p = reinterpret_cast<char*>(packet);
+	
+	RecvQueue.emplace_back();
+	memcpy(RecvQueue.back(), p, p[0]);
 }
 
 void PacketQueue::PopSendPacket()
@@ -46,6 +48,5 @@ void PacketQueue::PopSendPacket()
 
 void PacketQueue::PopRecvPacket()
 {
-	RecvQueueIndex = 0;
 	RecvQueue.pop_front();
 }

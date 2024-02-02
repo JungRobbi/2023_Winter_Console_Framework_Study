@@ -9,10 +9,9 @@ class PacketQueue
 {
 public:
 	std::list<char[MAX_BUFSIZE]> SendQueue;
-	std::list<char[MAX_BUFSIZE]> RecvQueue;
+	std::list<char[MAX_PACKETSIZE]> RecvQueue;
 
 	short SendQueueIndex;
-	short RecvQueueIndex;
 private:
 	PacketQueue() = default;
 	PacketQueue(const PacketQueue&) = delete;

@@ -9,6 +9,8 @@
 #include "MovementComponent.h"
 #include "PlayerMovementComponent.h"
 
+#include "../ServerLib/PacketQueue.h"
+
 unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
 
@@ -146,4 +148,45 @@ vector<unsigned long long> Scene::CollideCheckForType(Vec2 position)
 	}
 
 	return v;
+}
+
+void Scene::ProcessNetworkRecv()
+{
+	auto& packetQueue = PacketQueue::GetInstance();
+
+	while (false == packetQueue.RecvQueue.empty()) {
+		char* recv_buf = packetQueue.RecvQueue.front();
+
+		ProcessPacket(recv_buf);
+
+		packetQueue.PopRecvPacket();
+	}
+}
+
+void Scene::ProcessPacket(char* p_Packet)
+{
+	E_PACKET type = static_cast<E_PACKET>(p_Packet[1]);
+
+	switch (type)
+	{
+	case E_PACKET::E_PACKET_SC_ADD_PLAYER:
+	{
+		SC_ADD_PLAYER_PACKET* recvPacket = reinterpret_cast<SC_ADD_PLAYER_PACKET*>(p_Packet);
+
+		break;
+	}
+	case E_PACKET::E_PACKET_SC_ADD_MONSTER:
+	{
+		SC_ADD_MONSTER_PACKET* recvPacket = reinterpret_cast<SC_ADD_MONSTER_PACKET*>(p_Packet);
+
+		break;
+	}
+	case E_PACKET::E_PACKET_SC_MOVE:
+	{
+		SC_MOVE_PACKET* recvPacket = reinterpret_cast<SC_MOVE_PACKET*>(p_Packet);
+
+		break;
+	}
+
+	}
 }

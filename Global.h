@@ -8,6 +8,7 @@ const int MAX_BUFSIZE = 1024;
 //const int MAX_BUFSIZE_SEND = 4096;
 
 const int MAX_CHATSIZE = 30;
+const int MAX_PACKETSIZE = 128;
 
 const int SERVERPORT = 9423;
 
