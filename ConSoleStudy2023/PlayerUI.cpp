@@ -30,7 +30,10 @@ void PlayerUI::Render()
 	UI::Render();
 	if (nullptr == object)
 		return;
-	cout << "Pos: " << object->GetPos().x << ", " << object->GetPos().y;
+	string str;
+	str += "Pos: " + to_string(object->GetPos().x) + ", " + to_string(object->GetPos().y);
+	str += "      ";
+	cout << str;
 }
 
 void PlayerUI::SetPlayer(shared_ptr<Object> player)
