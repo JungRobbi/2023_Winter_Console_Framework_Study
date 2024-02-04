@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "UI.h"
+
 class UIMGR
 {
 	std::list<std::shared_ptr<UI>> uiList;

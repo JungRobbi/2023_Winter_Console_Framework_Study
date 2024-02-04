@@ -14,6 +14,7 @@
 #include "UIMGR.h"
 
 #include "../ServerLib/PacketQueue.h"
+#include "PlayerUI.h"
 
 
 LobbyScene::LobbyScene() : Scene()
@@ -56,6 +57,9 @@ void LobbyScene::Initialize()
 			component->SetAnimationSpeed(2.f);
 			objects[my_id]->SetSight(10);
 		}
+		auto& uiMGR = UIMGR::GetInstance();
+		auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
+		ui->SetPlayer(objects[my_id]);
 	}
 	else { // Network O
 		CS_TO_LOBBY_PACKET sendPacket;
@@ -63,9 +67,6 @@ void LobbyScene::Initialize()
 		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_TO_LOBBY);
 		packetQueue.AddSendPacket(&sendPacket);
 	}
-
-	auto& uiMGR = UIMGR::GetInstance();
-	uiMGR.AddUI<UI>(0, 21);
 
 	Scene::Initialize();
 }
@@ -317,6 +318,10 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
 		component->SetAnimationSpeed(2.f);
+
+		auto& uiMGR = UIMGR::GetInstance();
+		auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
+		ui->SetPlayer(objects[my_id]);
 
 		createQueue.push_back(object);
 		break;

@@ -17,6 +17,10 @@ UI::UI(int x, int y, int color) : uiPosition(), colorType(color)
 	uiPosition.y = y;
 }
 
+UI::~UI()
+{
+}
+
 void UI::Start()
 {
 }
@@ -29,5 +33,5 @@ void UI::Render()
 {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),
 		COORD{ static_cast<short>(uiPosition.x), static_cast<short>(uiPosition.y) });
-	cout << "UI TEST!";
+//	cout << "RENDER BASIC UI!";
 }

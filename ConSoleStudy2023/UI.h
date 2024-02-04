@@ -11,7 +11,7 @@ public:
 	UI();
 	UI(int x, int y);
 	UI(int x, int y, int color);
-	virtual ~UI() {}
+	virtual ~UI();
 
 	virtual void Start();
 	virtual void Update(double elapsedTime);
