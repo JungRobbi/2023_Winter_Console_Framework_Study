@@ -34,6 +34,15 @@
     <Filter Include="소스 파일\Game\Network">
       <UniqueIdentifier>{f3d0aa7e-12b4-430f-85e3-3279ccaf16ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\UI">
+      <UniqueIdentifier>{50d4f8d1-94af-4f04-9d7c-bcd4d6c14453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\AnimationMGR">
+      <UniqueIdentifier>{00d0e381-dd22-4132-9130-122568ef9fdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Objects">
+      <UniqueIdentifier>{0ce15df7-c0fa-44d7-91cb-b877dcd46168}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,18 +50,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>소스 파일\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\Game</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>소스 파일\System</Filter>
@@ -93,9 +90,6 @@
     <ClCompile Include="AnimationComponent.cpp">
       <Filter>소스 파일\Game\Components</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationMGR.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -117,22 +111,31 @@
     <ClCompile Include="NetworkMGR.cpp">
       <Filter>소스 파일\Game\Network</Filter>
     </ClCompile>
+    <ClCompile Include="UIMGR.cpp">
+      <Filter>소스 파일\Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationMGR.cpp">
+      <Filter>소스 파일\Game\AnimationMGR</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일\Game\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
       <Filter>소스 파일\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>소스 파일\Game</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>소스 파일\System</Filter>
@@ -167,9 +170,6 @@
     <ClInclude Include="AnimationComponent.h">
       <Filter>소스 파일\Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationMGR.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
     <ClInclude Include="LobbyScene.h">
       <Filter>소스 파일\Game\Scenes</Filter>
     </ClInclude>
@@ -190,6 +190,27 @@
     </ClInclude>
     <ClInclude Include="..\Global.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMGR.h">
+      <Filter>소스 파일\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationMGR.h">
+      <Filter>소스 파일\Game\AnimationMGR</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>소스 파일\Game\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
