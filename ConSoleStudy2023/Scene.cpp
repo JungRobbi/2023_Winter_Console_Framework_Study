@@ -133,6 +133,9 @@ vector<unsigned long long> Scene::CollideCheck(Vec2 position)
 	vector<unsigned long long> v{};
 
 	for (auto& object : objects) {
+		if (nullptr == object.second)
+			continue;
+
 		if (object.second->GetPos() == position)
 			v.emplace_back(object.second->GetId());
 	}
@@ -145,6 +148,9 @@ vector<unsigned long long> Scene::CollideCheckForType(Vec2 position)
 	vector<unsigned long long> v{};
 
 	for (auto& object : objects) {
+		if (nullptr == object.second)
+			continue;
+
 		if (object.second->GetPos() == position)
 			v.emplace_back(object.second->GetType());
 	}

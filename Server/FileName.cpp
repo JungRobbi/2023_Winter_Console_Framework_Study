@@ -275,7 +275,7 @@ void Process_Packet(shared_ptr<RemoteClient>& p_Client, char* p_Packet)
 
 		SC_MOVE_PACKET sendPacket;
 		sendPacket.size = sizeof(SC_MOVE_PACKET);
-		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_MOVE);
+		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_MOVE);
 		sendPacket.id = p_Client->m_id;
 		sendPacket.dir = recvPacket->dir;
 		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
