@@ -1,6 +1,6 @@
 #include "Timer.h"
 #include <iostream>
-
+#include <windows.h>
 Timer& Timer::GetInstance()
 {
 	static Timer instance;
@@ -10,6 +10,8 @@ Timer& Timer::GetInstance()
 void Timer::Initialize()
 {
 	m_prevTime = std::chrono::high_resolution_clock::now();
+	RenderX = 20 * 2;
+	RenderY = 0;
 }
 
 void Timer::Update()
@@ -56,12 +58,17 @@ unsigned long long Timer::GetPlayTimeHour()
 
 void Timer::RenderTimer()
 {
-	std::cout << "                     PlayTime : " << m_PlayTime_Hour << " h  ";
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),
+		COORD{ static_cast<short>(RenderX), static_cast<short>(RenderY) });
+	std::cout << "PlayTime : " << m_PlayTime_Hour << " h  ";
 	std::cout << m_PlayTime_Minute << " m  ";
-	std::cout << m_PlayTime_Seconds / 10000 << "  s  " << std::endl;
+	std::cout << m_PlayTime_Seconds / 10000 << "  s  ";
+
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),
+		COORD{ static_cast<short>(RenderX), static_cast<short>(RenderY + 1) });
 	std::cout << std::fixed;
 	std::cout.precision(1);
-	std::cout << "                     fps      : " << 1.0 / GetElapsedTimeSeconds() << "\tfps" << std::endl;
+	std::cout << "fps      : " << 1.0 / GetElapsedTimeSeconds() << "\tfps";
 	std::cout.unsetf(std::ios::scientific);
 	std::cout.precision(4);
 }

@@ -11,8 +11,10 @@
 
 #include "GameFramework.h"
 #include "NetworkMGR.h"
+#include "UIMGR.h"
 
 #include "../ServerLib/PacketQueue.h"
+
 
 LobbyScene::LobbyScene() : Scene()
 {
@@ -61,6 +63,9 @@ void LobbyScene::Initialize()
 		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_TO_LOBBY);
 		packetQueue.AddSendPacket(&sendPacket);
 	}
+
+	auto& uiMGR = UIMGR::GetInstance();
+	uiMGR.AddUI<UI>(0, 21);
 
 	Scene::Initialize();
 }

@@ -17,3 +17,10 @@ void UIMGR::Update(double elapsedTime)
 		ui->Update(elapsedTime);
 	}
 }
+
+void UIMGR::Render()
+{
+	for (auto& ui : uiList) {
+		ui->Render();
+	}
+}

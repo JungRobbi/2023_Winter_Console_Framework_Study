@@ -8,6 +8,8 @@ class Timer
 	double m_PlayTime_Seconds;
 	short m_PlayTime_Minute;
 	unsigned long long m_PlayTime_Hour;
+	int RenderX;
+	int RenderY;
 
 private:
 	Timer() = default;

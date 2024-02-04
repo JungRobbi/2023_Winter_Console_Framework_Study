@@ -5,6 +5,7 @@
 #include "Timer.h"
 
 #include "NetworkMGR.h"
+#include "UIMGR.h"
 
 #include "LoginScene.h"
 #include "LobbyScene.h"
@@ -33,6 +34,9 @@ void GameFramework::Initialize()
 	auto& packetQueue = PacketQueue::GetInstance();
 	packetQueue.Initialize();
 
+	auto& uiMGR = UIMGR::GetInstance();
+	uiMGR.Initialize();
+
 	CS_LOGIN_PACKET sendPacket;
 	sendPacket.size = sizeof(CS_LOGIN_PACKET);
 	sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_LOGIN);
@@ -47,6 +51,8 @@ void GameFramework::Run()
 	auto& timer = Timer::GetInstance();
 	auto& input = Input::GetInstance();
 	auto& networkMGR = NetworkMGR::GetInstance();
+	auto& uiMGR = UIMGR::GetInstance();
+
 	while (true) {
 		networkMGR.Update();
 
@@ -54,7 +60,7 @@ void GameFramework::Run()
 		input.Update(timer.GetElapsedTimeSeconds());
 		Scene::MainScene->Update(timer.GetElapsedTimeSeconds());
 		Scene::MainScene->Render();
-
+		uiMGR.Render();
 
 		timer.RenderTimer();			                     
 		input.KeyClear();
