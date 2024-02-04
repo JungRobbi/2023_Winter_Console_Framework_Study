@@ -75,8 +75,8 @@ void NetworkMGR::Initialize()
 	std::cout << std::endl << " ======== Login ======== " << std::endl << std::endl;
 
 	std::cout << std::endl << "서버 주소 입력(ex 197.xxx.xxx.xxx) : " << std::endl;
-	std::string server_s;
-	std::cin >> server_s;
+	std::string server_s = "127.0.0.1";
+//	std::cin >> server_s;
 	SERVERIP = new char[server_s.size() + 1];
 	SERVERIP[server_s.size()] = '\0';
 	strcpy(SERVERIP, server_s.c_str());

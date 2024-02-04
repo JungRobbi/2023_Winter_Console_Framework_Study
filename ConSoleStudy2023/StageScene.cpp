@@ -248,13 +248,15 @@ void StageScene::Render()
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{ 0, 0 });
 
 	string str{};
+	Vec2 pos{};
+	int sight{ 10 };
 
-	if (nullptr == objects[my_id])
-		return;
-
-	auto sight = objects[my_id]->GetSight();
-	for (int i{ objects[my_id]->GetPos().y - sight }; i < objects[my_id]->GetPos().y + sight; ++i) {
-		for (int j{ objects[my_id]->GetPos().x - sight }; j < objects[my_id]->GetPos().x + sight; ++j) {
+	if (nullptr != objects[my_id]) {
+		pos = objects[my_id]->GetPos();
+		sight = objects[my_id]->GetSight();
+	}
+	for (int i{ pos.y - sight }; i < pos.y + sight; ++i) {
+		for (int j{ pos.x - sight }; j < pos.x + sight; ++j) {
 			if (i < 0 || j < 0 || i >= STAGE_SIZE_Y || j >= STAGE_SIZE_X) {
 				str += "  ";
 			}
