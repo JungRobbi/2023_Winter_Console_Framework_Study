@@ -41,8 +41,8 @@ void Worker_Thread()
 				auto p_readOverlapped = (EXP_OVER*)readEvent.lpOverlapped;
 
 				if (IO_TYPE::IO_SEND == p_readOverlapped->m_ioType) {
-					cout << " Send! - size : " << (int)p_readOverlapped->_buf[0] << endl;
-					cout << " Send! - type : " << (int)p_readOverlapped->_buf[1] << endl;
+				//	cout << " Send! - size : " << (int)p_readOverlapped->_buf[0] << endl;
+				//	cout << " Send! - type : " << (int)p_readOverlapped->_buf[1] << endl;
 					p_readOverlapped->m_isReadOverlapped = false;
 					continue;
 				}
@@ -54,8 +54,8 @@ void Worker_Thread()
 				}
 				else  // TCP 연결 소켓이면
 				{
-					cout << " Recv! - size : " << (int)p_readOverlapped->_buf[0] << endl;
-					cout << " Recv! - type : " << (int)p_readOverlapped->_buf[1] << endl;
+				//	cout << " Recv! - size : " << (int)p_readOverlapped->_buf[0] << endl;
+				//	cout << " Recv! - type : " << (int)p_readOverlapped->_buf[1] << endl;
 
 					// 처리할 클라이언트 받아오기
 					shared_ptr<RemoteClient> remoteClient;
@@ -259,14 +259,25 @@ void Process_Packet(shared_ptr<RemoteClient>& p_Client, char* p_Packet)
 	{
 		CS_TO_STAGE1_PACKET* recvPacket = reinterpret_cast<CS_TO_STAGE1_PACKET*>(p_Packet);
 
-		SC_ADD_MONSTER_PACKET sendPacket;
-		sendPacket.size = sizeof(SC_ADD_MONSTER_PACKET);
-		sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_ADD_MONSTER);
-		sendPacket.id = p_Client->m_id;
-		sendPacket.posX = 10;
-		sendPacket.posY = 10;
-		sendPacket.monsterType = 10000;
-		p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
+		{
+			SC_ADD_PLAYER_PACKET sendPacket;
+			sendPacket.size = sizeof(SC_ADD_PLAYER_PACKET);
+			sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_ADD_PLAYER);
+			sendPacket.id = p_Client->m_id;
+			sendPacket.posX = 5;
+			sendPacket.posY = 5;
+			p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
+		}
+		{
+			SC_ADD_MONSTER_PACKET sendPacket;
+			sendPacket.size = sizeof(SC_ADD_MONSTER_PACKET);
+			sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_SC_ADD_MONSTER);
+			sendPacket.id = 10000;
+			sendPacket.posX = 10;
+			sendPacket.posY = 10;
+			sendPacket.monsterType = 10000;
+			p_Client->tcpConnection.SendOverlapped(reinterpret_cast<char*>(&sendPacket));
+		}
 		break;
 	}
 	case E_PACKET::E_PACKET_CS_MOVE: 

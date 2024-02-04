@@ -208,13 +208,29 @@ void LobbyScene::Update(double elapsedTime)
 		}
 	}
 	else {
-		if (input.GetKey('g')) { // ก่/ก้/ก็/กๆ
-			CS_MOVE_PACKET sendPacket;
-			sendPacket.size = sizeof(CS_MOVE_PACKET);
-			sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_MOVE);
-			Vec2 my_pos = objects[my_id]->GetPos();
-			if (my_pos.x + 1 < LOBBY_SIZE_X) {
-				sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
+		if (0 != objects.count(my_id)) {
+			if (input.GetKey(224)) { // ก่/ก้/ก็/กๆ
+				CS_MOVE_PACKET sendPacket;
+				sendPacket.size = sizeof(CS_MOVE_PACKET);
+				sendPacket.type = static_cast<unsigned char>(E_PACKET::E_PACKET_CS_MOVE);
+				Vec2 my_pos = objects[my_id]->GetPos();
+
+				if (input.GetKey(72)) { // ก่
+					if (my_pos.y - 1 >= 0)
+						sendPacket.dir = static_cast<char>(E_DIRECTION::E_UP);
+				}
+				if (input.GetKey(80)) { // ก้
+					if (my_pos.y + 1 < LOBBY_SIZE_Y)
+						sendPacket.dir = static_cast<char>(E_DIRECTION::E_DOWN);
+				}
+				if (input.GetKey(75)) { // ก็
+					if (my_pos.x - 1 >= 0)
+						sendPacket.dir = static_cast<char>(E_DIRECTION::E_LEFT);
+				}
+				if (input.GetKey(77)) { // กๆ
+					if (my_pos.x + 1 < LOBBY_SIZE_X)
+						sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
+				}
 				packetQueue.AddSendPacket(&sendPacket);
 			}
 		}
@@ -256,9 +272,9 @@ void LobbyScene::Render()
 
 	string str{};
 	Vec2 pos{};
-	int sight{10};
+	int sight{ 10 };
 
-	if (nullptr != objects[my_id]) {
+	if (0 != objects.count(my_id)) {
 		pos = objects[my_id]->GetPos();
 		sight = objects[my_id]->GetSight();
 	}
