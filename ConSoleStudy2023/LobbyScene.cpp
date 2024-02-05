@@ -312,7 +312,7 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 			break;
 		case E_DIRECTION::E_DOWN:
 			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-			if (my_pos.y + 1 < STAGE_SIZE_Y)
+			if (my_pos.y + 1 < CURRENT_MAP_SIZE.y)
 				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
 			break;
 		case E_DIRECTION::E_LEFT:
@@ -322,7 +322,7 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 			break;
 		case E_DIRECTION::E_RIGHT:
 			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-			if (my_pos.x + 1 < STAGE_SIZE_X)
+			if (my_pos.x + 1 < CURRENT_MAP_SIZE.x)
 				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
 			break;
 		}
