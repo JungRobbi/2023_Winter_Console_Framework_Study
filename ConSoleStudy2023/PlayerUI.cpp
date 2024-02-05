@@ -1,5 +1,8 @@
 #include "PlayerUI.h"
+#include <windows.h>
+
 #include "Player.h"
+#include "StatusComponent.h"
 
 PlayerUI::PlayerUI() : UI(), object()
 {
@@ -30,9 +33,18 @@ void PlayerUI::Render()
 	UI::Render();
 	if (nullptr == object)
 		return;
+
+	auto statusComponent = object->GetComponent<StatusComponent>();
+	
 	string str;
-	str += "Pos: " + to_string(object->GetPos().x) + ", " + to_string(object->GetPos().y);
-	str += "      ";
+	str += "  Pos  :     (" + to_string(object->GetPos().x) + ", " + to_string(object->GetPos().y) + ")  \n";
+
+	if (statusComponent) {
+		statusComponent->GetSight();
+		str += " SIGHT : " + to_string(statusComponent->GetSight()) + "  \n";
+		str += "  H P  : " + to_string((int)statusComponent->GetHP()) + " / " + to_string((int)statusComponent->GetHPMAX()) + "  \n";
+		str += "DEFENCE: " + to_string((int)statusComponent->GetDefence()) + "  ";
+	}
 	cout << str;
 }
 

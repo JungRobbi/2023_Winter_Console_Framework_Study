@@ -53,10 +53,11 @@ void LobbyScene::Initialize()
 		{ // player »ý¼º
 			auto object = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 			createQueue.push_back(object);
+
+			auto& uiMGR = UIMGR::GetInstance();
+			auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
+			ui->SetPlayer(object);
 		}
-		auto& uiMGR = UIMGR::GetInstance();
-		auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
-		ui->SetPlayer(objects[my_id]);
 	}
 	else { // Network O
 		CS_TO_LOBBY_PACKET sendPacket;
