@@ -10,6 +10,7 @@
 #include "PlayerMovementComponent.h"
 
 #include "../ServerLib/PacketQueue.h"
+#include "StatusComponent.h"
 
 unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
@@ -93,6 +94,7 @@ shared_ptr<Object> Scene::AddMonster(Vec2 pos, int type)
 	auto object = make_shared<Monster>(pos, type, global_id++);
 	object->AddComponent<MovementComponent>();
 	object->AddComponent<AttackComponent>();
+	object->AddComponent<StatusComponent>();
 	auto component = object->AddComponent<AnimationComponent>();
 	component->SetAnimationStateMAX(animationMGR.GetAnimationShape(type).size());
 	//юс╫ц

@@ -15,12 +15,6 @@ protected:
 	unsigned long long object_id;
 	int objectType = -1;
 
-	float HP = 100.f;
-	float HPMAX = 100.f;
-	float Defence = 1.f;
-
-	int sight = 3;
-
 	list<shared_ptr<Component>> components;
 public:
 	Object();
@@ -44,8 +38,6 @@ public:
 
 	void Move(E_DIRECTION dir, int step);
 
-	int GetSight();
-	void SetSight(int i);
 
 	template<class T>
 	std::shared_ptr<T> AddComponent();

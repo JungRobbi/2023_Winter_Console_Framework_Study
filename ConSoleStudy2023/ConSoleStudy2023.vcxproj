@@ -171,6 +171,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="StageScene.cpp" />
+    <ClCompile Include="StatusComponent.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="stdafx.h" />
     <ClCompile Include="test.cpp">
@@ -206,6 +207,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="StageScene.h" />
+    <ClInclude Include="StatusComponent.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="MonsterWanderState.h" />
     <ClInclude Include="UI.h" />

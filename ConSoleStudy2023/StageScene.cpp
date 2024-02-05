@@ -13,6 +13,7 @@
 #include "NetworkMGR.h"
 
 #include "../ServerLib/PacketQueue.h"
+#include "StatusComponent.h"
 
 StageScene::StageScene() : Scene()
 {
@@ -57,7 +58,7 @@ void StageScene::Initialize()
 			auto component = objects[my_id]->AddComponent<AnimationComponent>();
 			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
 			component->SetAnimationSpeed(2.f);
-			objects[my_id]->SetSight(10);
+			objects[my_id]->AddComponent<StatusComponent>()->SetSight(10);
 		}
 
 		int num_monster{ 100 };
@@ -270,7 +271,7 @@ void StageScene::Render()
 
 	if (0 != objects.count(my_id)) {
 		pos = objects[my_id]->GetPos();
-		sight = objects[my_id]->GetSight();
+		sight = objects[my_id]->GetComponent<StatusComponent>()->GetSight();
 	}
 	for (int i{ pos.y - sight }; i < pos.y + sight; ++i) {
 		for (int j{ pos.x - sight }; j < pos.x + sight; ++j) {
@@ -303,7 +304,7 @@ void StageScene::ProcessPacket(char* p_Packet)
 
 		auto pMComponent = object->AddComponent<PlayerMovementComponent>();
 		pMComponent->SetPlayer(object);
-		object->SetSight(10);
+		object->AddComponent<StatusComponent>()->SetSight(10);
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
 		component->SetAnimationSpeed(2.f);

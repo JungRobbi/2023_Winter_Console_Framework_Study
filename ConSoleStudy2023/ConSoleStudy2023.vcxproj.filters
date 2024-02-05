@@ -135,6 +135,9 @@
     <ClCompile Include="PlayerUI.cpp">
       <Filter>소스 파일\Game\UI</Filter>
     </ClCompile>
+    <ClCompile Include="StatusComponent.cpp">
+      <Filter>소스 파일\Game\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="PlayerUI.h">
       <Filter>소스 파일\Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusComponent.h">
+      <Filter>소스 파일\Game\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -77,13 +77,3 @@ void Object::Move(E_DIRECTION dir, int step)
 	position += dir;
 	direction = dir;
 }
-
-int Object::GetSight()
-{
-	return sight;
-}
-
-void Object::SetSight(int i)
-{
-	sight = i;
-}

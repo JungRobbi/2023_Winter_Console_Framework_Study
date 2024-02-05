@@ -4,6 +4,7 @@
 #include "Monster.h"
 
 #include "MovementComponent.h"
+#include "StatusComponent.h"
 
 class MonsterTrackingState :
 	public FSMState
@@ -62,7 +63,7 @@ public:
 					if (1 >= DistanceVec2(pos, owner->GetPos())) {
 						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
 					}
-					else if (owner->GetSight() < DistanceVec2(pos, owner->GetPos())) {
+					else if (owner->GetComponent<StatusComponent>()->GetSight() < DistanceVec2(pos, owner->GetPos())) {
 						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
 					}
 				}

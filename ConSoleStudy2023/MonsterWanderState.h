@@ -4,6 +4,7 @@
 #include "Monster.h"
 
 #include "MovementComponent.h"
+#include "StatusComponent.h"
 
 class MonsterWanderState :
     public FSMState
@@ -46,7 +47,7 @@ public:
 				auto target = dynamic_cast<Monster*>(owner)->GetTarget();
 				if (target) {
 					auto pos = target->GetPos();
-					if (owner->GetSight() >= DistanceVec2(pos, owner->GetPos())) {
+					if (owner->GetComponent<StatusComponent>()->GetSight() >= DistanceVec2(pos, owner->GetPos())) {
 						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_TRACKING);
 					}
 				}

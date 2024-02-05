@@ -15,6 +15,7 @@
 
 #include "../ServerLib/PacketQueue.h"
 #include "PlayerUI.h"
+#include "StatusComponent.h"
 
 
 LobbyScene::LobbyScene() : Scene()
@@ -56,7 +57,7 @@ void LobbyScene::Initialize()
 			auto component = objects[my_id]->AddComponent<AnimationComponent>();
 			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
 			component->SetAnimationSpeed(2.f);
-			objects[my_id]->SetSight(10);
+			objects[my_id]->AddComponent<StatusComponent>()->SetSight(10);
 		}
 		auto& uiMGR = UIMGR::GetInstance();
 		auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
@@ -260,7 +261,7 @@ void LobbyScene::Render()
 
 	if (0 != objects.count(my_id)) {
 		pos = objects[my_id]->GetPos();
-		sight = objects[my_id]->GetSight();
+		sight = objects[my_id]->GetComponent<StatusComponent>()->GetSight();
 	}
 	for (int i{ pos.y - sight }; i < pos.y + sight; ++i) {
 		for (int j{ pos.x - sight }; j < pos.x + sight; ++j) {
@@ -293,7 +294,7 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 
 		auto pMComponent = object->AddComponent<PlayerMovementComponent>();
 		pMComponent->SetPlayer(object);
-		object->SetSight(10);
+		object->AddComponent<StatusComponent>()->SetSight(10);
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
 		component->SetAnimationSpeed(2.f);

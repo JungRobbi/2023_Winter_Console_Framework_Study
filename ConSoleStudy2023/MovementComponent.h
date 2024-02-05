@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "stdafx.h"
 
 class MovementComponent :
     public Component

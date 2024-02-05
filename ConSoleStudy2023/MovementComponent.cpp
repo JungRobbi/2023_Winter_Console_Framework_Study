@@ -1,5 +1,7 @@
 #include "MovementComponent.h"
 
+#include "Scene.h"
+
 void MovementComponent::Start()
 {
 	MovementCoolTime = 1.f;
