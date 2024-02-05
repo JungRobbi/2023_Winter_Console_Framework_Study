@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Input.h"
 #include "Object.h"
+#include "../TestClient/NetworkMGR.h"
 
 void PlayerMovementComponent::Start()
 {
@@ -9,6 +10,10 @@ void PlayerMovementComponent::Start()
 
 void PlayerMovementComponent::Update(double elapsedTime)
 {
+	auto& networkMGR = NetworkMGR::GetInstance();
+	if (networkMGR.b_isNet)
+		return;
+
 	auto& input = Input::GetInstance();
 	if (input.GetKey(224)) { // ก่/ก้/ก็/กๆ
 		Vec2 my_pos = object->GetPos();

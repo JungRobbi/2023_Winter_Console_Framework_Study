@@ -264,7 +264,7 @@ void StageScene::Render()
 	Vec2 pos{};
 	int sight{ 10 };
 
-	if (0 != objects.count(my_id)) {
+	if (nullptr != objects[my_id]) {
 		pos = objects[my_id]->GetPos();
 		sight = objects[my_id]->GetComponent<StatusComponent>()->GetSight();
 	}
