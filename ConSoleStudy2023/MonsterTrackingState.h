@@ -3,6 +3,8 @@
 #include "FSMState.h"
 #include "Monster.h"
 
+#include "MovementComponent.h"
+
 class MonsterTrackingState :
 	public FSMState
 {
@@ -13,9 +15,9 @@ public:
 	void Execute(Object* owner)
 	{
 		if (dynamic_cast<Monster*>(owner)) {
-			if (owner->GetMoveable()) {
-				owner->SetMoveable(false);
-				owner->SetMoveTimer(0.0);
+			if (owner->GetComponent<MovementComponent>()->GetMoveable()) {
+				owner->GetComponent<MovementComponent>()->SetMoveable(false);
+				owner->GetComponent<MovementComponent>()->SetMoveTimer(0.0);
 
 				auto target = dynamic_cast<Monster*>(owner)->GetTarget();
 				if (target) {
@@ -36,19 +38,19 @@ public:
 
 					switch (dir)
 					{
-					case E_UP:
+					case E_DIRECTION::E_UP:
 						if (owner_pos.y - 1 < 0)
 							return;
 						break;
-					case E_DOWN:
+					case E_DIRECTION::E_DOWN:
 						if (owner_pos.y + 1 >= STAGE_SIZE_Y)
 							return;
 						break;
-					case E_LEFT:
+					case E_DIRECTION::E_LEFT:
 						if (owner_pos.x - 1 < 0)
 							return;
 						break;
-					case E_RIGHT:
+					case E_DIRECTION::E_RIGHT:
 						if (owner_pos.x + 1 >= STAGE_SIZE_X)
 							return;
 						break;

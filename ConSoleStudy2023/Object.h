@@ -17,15 +17,7 @@ protected:
 
 	float HP = 100.f;
 	float HPMAX = 100.f;
-	float AttackDamage = 10.f;
-	double AttackCoolTime = 1.f;
-	double MovementCoolTime = 1.f;
 	float Defence = 1.f;
-
-	double AttackCoolTimeTimer = 0.f;
-	double MovementCoolTimeTimer = 0.f;
-	bool b_Attack_able = false;
-	bool b_Move_able = false;
 
 	int sight = 3;
 
@@ -49,14 +41,6 @@ public:
 	void SetDirection(E_DIRECTION pos);
 
 	int GetType();
-
-	bool GetAttackable();
-	bool GetMoveable();
-	void SetAttackable(bool b);
-	void SetMoveable(bool b);
-
-	void SetMoveTimer(double d);
-	void SetAttackTimer(double d);
 
 	void Move(E_DIRECTION dir, int step);
 

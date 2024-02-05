@@ -88,3 +88,5 @@ struct Vec2 {
 		return x == rhs.x && y == rhs.y;
 	}
 };
+
+static Vec2 CURRENT_MAP_SIZE = Vec2{ STAGE_SIZE_X, STAGE_SIZE_Y };

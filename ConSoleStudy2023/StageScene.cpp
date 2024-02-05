@@ -28,9 +28,9 @@ void StageScene::Initialize()
 	auto& networkMGR = NetworkMGR::GetInstance();
 	auto& packetQueue = PacketQueue::GetInstance();
 
-	for (int i{}; i < STAGE_SIZE_Y; ++i) {
+	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		stage.emplace_back();
-		for (int j{}; j < STAGE_SIZE_X; ++j) {
+		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
 			if (i % 10 == 9 && j % 10 == 9)
 				stage[i].emplace_back(E_TILE + 5);
 			else if (j % 10 == 9)
@@ -42,9 +42,9 @@ void StageScene::Initialize()
 		}
 	}
 
-	for (int i{}; i < STAGE_SIZE_Y; ++i) {
+	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		scene.emplace_back();
-		for (int j{}; j < STAGE_SIZE_X; ++j) {
+		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
 			scene[i].emplace_back(E_TILE);
 		}
 	}
@@ -52,7 +52,8 @@ void StageScene::Initialize()
 	if (false == networkMGR.b_isNet) {
 		{ // player 생성
 			objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
-			objects[my_id]->AddComponent<PlayerMovementComponent>();
+			auto pMComponent = objects[my_id]->AddComponent<PlayerMovementComponent>();
+			pMComponent->SetPlayer(objects[my_id]);
 			auto component = objects[my_id]->AddComponent<AnimationComponent>();
 			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
 			component->SetAnimationSpeed(2.f);
@@ -61,7 +62,7 @@ void StageScene::Initialize()
 
 		int num_monster{ 100 };
 		for (int i{}; i < num_monster; ++i) {
-			AddMonster(Vec2{ (int)((STAGE_SIZE_X - 2) * rand_realUid(dre)) + 1, (int)((STAGE_SIZE_Y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
+			AddMonster(Vec2{ (int)((CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
 		}
 	}
 	else { // Network O
@@ -71,9 +72,9 @@ void StageScene::Initialize()
 		packetQueue.AddSendPacket(&sendPacket);
 	}
 
-	for (int i{}; i < STAGE_SIZE_Y; ++i) {
-		for (int j{}; j < STAGE_SIZE_X; ++j) {
-			if (i == 0 || j == 0 || i == STAGE_SIZE_Y - 1 || j == STAGE_SIZE_X - 1)
+	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
+		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
+			if (i == 0 || j == 0 || i == CURRENT_MAP_SIZE.y - 1 || j == CURRENT_MAP_SIZE.x - 1)
 				AddObject(Vec2{ j, i }, E_OBJECT::E_WALL);
 		}
 	}
@@ -129,29 +130,6 @@ void StageScene::Update(double elapsedTime)
 	auto& input = Input::GetInstance();
 
 	if (false == networkMGR.b_isNet) {
-		if (input.GetKey(224)) { // ↑/↓/←/→
-			Vec2 my_pos = objects[my_id]->GetPos();
-			if (input.GetKey(72)) { // ↑
-				objects[my_id]->SetDirection(E_DIRECTION::E_UP);
-				if (my_pos.y - 1 >= 0)
-					objects[my_id]->Move(E_DIRECTION::E_UP, 1);
-			}
-			if (input.GetKey(80)) { // ↓
-				objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-				if (my_pos.y + 1 < LOBBY_SIZE_Y)
-					objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
-			}
-			if (input.GetKey(75)) { // ←
-				objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
-				if (my_pos.x - 1 >= 0)
-					objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
-			}
-			if (input.GetKey(77)) { // →
-				objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-				if (my_pos.x + 1 < LOBBY_SIZE_X)
-					objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
-			}
-		}
 		if (input.GetKey('a')) {
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
@@ -296,7 +274,7 @@ void StageScene::Render()
 	}
 	for (int i{ pos.y - sight }; i < pos.y + sight; ++i) {
 		for (int j{ pos.x - sight }; j < pos.x + sight; ++j) {
-			if (i < 0 || j < 0 || i >= STAGE_SIZE_Y || j >= STAGE_SIZE_X) {
+			if (i < 0 || j < 0 || i >= CURRENT_MAP_SIZE.y || j >= CURRENT_MAP_SIZE.x) {
 				str += "  ";
 			}
 			else {
@@ -323,7 +301,8 @@ void StageScene::ProcessPacket(char* p_Packet)
 			Vec2{ recvPacket->posX, recvPacket->posY },
 			E_OBJECT::E_CLIENT, recvPacket->id);
 
-		object->AddComponent<PlayerMovementComponent>();
+		auto pMComponent = object->AddComponent<PlayerMovementComponent>();
+		pMComponent->SetPlayer(object);
 		object->SetSight(10);
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
@@ -339,13 +318,11 @@ void StageScene::ProcessPacket(char* p_Packet)
 		auto object = make_shared<Monster>(
 			Vec2{ recvPacket->posX, recvPacket->posY}, 
 			recvPacket->monsterType, recvPacket->id);
-
 		object->AddComponent<MovementComponent>();
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(recvPacket->monsterType).size());
 		//임시
-		if (0 != objects.count(my_id))
-			object->SetTarget(objects[my_id]);
+		object->SetTarget(objects[my_id]);
 		createQueue.push_back(object);
 		break;
 	}
@@ -367,7 +344,7 @@ void StageScene::ProcessPacket(char* p_Packet)
 			break;
 		case E_DIRECTION::E_DOWN:
 			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-			if (my_pos.y + 1 < STAGE_SIZE_Y)
+			if (my_pos.y + 1 < CURRENT_MAP_SIZE.y)
 				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
 			break;
 		case E_DIRECTION::E_LEFT:
@@ -377,7 +354,7 @@ void StageScene::ProcessPacket(char* p_Packet)
 			break;
 		case E_DIRECTION::E_RIGHT:
 			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-			if (my_pos.x + 1 < STAGE_SIZE_X)
+			if (my_pos.x + 1 < CURRENT_MAP_SIZE.x)
 				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
 			break;
 		}

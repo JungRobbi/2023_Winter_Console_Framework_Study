@@ -31,9 +31,9 @@ void LobbyScene::Initialize()
 	auto& networkMGR = NetworkMGR::GetInstance();
 	auto& packetQueue = PacketQueue::GetInstance();
 
-	for (int i{}; i < LOBBY_SIZE_Y; ++i) {
+	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		lobby.emplace_back();
-		for (int j{}; j < LOBBY_SIZE_X; ++j) {
+		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
 			if (i % 10 == 9 && j % 10 == 9)
 				lobby[i].emplace_back(E_TILE + 5);
 			else
@@ -41,9 +41,9 @@ void LobbyScene::Initialize()
 		}
 	}
 
-	for (int i{}; i < LOBBY_SIZE_Y; ++i) {
+	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		scene.emplace_back();
-		for (int j{}; j < LOBBY_SIZE_X; ++j) {
+		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
 			scene[i].emplace_back(E_TILE);
 		}
 	}
@@ -51,7 +51,8 @@ void LobbyScene::Initialize()
 	if (false == networkMGR.b_isNet) { // Network X
 		{ // player »ý¼º
 			objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
-			objects[my_id]->AddComponent<PlayerMovementComponent>();
+			auto pMComponent = objects[my_id]->AddComponent<PlayerMovementComponent>();
+			pMComponent->SetPlayer(objects[my_id]);
 			auto component = objects[my_id]->AddComponent<AnimationComponent>();
 			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
 			component->SetAnimationSpeed(2.f);
@@ -120,35 +121,12 @@ void LobbyScene::Update(double elapsedTime)
 	auto& input = Input::GetInstance();
 
 	if (false == networkMGR.b_isNet) {
-		if (input.GetKey(224)) { // ¡è/¡é/¡ç/¡æ
-			Vec2 my_pos = objects[my_id]->GetPos();
-			if (input.GetKey(72)) { // ¡è
-				objects[my_id]->SetDirection(E_DIRECTION::E_UP);
-				if (my_pos.y - 1 >= 0)
-					objects[my_id]->Move(E_DIRECTION::E_UP, 1);
-			}
-			if (input.GetKey(80)) { // ¡é
-				objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-				if (my_pos.y + 1 < LOBBY_SIZE_Y)
-					objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
-			}
-			if (input.GetKey(75)) { // ¡ç
-				objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
-				if (my_pos.x - 1 >= 0)
-					objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
-			}
-			if (input.GetKey(77)) { // ¡æ
-				objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-				if (my_pos.x + 1 < LOBBY_SIZE_X)
-					objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
-			}
-		}
 		if (input.GetKey('a')) {
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 
@@ -160,8 +138,8 @@ void LobbyScene::Update(double elapsedTime)
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 				AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
 			}
 
@@ -174,36 +152,36 @@ void LobbyScene::Update(double elapsedTime)
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			{
 				auto p = my_pos + my_dir + my_dir;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
@@ -226,7 +204,7 @@ void LobbyScene::Update(double elapsedTime)
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_UP);
 				}
 				if (input.GetKey(80)) { // ¡é
-					if (my_pos.y + 1 < LOBBY_SIZE_Y)
+					if (my_pos.y + 1 < CURRENT_MAP_SIZE.y)
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_DOWN);
 				}
 				if (input.GetKey(75)) { // ¡ç
@@ -234,7 +212,7 @@ void LobbyScene::Update(double elapsedTime)
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_LEFT);
 				}
 				if (input.GetKey(77)) { // ¡æ
-					if (my_pos.x + 1 < LOBBY_SIZE_X)
+					if (my_pos.x + 1 < CURRENT_MAP_SIZE.x)
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
 				}
 				packetQueue.AddSendPacket(&sendPacket);
@@ -286,7 +264,7 @@ void LobbyScene::Render()
 	}
 	for (int i{ pos.y - sight }; i < pos.y + sight; ++i) {
 		for (int j{ pos.x - sight }; j < pos.x + sight; ++j) {
-			if (i < 0 || j < 0 || i >= LOBBY_SIZE_Y || j >= LOBBY_SIZE_X) {
+			if (i < 0 || j < 0 || i >= CURRENT_MAP_SIZE.y || j >= CURRENT_MAP_SIZE.x) {
 				str += "  ";
 			}
 			else {
@@ -313,7 +291,8 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 			Vec2{ recvPacket->posX, recvPacket->posY },
 			E_OBJECT::E_CLIENT, recvPacket->id);
 
-		object->AddComponent<PlayerMovementComponent>();
+		auto pMComponent = object->AddComponent<PlayerMovementComponent>();
+		pMComponent->SetPlayer(object);
 		object->SetSight(10);
 		auto component = object->AddComponent<AnimationComponent>();
 		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());

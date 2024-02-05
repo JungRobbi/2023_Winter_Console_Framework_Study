@@ -5,6 +5,8 @@
 #include "Skill.h"
 #include "Scene.h"
 
+#include "AttackComponent.h"
+
 class MonsterAttackState :
 	public FSMState
 {
@@ -15,9 +17,9 @@ public:
 	void Execute(Object* owner)
 	{
 		if (dynamic_cast<Monster*>(owner)) {
-			if (owner->GetAttackable()) {
-				owner->SetAttackable(false);
-				owner->SetAttackTimer(0.0);
+			if (owner->GetComponent<AttackComponent>()->GetAttackable()) {
+				owner->GetComponent<AttackComponent>()->SetAttackable(false);
+				owner->GetComponent<AttackComponent>()->SetAttackTimer(0.0);
 
 				auto target = dynamic_cast<Monster*>(owner)->GetTarget();
 				if (target) {
