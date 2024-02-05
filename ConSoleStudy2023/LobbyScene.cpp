@@ -51,13 +51,8 @@ void LobbyScene::Initialize()
 
 	if (false == networkMGR.b_isNet) { // Network X
 		{ // player »ý¼º
-			objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
-			auto pMComponent = objects[my_id]->AddComponent<PlayerMovementComponent>();
-			pMComponent->SetPlayer(objects[my_id]);
-			auto component = objects[my_id]->AddComponent<AnimationComponent>();
-			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
-			component->SetAnimationSpeed(2.f);
-			objects[my_id]->AddComponent<StatusComponent>()->SetSight(10);
+			auto object = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
+			createQueue.push_back(object);
 		}
 		auto& uiMGR = UIMGR::GetInstance();
 		auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
@@ -291,13 +286,6 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 		auto object = make_shared<Player>(
 			Vec2{ recvPacket->posX, recvPacket->posY },
 			E_OBJECT::E_CLIENT, recvPacket->id);
-
-		auto pMComponent = object->AddComponent<PlayerMovementComponent>();
-		pMComponent->SetPlayer(object);
-		object->AddComponent<StatusComponent>()->SetSight(10);
-		auto component = object->AddComponent<AnimationComponent>();
-		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
-		component->SetAnimationSpeed(2.f);
 
 		auto& uiMGR = UIMGR::GetInstance();
 		auto ui = uiMGR.AddUI<PlayerUI>(0, 21);

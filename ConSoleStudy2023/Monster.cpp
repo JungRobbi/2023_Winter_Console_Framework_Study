@@ -3,6 +3,8 @@
 #include "MonsterTrackingState.h"
 #include "MonsterAttackState.h"
 
+#include "AnimationComponent.h"
+
 Monster::Monster() 
 	: Object(), monsterFSM(make_shared<FSM>(this, make_shared<MonsterWanderState>())),
 	flag(E_FSM_STATE::E_FSM_WANDER), currentState(E_FSM_STATE::E_FSM_WANDER)
@@ -19,6 +21,16 @@ Monster::Monster(Vec2 Pos, int type, unsigned long long id)
 
 Monster::~Monster()
 {
+}
+
+void Monster::Start()
+{
+	auto& animationMGR = AnimationMGR::GetInstance();
+	AddComponent<MovementComponent>();
+	AddComponent<AttackComponent>();
+	AddComponent<StatusComponent>();
+	auto component = AddComponent<AnimationComponent>();
+	component->SetAnimationStateMAX(animationMGR.GetAnimationShape(objectType).size());
 }
 
 void Monster::Update(double elapsedTime)

@@ -35,7 +35,7 @@ void PlayerMovementComponent::Update(double elapsedTime)
 	}
 }
 
-void PlayerMovementComponent::SetPlayer(std::shared_ptr<Object> player)
+void PlayerMovementComponent::SetPlayer(Object* player)
 {
 	object = player;
 }

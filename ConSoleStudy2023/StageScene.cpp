@@ -52,13 +52,8 @@ void StageScene::Initialize()
 
 	if (false == networkMGR.b_isNet) {
 		{ // player 생성
-			objects[my_id] = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
-			auto pMComponent = objects[my_id]->AddComponent<PlayerMovementComponent>();
-			pMComponent->SetPlayer(objects[my_id]);
-			auto component = objects[my_id]->AddComponent<AnimationComponent>();
-			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
-			component->SetAnimationSpeed(2.f);
-			objects[my_id]->AddComponent<StatusComponent>()->SetSight(10);
+			auto object = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
+			createQueue.push_back(object);
 		}
 
 		int num_monster{ 100 };
@@ -302,13 +297,6 @@ void StageScene::ProcessPacket(char* p_Packet)
 			Vec2{ recvPacket->posX, recvPacket->posY },
 			E_OBJECT::E_CLIENT, recvPacket->id);
 
-		auto pMComponent = object->AddComponent<PlayerMovementComponent>();
-		pMComponent->SetPlayer(object);
-		object->AddComponent<StatusComponent>()->SetSight(10);
-		auto component = object->AddComponent<AnimationComponent>();
-		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
-		component->SetAnimationSpeed(2.f);
-
 		createQueue.push_back(object);
 		break;
 	}
@@ -319,9 +307,6 @@ void StageScene::ProcessPacket(char* p_Packet)
 		auto object = make_shared<Monster>(
 			Vec2{ recvPacket->posX, recvPacket->posY}, 
 			recvPacket->monsterType, recvPacket->id);
-		object->AddComponent<MovementComponent>();
-		auto component = object->AddComponent<AnimationComponent>();
-		component->SetAnimationStateMAX(animationMGR.GetAnimationShape(recvPacket->monsterType).size());
 		//임시
 		object->SetTarget(objects[my_id]);
 		createQueue.push_back(object);
