@@ -92,6 +92,7 @@ shared_ptr<Object> Scene::AddMonster(Vec2 pos, int type)
 
 	auto object = make_shared<Monster>(pos, type, global_id++);
 	object->AddComponent<MovementComponent>();
+	object->AddComponent<AttackComponent>();
 	auto component = object->AddComponent<AnimationComponent>();
 	component->SetAnimationStateMAX(animationMGR.GetAnimationShape(type).size());
 	//юс╫ц
