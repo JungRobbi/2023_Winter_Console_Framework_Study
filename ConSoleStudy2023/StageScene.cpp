@@ -325,23 +325,19 @@ void StageScene::ProcessPacket(char* p_Packet)
 		{
 		case E_DIRECTION::E_UP:
 			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
-			if (my_pos.y - 1 >= 0)
-				objects[my_id]->Move(E_DIRECTION::E_UP, 1);
+			objects[my_id]->Move(E_DIRECTION::E_UP, 1);
 			break;
 		case E_DIRECTION::E_DOWN:
 			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-			if (my_pos.y + 1 < CURRENT_MAP_SIZE.y)
-				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
+			objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
 			break;
 		case E_DIRECTION::E_LEFT:
 			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
-			if (my_pos.x - 1 >= 0)
-				objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
+			objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
 			break;
 		case E_DIRECTION::E_RIGHT:
 			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-			if (my_pos.x + 1 < CURRENT_MAP_SIZE.x)
-				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
+			objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
 			break;
 		}
 

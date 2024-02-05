@@ -197,22 +197,29 @@ void LobbyScene::Update(double elapsedTime)
 				Vec2 my_pos = objects[my_id]->GetPos();
 
 				if (input.GetKey(72)) { // ก่
-					if (my_pos.y - 1 >= 0)
+					if (my_pos.y - 1 >= 0) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_UP);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
 				if (input.GetKey(80)) { // ก้
-					if (my_pos.y + 1 < CURRENT_MAP_SIZE.y)
+					if (my_pos.y + 1 < CURRENT_MAP_SIZE.y) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_DOWN);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
 				if (input.GetKey(75)) { // ก็
-					if (my_pos.x - 1 >= 0)
+					if (my_pos.x - 1 >= 0) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_LEFT);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
 				if (input.GetKey(77)) { // กๆ
-					if (my_pos.x + 1 < CURRENT_MAP_SIZE.x)
+					if (my_pos.x + 1 < CURRENT_MAP_SIZE.x) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
-				packetQueue.AddSendPacket(&sendPacket);
 			}
 		}
 	}
@@ -308,23 +315,19 @@ void LobbyScene::ProcessPacket(char* p_Packet)
 		{
 		case E_DIRECTION::E_UP:
 			objects[my_id]->SetDirection(E_DIRECTION::E_UP);
-			if (my_pos.y - 1 >= 0)
-				objects[my_id]->Move(E_DIRECTION::E_UP, 1);
+			objects[my_id]->Move(E_DIRECTION::E_UP, 1);
 			break;
 		case E_DIRECTION::E_DOWN:
 			objects[my_id]->SetDirection(E_DIRECTION::E_DOWN);
-			if (my_pos.y + 1 < CURRENT_MAP_SIZE.y)
-				objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
+			objects[my_id]->Move(E_DIRECTION::E_DOWN, 1);
 			break;
 		case E_DIRECTION::E_LEFT:
 			objects[my_id]->SetDirection(E_DIRECTION::E_LEFT);
-			if (my_pos.x - 1 >= 0)
-				objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
+			objects[my_id]->Move(E_DIRECTION::E_LEFT, 1);
 			break;
 		case E_DIRECTION::E_RIGHT:
 			objects[my_id]->SetDirection(E_DIRECTION::E_RIGHT);
-			if (my_pos.x + 1 < CURRENT_MAP_SIZE.x)
-				objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
+			objects[my_id]->Move(E_DIRECTION::E_RIGHT, 1);
 			break;
 		}
 
