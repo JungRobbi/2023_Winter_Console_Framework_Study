@@ -39,7 +39,6 @@ public:
 
 	shared_ptr<Object> AddObject(Vec2 pos, int type);
 	shared_ptr<Object> AddMonster(Vec2 pos, int type);
-	shared_ptr<Object> AddSkill(Vec2 pos, int type, double holdingTime);
 	shared_ptr<Object> AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime);
 
 	void RemoveObject(unsigned long long id);

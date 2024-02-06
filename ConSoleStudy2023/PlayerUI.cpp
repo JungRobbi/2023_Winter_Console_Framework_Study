@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "StatusComponent.h"
+#include "AttackComponent.h"
 
 PlayerUI::PlayerUI() : UI(), object()
 {
@@ -34,16 +35,20 @@ void PlayerUI::Render()
 	if (nullptr == object)
 		return;
 
-	auto statusComponent = object->GetComponent<StatusComponent>();
 	
 	string str;
 	str += "  Pos  :     (" + to_string(object->GetPos().x) + ", " + to_string(object->GetPos().y) + ")  \n";
 
+	auto statusComponent = object->GetComponent<StatusComponent>();
 	if (statusComponent) {
 		statusComponent->GetSight();
 		str += " SIGHT : " + to_string(statusComponent->GetSight()) + "  \n";
 		str += "  H P  : " + to_string((int)statusComponent->GetHP()) + " / " + to_string((int)statusComponent->GetHPMAX()) + "  \n";
-		str += "DEFENCE: " + to_string((int)statusComponent->GetDefence()) + "  ";
+		str += "DEFENCE: " + to_string((int)statusComponent->GetDefence()) + "  \n";
+	}
+	auto attackComponent = object->GetComponent<AttackComponent>();
+	if (attackComponent) {
+		str += "  A D  : " + to_string(attackComponent->GetAttackDamage()) + "  \n";
 	}
 	cout << str;
 }

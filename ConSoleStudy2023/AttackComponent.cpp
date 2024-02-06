@@ -33,3 +33,8 @@ bool AttackComponent::GetAttackable()
 {
 	return b_Attack_able;
 }
+
+float AttackComponent::GetAttackDamage()
+{
+	return AttackDamage;
+}

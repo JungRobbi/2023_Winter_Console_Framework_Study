@@ -3,6 +3,7 @@
 #include "StatusComponent.h"
 #include "AnimationComponent.h"
 #include "AnimationMGR.h"
+#include "AttackComponent.h"
 
 Player::Player() : Object()
 {
@@ -20,13 +21,29 @@ Player::~Player()
 
 void Player::Start()
 {
-	auto& animationMGR = AnimationMGR::GetInstance();
-	auto pMComponent = AddComponent<PlayerMovementComponent>();
-	pMComponent->SetPlayer(this);
-	auto component = AddComponent<AnimationComponent>();
-	component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
-	component->SetAnimationSpeed(2.f);
-	AddComponent<StatusComponent>()->SetSight(10);
+	//AddComponent
+	AddComponent<PlayerMovementComponent>();
+	AddComponent<AnimationComponent>();
+	AddComponent<StatusComponent>();
+	AddComponent<AttackComponent>();
+
+	Object::Start();
+
+	// Component °ª º¯°æ
+	{
+		auto& animationMGR = AnimationMGR::GetInstance();
+		{
+			auto component = GetComponent<PlayerMovementComponent>();
+			component->SetPlayer(this);
+		}
+		{
+			auto component = GetComponent<AnimationComponent>();
+			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(E_OBJECT::E_CLIENT).size());
+			component->SetAnimationSpeed(2.f);
+		}
+		GetComponent<StatusComponent>()->SetSight(10);
+		GetComponent<AttackComponent>();
+	}
 }
 
 void Player::Update(double elapsedTime)

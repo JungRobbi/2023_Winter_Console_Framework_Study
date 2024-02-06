@@ -95,25 +95,11 @@ shared_ptr<Object> Scene::AddMonster(Vec2 pos, int type)
 	return object;
 }
 
-shared_ptr<Object> Scene::AddSkill(Vec2 pos, int type, double holdingTime)
-{
-	auto& animationMGR = AnimationMGR::GetInstance();
-
-	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
-	auto component = object->AddComponent<AnimationComponent>();
-	component->SetAnimationStateMAX(animationMGR.GetAnimationShape(type).size());
-	createQueue.push_back(object);
-	return object;
-}
-
 shared_ptr<Object> Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
 {
 	auto& animationMGR = AnimationMGR::GetInstance();
 
-	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime);
-	auto component = object->AddComponent<AnimationComponent>();
-	component->SetAnimationStateMAX(animationMGR.GetAnimationShape(type).size());
-	component->SetAnimationSpeed(animateSpeed);
+	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime, animateSpeed);
 	createQueue.push_back(object);
 	return object;
 }

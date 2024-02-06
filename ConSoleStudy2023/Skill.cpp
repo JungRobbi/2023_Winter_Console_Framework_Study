@@ -7,13 +7,38 @@ Skill::Skill() : Object()
 	objectType = E_OBJECT::E_EFFECT;
 }
 
-Skill::Skill(Vec2 Pos, int type, unsigned long long id, int Time) : Object(Pos, id), durationTimeMAX(Time)
+Skill::Skill(Vec2 Pos, int type, unsigned long long id, double Time) : Object(Pos, id), durationTimeMAX(Time)
+{
+	objectType = type;
+}
+
+Skill::Skill(Vec2 Pos, int type, unsigned long long id, double Time, float aniSpeed) : Object(Pos, id),
+durationTimeMAX(Time), animateSpeed(aniSpeed)
 {
 	objectType = type;
 }
 
 Skill::~Skill()
 {
+}
+
+void Skill::Start()
+{
+	//AddComponent
+	AddComponent<AnimationComponent>();
+
+
+	Object::Start();
+
+	// Component °ª º¯°æ
+	{
+		auto& animationMGR = AnimationMGR::GetInstance();
+		{
+			auto component = GetComponent<AnimationComponent>();
+			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(objectType).size());
+			component->SetAnimationSpeed(animateSpeed);
+		}
+	}
 }
 
 void Skill::Update(double elapsedTime)

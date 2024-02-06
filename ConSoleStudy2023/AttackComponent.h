@@ -14,4 +14,5 @@ public:
     void SetAttackable(bool b);
     void SetAttackTimer(double d);
     bool GetAttackable();
+    float GetAttackDamage();
 };

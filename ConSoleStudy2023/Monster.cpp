@@ -25,12 +25,22 @@ Monster::~Monster()
 
 void Monster::Start()
 {
-	auto& animationMGR = AnimationMGR::GetInstance();
+	//AddComponent
 	AddComponent<MovementComponent>();
 	AddComponent<AttackComponent>();
 	AddComponent<StatusComponent>();
-	auto component = AddComponent<AnimationComponent>();
-	component->SetAnimationStateMAX(animationMGR.GetAnimationShape(objectType).size());
+	AddComponent<AnimationComponent>();
+
+	Object::Start();
+
+	// Component °ª º¯°æ
+	{
+		auto& animationMGR = AnimationMGR::GetInstance();
+		{
+			auto component = GetComponent<AnimationComponent>();
+			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(objectType).size());
+		}
+	}
 }
 
 void Monster::Update(double elapsedTime)
