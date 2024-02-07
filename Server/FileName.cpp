@@ -49,7 +49,6 @@ void Worker_Thread()
 
 				if (readEvent.lpCompletionKey == (ULONG_PTR)p_listenSocket.get()) // 리슨소켓이면
 				{
-					cout << " Accept! key - " << readEvent.lpCompletionKey << endl;
 					ProcessAccept(); // 클라이언트 연결 작업
 				}
 				else  // TCP 연결 소켓이면
@@ -171,6 +170,7 @@ void ProcessAccept()
 	else // 잘 처리함
 	{
 		shared_ptr<RemoteClient> remoteClient = remoteClientCandidate;
+		cout << " Accept! key - " << remoteClient.get() << endl;
 		// 새 TCP 소켓도 IOCP에 추가한다.
 		iocp.Add(remoteClient->tcpConnection, remoteClient.get());
 
