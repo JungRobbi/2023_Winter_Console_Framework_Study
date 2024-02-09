@@ -24,3 +24,8 @@ void UIMGR::Render()
 		ui->Render();
 	}
 }
+
+void UIMGR::Clear()
+{
+	uiList.clear();
+}

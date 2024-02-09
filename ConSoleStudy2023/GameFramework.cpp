@@ -78,6 +78,9 @@ void GameFramework::Destroy()
 
 void GameFramework::ChangeScene(E_SCENE type)
 {
+	auto& uiMGR = UIMGR::GetInstance();
+	uiMGR.Clear();
+
 	switch (type)
 	{
 	case E_SCENE::E_LOGIN: {

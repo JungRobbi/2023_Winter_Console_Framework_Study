@@ -18,6 +18,7 @@ public:
 	void Initialize();
 	void Update(double elapsedTime);
 	void Render();
+	void Clear();
 
 	template<class T>
 	std::shared_ptr<T> AddUI(int x, int y);
