@@ -5,6 +5,7 @@
 class Monster
 	: public Object
 {
+protected:
 	E_FSM_STATE currentState; 
 	E_FSM_STATE flag;
 
