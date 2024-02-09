@@ -6,6 +6,10 @@
 #include "AnimationComponent.h"
 #include "AnimationMGR.h"
 
+#include "ShootWanderState.h"
+#include "ShootAttackState.h"
+#include "ShootTrackingState.h"
+
 ShootMonster::ShootMonster()
 	: Monster()
 {
@@ -22,7 +26,7 @@ ShootMonster::~ShootMonster()
 
 void ShootMonster::Start()
 {
-	monsterFSM = make_shared<FSM>(this, make_shared<MonsterWanderState>());
+	monsterFSM = make_shared<FSM>(this, make_shared<ShootWanderState>());
 	flag = E_FSM_STATE::E_FSM_WANDER;
 	currentState = E_FSM_STATE::E_FSM_WANDER;
 
@@ -54,13 +58,13 @@ void ShootMonster::Update(double elapsedTime)
 			switch (flag)
 			{
 			case E_FSM_STATE::E_FSM_WANDER:
-				monsterFSM->ChangeState(std::make_shared<MonsterWanderState>());
+				monsterFSM->ChangeState(std::make_shared<ShootWanderState>());
 				break;
 			case E_FSM_STATE::E_FSM_TRACKING:
-				monsterFSM->ChangeState(std::make_shared<MonsterTrackingState>());
+				monsterFSM->ChangeState(std::make_shared<ShootTrackingState>());
 				break;
 			case E_FSM_STATE::E_FSM_ATTACK:
-				monsterFSM->ChangeState(std::make_shared<MonsterAttackState>());
+				monsterFSM->ChangeState(std::make_shared<ShootAttackState>());
 				break;
 			default:
 				break;
