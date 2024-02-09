@@ -138,24 +138,6 @@
     <ClCompile Include="ShootMonster.cpp">
       <Filter>소스 파일\Game\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterAttackState.cpp">
-      <Filter>소스 파일\Game\FSM\BasicMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="MonsterTrackingState.cpp">
-      <Filter>소스 파일\Game\FSM\BasicMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="MonsterWanderState.cpp">
-      <Filter>소스 파일\Game\FSM\BasicMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="ShootAttackState.cpp">
-      <Filter>소스 파일\Game\FSM\ShootMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="ShootTrackingState.cpp">
-      <Filter>소스 파일\Game\FSM\ShootMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="ShootWanderState.cpp">
-      <Filter>소스 파일\Game\FSM\ShootMonster</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">

@@ -160,8 +160,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="MonsterAttackState.cpp" />
-    <ClCompile Include="MonsterTrackingState.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="NetworkMGR.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -169,10 +167,7 @@
     <ClCompile Include="PlayerMovementComponent.cpp" />
     <ClCompile Include="PlayerUI.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="ShootAttackState.cpp" />
     <ClCompile Include="ShootMonster.cpp" />
-    <ClCompile Include="ShootTrackingState.cpp" />
-    <ClCompile Include="ShootWanderState.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="StatusComponent.cpp" />
@@ -183,7 +178,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="MonsterWanderState.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="UIMGR.cpp" />
   </ItemGroup>
