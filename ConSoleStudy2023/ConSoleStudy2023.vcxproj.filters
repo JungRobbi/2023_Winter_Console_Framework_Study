@@ -43,11 +43,17 @@
     <Filter Include="소스 파일\Game\Objects">
       <UniqueIdentifier>{0ce15df7-c0fa-44d7-91cb-b877dcd46168}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Game\FSM\BasicMonster">
-      <UniqueIdentifier>{5492de84-bb9d-48e0-98a9-3232989ca8b1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Game\FSM\ShootMonster">
       <UniqueIdentifier>{e801d3b7-ffb5-4732-916b-095853945be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\FSM\NormalMonster">
+      <UniqueIdentifier>{5492de84-bb9d-48e0-98a9-3232989ca8b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\FSM\Basic">
+      <UniqueIdentifier>{4872e046-16e6-435f-922f-6b8c89503caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Objects\Skill">
+      <UniqueIdentifier>{249fce68-bc15-4b0a-aa80-0294df582949}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,12 +65,6 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>소스 파일\System</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMState.cpp">
-      <Filter>소스 파일\Game\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="FSM.cpp">
-      <Filter>소스 파일\Game\FSM</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일\PCH</Filter>
@@ -123,9 +123,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\Game\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>소스 파일\Game\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>소스 파일\Game\UI</Filter>
     </ClCompile>
@@ -138,6 +135,18 @@
     <ClCompile Include="ShootMonster.cpp">
       <Filter>소스 파일\Game\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>소스 파일\Game\FSM\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMState.cpp">
+      <Filter>소스 파일\Game\FSM\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\Game\Objects\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootSkill.cpp">
+      <Filter>소스 파일\Game\Objects\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -145,12 +154,6 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>소스 파일\System</Filter>
-    </ClInclude>
-    <ClInclude Include="FSMState.h">
-      <Filter>소스 파일\Game\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="FSM.h">
-      <Filter>소스 파일\Game\FSM</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>소스 파일\Game\Components</Filter>
@@ -203,9 +206,6 @@
     <ClInclude Include="Player.h">
       <Filter>소스 파일\Game\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>소스 파일\Game\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>소스 파일\Game\UI</Filter>
     </ClInclude>
@@ -219,13 +219,13 @@
       <Filter>소스 파일\Game\Objects</Filter>
     </ClInclude>
     <ClInclude Include="MonsterAttackState.h">
-      <Filter>소스 파일\Game\FSM\BasicMonster</Filter>
+      <Filter>소스 파일\Game\FSM\NormalMonster</Filter>
     </ClInclude>
     <ClInclude Include="MonsterTrackingState.h">
-      <Filter>소스 파일\Game\FSM\BasicMonster</Filter>
+      <Filter>소스 파일\Game\FSM\NormalMonster</Filter>
     </ClInclude>
     <ClInclude Include="MonsterWanderState.h">
-      <Filter>소스 파일\Game\FSM\BasicMonster</Filter>
+      <Filter>소스 파일\Game\FSM\NormalMonster</Filter>
     </ClInclude>
     <ClInclude Include="ShootAttackState.h">
       <Filter>소스 파일\Game\FSM\ShootMonster</Filter>
@@ -235,6 +235,18 @@
     </ClInclude>
     <ClInclude Include="ShootWanderState.h">
       <Filter>소스 파일\Game\FSM\ShootMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>소스 파일\Game\FSM\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMState.h">
+      <Filter>소스 파일\Game\FSM\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\Game\Objects\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootSkill.h">
+      <Filter>소스 파일\Game\Objects\Skill</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -34,3 +34,8 @@ void MovementComponent::SetMoveTimer(double d)
 {
 	MovementCoolTimeTimer = d;
 }
+
+void MovementComponent::SetCoolTime(double d)
+{
+	MovementCoolTime = d;
+}

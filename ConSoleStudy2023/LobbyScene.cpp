@@ -16,6 +16,7 @@
 #include "../ServerLib/PacketQueue.h"
 #include "PlayerUI.h"
 #include "StatusComponent.h"
+#include "ShootSkill.h"
 
 
 LobbyScene::LobbyScene() : Scene()
@@ -137,7 +138,10 @@ void LobbyScene::Update(double elapsedTime)
 			auto p = my_pos + my_dir;
 			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
 				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
-				AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
+			//	AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
+				auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+				object->SetDirection(my_dir);
+				createQueue.push_back(object);
 			}
 
 			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
@@ -241,8 +245,11 @@ void LobbyScene::Update(double elapsedTime)
 			continue;
 		auto pos = object.second->GetPos();
 		auto ac = object.second->GetComponent<AnimationComponent>();
-		if (ac)
-			scene[pos.y][pos.x] = animationMGR.GetAnimationShape(object.second->GetType())[ac->GetAnimationState()];
+		if (ac) {
+			if (pos.x >= 0					&& pos.y >= 0	&&
+				pos.x < CURRENT_MAP_SIZE.x	&& pos.y < CURRENT_MAP_SIZE.y)
+				scene[pos.y][pos.x] = animationMGR.GetAnimationShape(object.second->GetType())[ac->GetAnimationState()];
+		}
 	}
 
 	if (input.GetKey('1')) 

@@ -15,4 +15,5 @@ public:
     bool GetMoveable();
     void SetMoveable(bool b);
     void SetMoveTimer(double d);
+    void SetCoolTime(double d);
 };

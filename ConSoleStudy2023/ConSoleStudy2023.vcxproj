@@ -168,6 +168,7 @@
     <ClCompile Include="PlayerUI.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShootMonster.cpp" />
+    <ClCompile Include="ShootSkill.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="StageScene.cpp" />
     <ClCompile Include="StatusComponent.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShootAttackState.h" />
     <ClInclude Include="ShootMonster.h" />
+    <ClInclude Include="ShootSkill.h" />
     <ClInclude Include="ShootTrackingState.h" />
     <ClInclude Include="ShootWanderState.h" />
     <ClInclude Include="Skill.h" />
