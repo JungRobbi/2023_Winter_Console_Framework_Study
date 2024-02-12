@@ -19,6 +19,9 @@ Scene* Scene::MainScene{ nullptr };
 shared_ptr<Scene> Scene::MainSceneShared{ nullptr };
 E_SCENE Scene::toChangeScene { E_SCENE::E_NONE };
 unsigned long long Scene::my_id{ 0 };
+char Scene::inputSkill{ ' ' };
+double Scene::skillTimer{ 0.0 };
+double Scene::skillSpeed{ 1.0 };
 
 Scene::Scene()
 {

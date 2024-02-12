@@ -135,22 +135,6 @@ void LobbyScene::Update(double elapsedTime)
 		if (input.GetKey('s')) {
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
-			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
-			//	AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
-				auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-				object->SetDirection(my_dir);
-				createQueue.push_back(object);
-			}
-
-			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
-				global_effect_id = E_OBJECT::E_EFFECT;
-			}
-		}
-		if (input.GetKey('d')) {
-			Vec2 my_pos = objects[my_id]->GetPos();
-			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			{
 				auto p = my_pos + my_dir + my_dir;
 				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
@@ -191,6 +175,31 @@ void LobbyScene::Update(double elapsedTime)
 				global_effect_id = E_OBJECT::E_EFFECT;
 			}
 		}
+		if (input.GetKey('d')) {
+			Vec2 my_pos = objects[my_id]->GetPos();
+			E_DIRECTION my_dir = objects[my_id]->GetDirection();
+			auto p = my_pos + my_dir;
+			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+				object->SetDirection(my_dir);
+				createQueue.push_back(object);
+			}
+
+			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+				global_effect_id = E_OBJECT::E_EFFECT;
+			}
+		}
+		if (input.GetKey('q')) {
+			inputSkill = 'q';
+			skillTimer = 15.0;
+			skillSpeed = 5.0;
+		}
+		if (input.GetKey('w')) {
+			inputSkill = 'w';
+			skillTimer = 15.0;
+			skillSpeed = 5.0;
+		}
 	}
 	else {
 		if (0 != objects.count(my_id)) {
@@ -223,6 +232,58 @@ void LobbyScene::Update(double elapsedTime)
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
 						packetQueue.AddSendPacket(&sendPacket);
 					}
+				}
+			}
+		}
+	}
+
+	if (inputSkill != ' ') {
+		double prevTime = skillTimer;
+		skillTimer -= elapsedTime * skillSpeed;
+		if (skillTimer < 0.0) {
+			skillTimer = 0.0;
+			skillSpeed = 1.0;
+			inputSkill = ' ';
+		}
+
+		if (static_cast<int>(prevTime) != static_cast<int>(skillTimer)) { // 스킬 발동 단위
+			if (inputSkill == 'q') {
+				Vec2 my_pos = objects[my_id]->GetPos();
+				E_DIRECTION my_dir = objects[my_id]->GetDirection();
+				auto p = my_pos + my_dir;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					object->SetDirection(my_dir);
+					createQueue.push_back(object);
+				}
+
+				if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+					global_effect_id = E_OBJECT::E_EFFECT;
+				}
+			}
+			else if (inputSkill == 'w') {
+				Vec2 my_pos = objects[my_id]->GetPos();
+				E_DIRECTION my_dir = objects[my_id]->GetDirection();
+				auto p = my_pos + my_dir;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					shared_ptr<ShootSkill> object;
+					if (0 == static_cast<int>(skillTimer) % 4) {
+						object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					}
+					else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
+						object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					}
+					else {
+						object = make_shared<ShootSkill>(p + E_DIRECTION::E_DOWN, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					}
+					object->SetDirection(my_dir);
+					createQueue.push_back(object);
+				}
+
+				if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+					global_effect_id = E_OBJECT::E_EFFECT;
 				}
 			}
 		}

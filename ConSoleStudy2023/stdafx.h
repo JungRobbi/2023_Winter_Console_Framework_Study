@@ -23,7 +23,8 @@ const int LOBBY_SIZE_Y = 101;
 const float EFFECT_MAX = 1000000.f;
 
 enum class E_DIRECTION {
-	E_UP, E_DOWN, E_LEFT, E_RIGHT
+	E_UP, E_DOWN, E_LEFT, E_RIGHT,
+	E_RIGHT_UP, E_RIGHT_DOWN
 };
 
 enum E_OBJECT {

@@ -26,6 +26,9 @@ public:
 	static shared_ptr<Scene> MainSceneShared;
 	static E_SCENE toChangeScene;
 	static unsigned long long my_id;
+	static char inputSkill;
+	static double skillTimer;
+	static double skillSpeed;
 public:
 	Scene();
 	virtual ~Scene();

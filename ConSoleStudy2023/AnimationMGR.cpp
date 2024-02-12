@@ -28,7 +28,7 @@ void AnimationMGR::Initialize()
 	Object_Shapes[E_OBJECT::E_EFFECT + 1] = "иш";
 	Object_Shapes[E_OBJECT::E_EFFECT + 2] = "ищ";
 	Object_Shapes[E_OBJECT::E_EFFECT_ATTACK] = "б╪";
-	Object_Shapes[E_OBJECT::E_EFFECT_ATTACK + 1] = "в┬";
+	Object_Shapes[E_OBJECT::E_EFFECT_ATTACK + 1] = "д¤";
 
 	{
 		Object_Animation[E_OBJECT::E_CLIENT].emplace_back(E_OBJECT::E_CLIENT);
