@@ -14,6 +14,7 @@
 
 #include "../ServerLib/PacketQueue.h"
 #include "StatusComponent.h"
+#include "ShootSkill.h"
 
 StageScene::StageScene() : Scene()
 {
@@ -56,9 +57,12 @@ void StageScene::Initialize()
 			createQueue.push_back(object);
 		}
 
-		int num_monster{ 100 };
+		int num_monster{ 10 };
 		for (int i{}; i < num_monster; ++i) {
 			AddMonster(Vec2{ (int)((CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
+		}
+		for (int i{}; i < num_monster; ++i) {
+			AddShootMonster(Vec2{ (int)((CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY + 1);
 		}
 	}
 	else { // Network O
@@ -130,8 +134,8 @@ void StageScene::Update(double elapsedTime)
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
+			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 
@@ -142,10 +146,40 @@ void StageScene::Update(double elapsedTime)
 		if (input.GetKey('s')) {
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
-			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-				p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-				AddSkill(p, E_OBJECT::E_EFFECT + 1, 5.f, 1.f);
+			{
+				auto p = my_pos + my_dir + my_dir;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
+			}
+			{
+				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
+				}
 			}
 
 			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
@@ -155,45 +189,27 @@ void StageScene::Update(double elapsedTime)
 		if (input.GetKey('d')) {
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
-			{
-				auto p = my_pos + my_dir + my_dir;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-				}
-			}
-			{
-				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-				}
-			}
-			{
-				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-				}
-			}
-			{
-				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-				}
-			}
-			{
-				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
-				if (p.x >= 0 && p.x < LOBBY_SIZE_X &&
-					p.y >= 0 && p.y < LOBBY_SIZE_Y) {
-					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
-				}
+			auto p = my_pos + my_dir;
+			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+				object->SetDirection(my_dir);
+				createQueue.push_back(object);
 			}
 
 			if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
 				global_effect_id = E_OBJECT::E_EFFECT;
 			}
+		}
+		if (input.GetKey('q')) {
+			inputSkill = 'q';
+			skillTimer = 15.0;
+			skillSpeed = 5.0;
+		}
+		if (input.GetKey('w')) {
+			inputSkill = 'w';
+			skillTimer = 15.0;
+			skillSpeed = 5.0;
 		}
 	}
 	else {
@@ -205,22 +221,81 @@ void StageScene::Update(double elapsedTime)
 				Vec2 my_pos = objects[my_id]->GetPos();
 
 				if (input.GetKey(72)) { // ↑
-					if (my_pos.y - 1 >= 0)
+					if (my_pos.y - 1 >= 0) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_UP);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
 				if (input.GetKey(80)) { // ↓
-					if (my_pos.y + 1 < LOBBY_SIZE_Y)
+					if (my_pos.y + 1 < CURRENT_MAP_SIZE.y) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_DOWN);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
 				if (input.GetKey(75)) { // ←
-					if (my_pos.x - 1 >= 0)
+					if (my_pos.x - 1 >= 0) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_LEFT);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
 				if (input.GetKey(77)) { // →
-					if (my_pos.x + 1 < LOBBY_SIZE_X)
+					if (my_pos.x + 1 < CURRENT_MAP_SIZE.x) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
+						packetQueue.AddSendPacket(&sendPacket);
+					}
 				}
-				packetQueue.AddSendPacket(&sendPacket);
+			}
+		}
+	}
+
+	if (inputSkill != ' ') {
+		double prevTime = skillTimer;
+		skillTimer -= elapsedTime * skillSpeed;
+		if (skillTimer < 0.0) {
+			skillTimer = 0.0;
+			skillSpeed = 1.0;
+			inputSkill = ' ';
+		}
+
+		if (static_cast<int>(prevTime) != static_cast<int>(skillTimer)) { // 스킬 발동 단위
+			if (inputSkill == 'q') {
+				Vec2 my_pos = objects[my_id]->GetPos();
+				E_DIRECTION my_dir = objects[my_id]->GetDirection();
+				auto p = my_pos + my_dir;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					object->SetDirection(my_dir);
+					createQueue.push_back(object);
+				}
+
+				if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+					global_effect_id = E_OBJECT::E_EFFECT;
+				}
+			}
+			else if (inputSkill == 'w') {
+				Vec2 my_pos = objects[my_id]->GetPos();
+				E_DIRECTION my_dir = objects[my_id]->GetDirection();
+				auto p = my_pos + my_dir;
+				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					shared_ptr<ShootSkill> object;
+					if (0 == static_cast<int>(skillTimer) % 4) {
+						object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					}
+					else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
+						object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					}
+					else {
+						object = make_shared<ShootSkill>(p + E_DIRECTION::E_DOWN, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					}
+					object->SetDirection(my_dir);
+					createQueue.push_back(object);
+				}
+
+				if (global_effect_id > E_OBJECT::E_EFFECT + 100) {
+					global_effect_id = E_OBJECT::E_EFFECT;
+				}
 			}
 		}
 	}

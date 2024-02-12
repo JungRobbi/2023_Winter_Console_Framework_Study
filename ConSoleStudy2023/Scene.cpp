@@ -11,6 +11,8 @@
 
 #include "../ServerLib/PacketQueue.h"
 #include "StatusComponent.h"
+#include "ShootSkill.h"
+#include "ShootMonster.h"
 
 unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
@@ -98,11 +100,25 @@ shared_ptr<Object> Scene::AddMonster(Vec2 pos, int type)
 	return object;
 }
 
+shared_ptr<Object> Scene::AddShootMonster(Vec2 pos, int type)
+{
+	auto object = make_shared<ShootMonster>(pos, type, global_id++);
+	object->SetTarget(objects[my_id]);
+	createQueue.push_back(object);
+	return object;
+}
+
 shared_ptr<Object> Scene::AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime)
 {
-	auto& animationMGR = AnimationMGR::GetInstance();
-
 	auto object = make_shared<Skill>(pos, type, global_effect_id++, holdingTime, animateSpeed);
+	createQueue.push_back(object);
+	return object;
+}
+
+shared_ptr<Object> Scene::AddShootSkill(Vec2 pos, int type, float animateSpeed, double holdingTime, E_DIRECTION dir = E_DIRECTION::E_RIGHT)
+{
+	auto object = make_shared<ShootSkill>(pos, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+	object->SetDirection(dir);
 	createQueue.push_back(object);
 	return object;
 }

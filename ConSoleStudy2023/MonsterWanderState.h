@@ -29,7 +29,7 @@ public:
 						return;
 					break;
 				case E_DIRECTION::E_DOWN:
-					if (owner_pos.y + 1 >= STAGE_SIZE_Y)
+					if (owner_pos.y + 1 >= CURRENT_MAP_SIZE.y)
 						return;
 					break;
 				case E_DIRECTION::E_LEFT:
@@ -37,7 +37,7 @@ public:
 						return;
 					break;
 				case E_DIRECTION::E_RIGHT:
-					if (owner_pos.x + 1 >= STAGE_SIZE_X)
+					if (owner_pos.x + 1 >= CURRENT_MAP_SIZE.x)
 						return;
 					break;
 				default:

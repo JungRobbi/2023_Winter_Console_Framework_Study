@@ -15,6 +15,8 @@ void AnimationMGR::Initialize()
 	Object_Shapes[E_OBJECT::E_CLIENT + 1] = "¡Ù";
 	Object_Shapes[E_OBJECT::E_ENEMY] = "¡Ý";
 	Object_Shapes[E_OBJECT::E_ENEMY + 1] = "¡Û";
+	Object_Shapes[E_OBJECT::E_ENEMY + 2] = "¢Â";
+	Object_Shapes[E_OBJECT::E_ENEMY + 3] = "¡Þ";
 	Object_Shapes[E_OBJECT::E_WALL] = "¡à";
 	Object_Shapes[E_OBJECT::E_WALL + 1] = "¡á";
 	Object_Shapes[E_OBJECT::E_TILE] = "  ";
@@ -37,6 +39,10 @@ void AnimationMGR::Initialize()
 	{
 		Object_Animation[E_OBJECT::E_ENEMY].emplace_back(E_OBJECT::E_ENEMY);
 		Object_Animation[E_OBJECT::E_ENEMY].emplace_back(E_OBJECT::E_ENEMY + 1);
+	}
+	{
+		Object_Animation[E_OBJECT::E_ENEMY + 1].emplace_back(E_OBJECT::E_ENEMY + 2);
+		Object_Animation[E_OBJECT::E_ENEMY + 1].emplace_back(E_OBJECT::E_ENEMY + 3);
 	}
 	{
 		Object_Animation[E_OBJECT::E_WALL].emplace_back(E_OBJECT::E_WALL);

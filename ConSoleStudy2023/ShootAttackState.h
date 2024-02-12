@@ -42,10 +42,11 @@ public:
 					owner->SetDirection(dir);
 					E_DIRECTION my_dir = owner->GetDirection();
 					auto p = my_pos + my_dir;
-					if (p.x >= 0 && p.x < STAGE_SIZE_X &&
-						p.y >= 0 && p.y < STAGE_SIZE_Y) {
-						Scene::MainScene->AddSkill(p, E_OBJECT::E_EFFECT + 1, 1.f, 1.0);
+					if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
+						p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+						Scene::MainScene->AddShootSkill(p, E_OBJECT::E_EFFECT + 1, 1.f, 1.0, my_dir);
 					}
+
 					auto pos = target->GetPos();
 					if (1 < DistanceVec2(pos, my_pos)) {
 						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_WANDER);

@@ -42,7 +42,9 @@ public:
 
 	shared_ptr<Object> AddObject(Vec2 pos, int type);
 	shared_ptr<Object> AddMonster(Vec2 pos, int type);
+	shared_ptr<Object> AddShootMonster(Vec2 pos, int type);
 	shared_ptr<Object> AddSkill(Vec2 pos, int type, float animateSpeed, double holdingTime);
+	shared_ptr<Object> AddShootSkill(Vec2 pos, int type, float animateSpeed, double holdingTime, E_DIRECTION dir);
 
 	void RemoveObject(unsigned long long id);
 
