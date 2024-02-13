@@ -117,9 +117,15 @@ shared_ptr<Object> Scene::AddSkill(Vec2 pos, int type, float animateSpeed, doubl
 
 shared_ptr<Object> Scene::AddShootSkill(Vec2 pos, int type, float animateSpeed, double holdingTime, E_DIRECTION dir = E_DIRECTION::E_RIGHT)
 {
-	auto object = make_shared<ShootSkill>(pos, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-	object->SetDirection(dir);
-	createQueue.push_back(object);
+	auto object = make_shared<ShootSkill>(pos, type, global_effect_id++, holdingTime, animateSpeed);
+	
+	if (pos.x >= 0 && pos.x < MapSize::CURRENT_MAP_SIZE.x &&
+		pos.y >= 0 && pos.y < MapSize::CURRENT_MAP_SIZE.y) {
+		object->SetDirection(dir);
+		createQueue.push_back(object);
+	}
+	else 
+		return nullptr;
 	return object;
 }
 

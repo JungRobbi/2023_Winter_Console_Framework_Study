@@ -16,8 +16,8 @@ public:
 	Monster(Vec2 Pos, int type, unsigned long long id);
 	~Monster();
 
-	void Start();
-	void Update(double elapsedTime);
+	virtual void Start();
+	virtual void Update(double elapsedTime);
 
 	shared_ptr<Object> GetTarget();
 	void SetTarget(shared_ptr<Object> tar);
