@@ -17,6 +17,7 @@
 #include "PlayerUI.h"
 #include "StatusComponent.h"
 #include "ShootSkill.h"
+#include "DebugUI.h"
 
 
 LobbyScene::LobbyScene() : Scene()
@@ -32,7 +33,13 @@ void LobbyScene::Initialize()
 	auto& animationMGR = AnimationMGR::GetInstance();
 	auto& networkMGR = NetworkMGR::GetInstance();
 	auto& packetQueue = PacketQueue::GetInstance();
+	auto& uiMGR = UIMGR::GetInstance();
 
+	{
+		auto ui = uiMGR.AddUI<DebugUI>(21, 10);
+	}
+
+	lobby.clear();
 	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		lobby.emplace_back();
 		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
@@ -43,6 +50,7 @@ void LobbyScene::Initialize()
 		}
 	}
 
+	scene.clear();
 	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		scene.emplace_back();
 		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
@@ -55,7 +63,6 @@ void LobbyScene::Initialize()
 			auto object = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 			createQueue.push_back(object);
 
-			auto& uiMGR = UIMGR::GetInstance();
 			auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
 			ui->SetPlayer(object);
 		}

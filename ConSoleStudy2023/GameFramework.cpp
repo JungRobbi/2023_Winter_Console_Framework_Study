@@ -20,6 +20,8 @@ GameFramework& GameFramework::GetInstance()
 
 void GameFramework::Initialize()
 {
+	CURRENT_MAP_SIZE = Vec2{ LOBBY_SIZE_X, LOBBY_SIZE_Y };
+
 	auto& timer = Timer::GetInstance();
 	auto& input = Input::GetInstance();
 	timer.Initialize();

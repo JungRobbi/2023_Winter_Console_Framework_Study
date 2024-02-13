@@ -149,6 +149,7 @@
     <ClCompile Include="AnimationMGR.cpp" />
     <ClCompile Include="AttackComponent.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugUI.cpp" />
     <ClCompile Include="FSM.cpp" />
     <ClCompile Include="FSMState.cpp" />
     <ClCompile Include="GameFramework.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="AnimationMGR.h" />
     <ClInclude Include="AttackComponent.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugUI.h" />
     <ClInclude Include="FSM.h" />
     <ClInclude Include="FSMState.h" />
     <ClInclude Include="GameFramework.h" />

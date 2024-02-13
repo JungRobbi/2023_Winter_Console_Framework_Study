@@ -147,6 +147,9 @@
     <ClCompile Include="ShootSkill.cpp">
       <Filter>소스 파일\Game\Objects\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="DebugUI.cpp">
+      <Filter>소스 파일\Game\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="ShootSkill.h">
       <Filter>소스 파일\Game\Objects\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugUI.h">
+      <Filter>소스 파일\Game\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

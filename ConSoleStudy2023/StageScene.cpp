@@ -30,6 +30,7 @@ void StageScene::Initialize()
 	auto& networkMGR = NetworkMGR::GetInstance();
 	auto& packetQueue = PacketQueue::GetInstance();
 
+	stage.clear();
 	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		stage.emplace_back();
 		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
@@ -44,6 +45,7 @@ void StageScene::Initialize()
 		}
 	}
 
+	scene.clear();
 	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
 		scene.emplace_back();
 		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {

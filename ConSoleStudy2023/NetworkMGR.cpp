@@ -61,7 +61,7 @@ void NetworkMGR::Initialize()
 
 	char isnet = 'n';
 	std::cout << "서버 연결 여부(y) : ";
-	std::cin >> isnet;
+//	std::cin >> isnet;
 
 	system("cls");
 
