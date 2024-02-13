@@ -63,7 +63,8 @@ void StageScene::Initialize()
 	if (false == networkMGR.b_isNet) {
 		{ // player »ý¼º
 			auto object = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
-			createQueue.push_back(object);
+			object->Start();
+			objects[my_id] = object;
 		}
 
 		int num_monster{ 10 };

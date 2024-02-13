@@ -49,7 +49,7 @@ public:
 
 					auto pos = target->GetPos();
 					if (1 < DistanceVec2(pos, my_pos)) {
-						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_WANDER);
+						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_TRACKING);
 					}
 				}
 			}

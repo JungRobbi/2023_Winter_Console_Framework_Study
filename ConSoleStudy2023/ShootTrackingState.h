@@ -64,7 +64,7 @@ public:
 						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
 					}
 					else if (owner->GetComponent<StatusComponent>()->GetSight() < DistanceVec2(pos, owner->GetPos())) {
-						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
+						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_WANDER);
 					}
 				}
 			}
