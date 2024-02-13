@@ -42,8 +42,8 @@ public:
 					owner->SetDirection(dir);
 					E_DIRECTION my_dir = owner->GetDirection();
 					auto p = my_pos + my_dir;
-					if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-						p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+					if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+						p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 						Scene::MainScene->AddShootSkill(p, E_OBJECT::E_EFFECT + 1, 1.f, 1.0, my_dir);
 					}
 

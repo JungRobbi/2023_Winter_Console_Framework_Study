@@ -15,6 +15,8 @@
 #include "../ServerLib/PacketQueue.h"
 #include "StatusComponent.h"
 #include "ShootSkill.h"
+#include "UIMGR.h"
+#include "DebugUI.h"
 
 StageScene::StageScene() : Scene()
 {
@@ -29,11 +31,16 @@ void StageScene::Initialize()
 	auto& animationMGR = AnimationMGR::GetInstance();
 	auto& networkMGR = NetworkMGR::GetInstance();
 	auto& packetQueue = PacketQueue::GetInstance();
+	auto& uiMGR = UIMGR::GetInstance();
+
+	{
+		auto ui = uiMGR.AddUI<DebugUI>(21, 10);
+	}
 
 	stage.clear();
-	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
 		stage.emplace_back();
-		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
 			if (i % 10 == 9 && j % 10 == 9)
 				stage[i].emplace_back(E_TILE + 5);
 			else if (j % 10 == 9)
@@ -46,9 +53,9 @@ void StageScene::Initialize()
 	}
 
 	scene.clear();
-	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
 		scene.emplace_back();
-		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
 			scene[i].emplace_back(E_TILE);
 		}
 	}
@@ -61,10 +68,10 @@ void StageScene::Initialize()
 
 		int num_monster{ 10 };
 		for (int i{}; i < num_monster; ++i) {
-			AddMonster(Vec2{ (int)((CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
+			AddMonster(Vec2{ (int)((MapSize::CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((MapSize::CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
 		}
 		for (int i{}; i < num_monster; ++i) {
-			AddShootMonster(Vec2{ (int)((CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY + 1);
+			AddShootMonster(Vec2{ (int)((MapSize::CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((MapSize::CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY + 1);
 		}
 	}
 	else { // Network O
@@ -74,9 +81,9 @@ void StageScene::Initialize()
 		packetQueue.AddSendPacket(&sendPacket);
 	}
 
-	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
-		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
-			if (i == 0 || j == 0 || i == CURRENT_MAP_SIZE.y - 1 || j == CURRENT_MAP_SIZE.x - 1)
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
+			if (i == 0 || j == 0 || i == MapSize::CURRENT_MAP_SIZE.y - 1 || j == MapSize::CURRENT_MAP_SIZE.x - 1)
 				AddObject(Vec2{ j, i }, E_OBJECT::E_WALL);
 		}
 	}
@@ -136,8 +143,8 @@ void StageScene::Update(double elapsedTime)
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+			if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 
@@ -150,36 +157,36 @@ void StageScene::Update(double elapsedTime)
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			{
 				auto p = my_pos + my_dir + my_dir;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
@@ -192,8 +199,8 @@ void StageScene::Update(double elapsedTime)
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+			if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 				auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
 				object->SetDirection(my_dir);
 				createQueue.push_back(object);
@@ -229,7 +236,7 @@ void StageScene::Update(double elapsedTime)
 					}
 				}
 				if (input.GetKey(80)) { // ¡é
-					if (my_pos.y + 1 < CURRENT_MAP_SIZE.y) {
+					if (my_pos.y + 1 < MapSize::CURRENT_MAP_SIZE.y) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_DOWN);
 						packetQueue.AddSendPacket(&sendPacket);
 					}
@@ -241,7 +248,7 @@ void StageScene::Update(double elapsedTime)
 					}
 				}
 				if (input.GetKey(77)) { // ¡æ
-					if (my_pos.x + 1 < CURRENT_MAP_SIZE.x) {
+					if (my_pos.x + 1 < MapSize::CURRENT_MAP_SIZE.x) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
 						packetQueue.AddSendPacket(&sendPacket);
 					}
@@ -264,8 +271,8 @@ void StageScene::Update(double elapsedTime)
 				Vec2 my_pos = objects[my_id]->GetPos();
 				E_DIRECTION my_dir = objects[my_id]->GetDirection();
 				auto p = my_pos + my_dir;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
 					object->SetDirection(my_dir);
 					createQueue.push_back(object);
@@ -279,8 +286,8 @@ void StageScene::Update(double elapsedTime)
 				Vec2 my_pos = objects[my_id]->GetPos();
 				E_DIRECTION my_dir = objects[my_id]->GetDirection();
 				auto p = my_pos + my_dir;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					shared_ptr<ShootSkill> object;
 					if (0 == static_cast<int>(skillTimer) % 4) {
 						object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
@@ -347,7 +354,7 @@ void StageScene::Render()
 	}
 	for (int i{ pos.y - sight }; i < pos.y + sight; ++i) {
 		for (int j{ pos.x - sight }; j < pos.x + sight; ++j) {
-			if (i < 0 || j < 0 || i >= CURRENT_MAP_SIZE.y || j >= CURRENT_MAP_SIZE.x) {
+			if (i < 0 || j < 0 || i >= MapSize::CURRENT_MAP_SIZE.y || j >= MapSize::CURRENT_MAP_SIZE.x) {
 				str += "  ";
 			}
 			else {

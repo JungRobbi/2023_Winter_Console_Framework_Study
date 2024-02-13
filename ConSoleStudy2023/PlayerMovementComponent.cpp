@@ -24,7 +24,7 @@ void PlayerMovementComponent::Update(double elapsedTime)
 		}
 		if (input.GetKey(80)) { // ¡é
 			object->SetDirection(E_DIRECTION::E_DOWN);
-			if (my_pos.y + 1 < CURRENT_MAP_SIZE.y)
+			if (my_pos.y + 1 < MapSize::CURRENT_MAP_SIZE.y)
 				object->Move(E_DIRECTION::E_DOWN, 1);
 		}
 		if (input.GetKey(75)) { // ¡ç
@@ -34,7 +34,7 @@ void PlayerMovementComponent::Update(double elapsedTime)
 		}
 		if (input.GetKey(77)) { // ¡æ
 			object->SetDirection(E_DIRECTION::E_RIGHT);
-			if (my_pos.x + 1 < CURRENT_MAP_SIZE.x)
+			if (my_pos.x + 1 < MapSize::CURRENT_MAP_SIZE.x)
 				object->Move(E_DIRECTION::E_RIGHT, 1);
 		}
 	}

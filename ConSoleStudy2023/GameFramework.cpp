@@ -20,7 +20,7 @@ GameFramework& GameFramework::GetInstance()
 
 void GameFramework::Initialize()
 {
-	CURRENT_MAP_SIZE = Vec2{ LOBBY_SIZE_X, LOBBY_SIZE_Y };
+	MapSize::CURRENT_MAP_SIZE = Vec2{ LOBBY_SIZE_X, LOBBY_SIZE_Y };
 
 	auto& timer = Timer::GetInstance();
 	auto& input = Input::GetInstance();
@@ -91,15 +91,13 @@ void GameFramework::ChangeScene(E_SCENE type)
 		break;
 	}
 	case E_SCENE::E_LOBBY: {
-		CURRENT_MAP_SIZE.x = LOBBY_SIZE_X;
-		CURRENT_MAP_SIZE.y = LOBBY_SIZE_Y;
+		MapSize::CURRENT_MAP_SIZE = Vec2{ LOBBY_SIZE_X , LOBBY_SIZE_Y };
 		Scene::MainSceneShared = make_shared<LobbyScene>();
 		Scene::MainSceneShared->Initialize();
 		break;
 	}
 	case E_SCENE::E_STAGE1: {
-		CURRENT_MAP_SIZE.x = STAGE_SIZE_X;
-		CURRENT_MAP_SIZE.y = STAGE_SIZE_Y;
+		MapSize::CURRENT_MAP_SIZE = Vec2{ STAGE_SIZE_X , STAGE_SIZE_Y };
 		Scene::MainSceneShared = make_shared<StageScene>();
 		Scene::MainSceneShared->Initialize();
 		break;

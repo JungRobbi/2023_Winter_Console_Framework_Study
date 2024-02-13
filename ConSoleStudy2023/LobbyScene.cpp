@@ -40,10 +40,10 @@ void LobbyScene::Initialize()
 	}
 
 	lobby.clear();
-	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
 		lobby.emplace_back();
-		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
-			if (i % 10 == 9 && j % 10 == 9)
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
+			if ((i + 5) % 10 == 9 && (j + 5) % 10 == 9)
 				lobby[i].emplace_back(E_TILE + 5);
 			else
 				lobby[i].emplace_back(E_TILE);
@@ -51,9 +51,9 @@ void LobbyScene::Initialize()
 	}
 
 	scene.clear();
-	for (int i{}; i < CURRENT_MAP_SIZE.y; ++i) {
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
 		scene.emplace_back();
-		for (int j{}; j < CURRENT_MAP_SIZE.x; ++j) {
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
 			scene[i].emplace_back(E_TILE);
 		}
 	}
@@ -130,8 +130,8 @@ void LobbyScene::Update(double elapsedTime)
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+			if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 				AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 			}
 
@@ -144,36 +144,36 @@ void LobbyScene::Update(double elapsedTime)
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			{
 				auto p = my_pos + my_dir + my_dir;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_UP;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_DOWN;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_LEFT;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
 			{
 				auto p = my_pos + my_dir + my_dir + E_DIRECTION::E_RIGHT;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					AddSkill(p, E_OBJECT::E_EFFECT, 5.f, 1.f);
 				}
 			}
@@ -186,8 +186,8 @@ void LobbyScene::Update(double elapsedTime)
 			Vec2 my_pos = objects[my_id]->GetPos();
 			E_DIRECTION my_dir = objects[my_id]->GetDirection();
 			auto p = my_pos + my_dir;
-			if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-				p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+			if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+				p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 				auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
 				object->SetDirection(my_dir);
 				createQueue.push_back(object);
@@ -223,7 +223,7 @@ void LobbyScene::Update(double elapsedTime)
 					}
 				}
 				if (input.GetKey(80)) { // ¡é
-					if (my_pos.y + 1 < CURRENT_MAP_SIZE.y) {
+					if (my_pos.y + 1 < MapSize::CURRENT_MAP_SIZE.y) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_DOWN);
 						packetQueue.AddSendPacket(&sendPacket);
 					}
@@ -235,7 +235,7 @@ void LobbyScene::Update(double elapsedTime)
 					}
 				}
 				if (input.GetKey(77)) { // ¡æ
-					if (my_pos.x + 1 < CURRENT_MAP_SIZE.x) {
+					if (my_pos.x + 1 < MapSize::CURRENT_MAP_SIZE.x) {
 						sendPacket.dir = static_cast<char>(E_DIRECTION::E_RIGHT);
 						packetQueue.AddSendPacket(&sendPacket);
 					}
@@ -258,8 +258,8 @@ void LobbyScene::Update(double elapsedTime)
 				Vec2 my_pos = objects[my_id]->GetPos();
 				E_DIRECTION my_dir = objects[my_id]->GetDirection();
 				auto p = my_pos + my_dir;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					auto object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
 					object->SetDirection(my_dir);
 					createQueue.push_back(object);
@@ -273,8 +273,8 @@ void LobbyScene::Update(double elapsedTime)
 				Vec2 my_pos = objects[my_id]->GetPos();
 				E_DIRECTION my_dir = objects[my_id]->GetDirection();
 				auto p = my_pos + my_dir;
-				if (p.x >= 0 && p.x < CURRENT_MAP_SIZE.x &&
-					p.y >= 0 && p.y < CURRENT_MAP_SIZE.y) {
+				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
+					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					shared_ptr<ShootSkill> object;
 					if (0 == static_cast<int>(skillTimer) % 4) {
 						object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
@@ -315,7 +315,7 @@ void LobbyScene::Update(double elapsedTime)
 		auto ac = object.second->GetComponent<AnimationComponent>();
 		if (ac) {
 			if (pos.x >= 0					&& pos.y >= 0	&&
-				pos.x < CURRENT_MAP_SIZE.x	&& pos.y < CURRENT_MAP_SIZE.y)
+				pos.x < MapSize::CURRENT_MAP_SIZE.x	&& pos.y < MapSize::CURRENT_MAP_SIZE.y)
 				scene[pos.y][pos.x] = animationMGR.GetAnimationShape(object.second->GetType())[ac->GetAnimationState()];
 		}
 	}
@@ -343,7 +343,7 @@ void LobbyScene::Render()
 	}
 	for (int i{ pos.y - sight }; i < pos.y + sight; ++i) {
 		for (int j{ pos.x - sight }; j < pos.x + sight; ++j) {
-			if (i < 0 || j < 0 || i >= CURRENT_MAP_SIZE.y || j >= CURRENT_MAP_SIZE.x) {
+			if (i < 0 || j < 0 || i >= MapSize::CURRENT_MAP_SIZE.y || j >= MapSize::CURRENT_MAP_SIZE.x) {
 				str += "  ";
 			}
 			else {

@@ -30,7 +30,8 @@ void DebugUI::Render()
 	UI::Render();
 
 	string str;
-	str += "  CURRENT SIZE  : " + to_string(CURRENT_MAP_SIZE.x) + ", " + to_string(CURRENT_MAP_SIZE.y);
+	str += "  CURRENT SIZE  : " + to_string(MapSize::CURRENT_MAP_SIZE.x) + ", " + to_string(MapSize::CURRENT_MAP_SIZE.y) + "\n";
 
 	cout << str;
+
 }
