@@ -277,14 +277,27 @@ void LobbyScene::Update(double elapsedTime)
 				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
 					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					shared_ptr<ShootSkill> object;
-					if (0 == static_cast<int>(skillTimer) % 4) {
-						object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-					}
-					else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
-						object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					if (my_dir == E_DIRECTION::E_UP || my_dir == E_DIRECTION::E_DOWN) {
+						if (0 == static_cast<int>(skillTimer) % 4) {
+							object = make_shared<ShootSkill>(p + E_DIRECTION::E_LEFT, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+						}
+						else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
+							object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+						}
+						else {
+							object = make_shared<ShootSkill>(p + E_DIRECTION::E_RIGHT, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+						}
 					}
 					else {
-						object = make_shared<ShootSkill>(p + E_DIRECTION::E_DOWN, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+						if (0 == static_cast<int>(skillTimer) % 4) {
+							object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+						}
+						else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
+							object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+						}
+						else {
+							object = make_shared<ShootSkill>(p + E_DIRECTION::E_DOWN, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+						}
 					}
 					object->SetDirection(my_dir);
 					createQueue.push_back(object);
