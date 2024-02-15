@@ -81,7 +81,7 @@ void LobbyScene::Initialize()
 
 	storeTitle = vector<string>{
 	"¦£ ¦¡ ¦¤",
-	"¦¢  ¡á¦¢"
+	"¦¢  ¡á¦¢",
 	"¦¦  ¦¡¦¥"
 	};
 
@@ -99,13 +99,8 @@ void LobbyScene::Initialize()
 		}
 	}
 	
-	storePos;
-	for (int i{}; i < storeTitle.size(); ++i) {
-		for (int j{}; j < storeTitle[i].size(); ++j) {
-
-		}
-	}
-//	lobby[][];
+//	InitTitle(lobby, dungeonTitle, dungeonPos);
+	InitTitle(lobby, storeTitle, storePos);
 
 	
 

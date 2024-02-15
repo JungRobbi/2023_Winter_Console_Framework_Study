@@ -18,4 +18,3 @@ public:
 
 	virtual void ProcessPacket(char* p_Packet);
 };
-

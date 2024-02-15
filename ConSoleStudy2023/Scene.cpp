@@ -14,6 +14,9 @@
 #include "ShootSkill.h"
 #include "ShootMonster.h"
 
+#include <string>
+#include <vector>
+
 unsigned long long Scene::global_id = 1;
 unsigned long long Scene::global_effect_id = E_OBJECT::E_EFFECT;
 
@@ -179,4 +182,35 @@ void Scene::ProcessNetworkRecv()
 
 void Scene::ProcessPacket(char* p_Packet)
 {
+}
+
+void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::string>& title, const Vec2& pos)
+{
+	int left{ pos.x - int(title[0].size()) / 2 };
+	int right{ pos.x + int(title[0].size()) / 2 };
+	int top{ pos.y - int(title.size()) / 2 };
+	int bottom{ pos.y + int(title.size()) / 2 };
+
+	if (left < 0) {
+		left = 0;
+		right = title[0].size();
+	}
+	else if (right >= MapSize::CURRENT_MAP_SIZE.x) {
+		right = MapSize::CURRENT_MAP_SIZE.x - 1;
+		left = right - title[0].size();
+	}
+	if (top < 0) {
+		top = 0;
+		bottom = title.size();
+	}
+	else if (bottom >= MapSize::CURRENT_MAP_SIZE.y) {
+		bottom = MapSize::CURRENT_MAP_SIZE.y - 1;
+		top = bottom - title.size();
+	}
+
+	for (int i{ top }; i < top + title.size(); ++i) {
+		for (int j{ left }; j < left + title[0].size(); ++j) {
+			map[i][j] = E_OBJECT::E_TILE + 2;
+		}
+	}
 }

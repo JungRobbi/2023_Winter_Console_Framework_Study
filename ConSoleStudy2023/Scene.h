@@ -53,5 +53,8 @@ public:
 
 	void ProcessNetworkRecv();
 	virtual void ProcessPacket(char* p_Packet);
+
 };
 
+void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::string>& title,
+	const Vec2& pos);
