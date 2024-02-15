@@ -56,5 +56,5 @@ public:
 
 };
 
-void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::string>& title,
+void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::wstring>& title,
 	const Vec2& pos);

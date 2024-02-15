@@ -6,8 +6,8 @@ class LobbyScene :
     vector<vector<int>> lobby;
 	Vec2 dungeonPos;
 	Vec2 storePos;
-	vector<string> dungeonTitle;
-	vector<string> storeTitle;
+	vector<wstring> dungeonTitle;
+	vector<wstring> storeTitle;
 public:
 	LobbyScene();
 	virtual ~LobbyScene();

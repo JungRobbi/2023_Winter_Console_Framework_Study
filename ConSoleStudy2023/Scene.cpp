@@ -184,7 +184,7 @@ void Scene::ProcessPacket(char* p_Packet)
 {
 }
 
-void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::string>& title, const Vec2& pos)
+void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::wstring>& title, const Vec2& pos)
 {
 	int left{ pos.x - int(title[0].size()) / 2 };
 	int right{ pos.x + int(title[0].size()) / 2 };
@@ -208,9 +208,25 @@ void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::string
 		top = bottom - title.size();
 	}
 
-	for (int i{ top }; i < top + title.size(); ++i) {
-		for (int j{ left }; j < left + title[0].size(); ++j) {
-			map[i][j] = E_OBJECT::E_TILE + 2;
+	for (int i{}; i < title.size(); ++i) {
+		for (int j{}; j < title[i].size(); ++j) {
+			wchar_t temp = title[i][j];
+			if (0 == wcscmp(&temp, L"¦£"))
+				map[top + i][left + j] = E_OBJECT::E_TILE + 7;
+			else if (0 == wcscmp(&temp, L"¦¤"))
+				map[top + i][left + j] = E_OBJECT::E_TILE + 8;
+			else if (0 == wcscmp(&temp, L"¦¥"))
+				map[top + i][left + j] = E_OBJECT::E_TILE + 9;
+			else if (0 == wcscmp(&temp, L"¦¦"))
+				map[top + i][left + j] = E_OBJECT::E_TILE + 10;
+			else if (0 == wcscmp(&temp, L"¦¡"))
+				map[top + i][left + j] = E_OBJECT::E_TILE + 3;
+			else if (0 == wcscmp(&temp, L"¦¢"))
+				map[top + i][left + j] = E_OBJECT::E_TILE + 4;
+			else if (0 == wcscmp(&temp, L" "))
+				map[top + i][left + j] = E_OBJECT::E_TILE;
+			else
+				map[top + i][left + j] = E_OBJECT::E_TILE + 2;
 		}
 	}
 }

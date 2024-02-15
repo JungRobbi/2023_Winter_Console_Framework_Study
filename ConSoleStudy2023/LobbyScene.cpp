@@ -59,34 +59,32 @@ void LobbyScene::Initialize()
 
 	*/
 
-	dungeonTitle = vector<string>{
-	"忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖",
-	"弛   ﹥﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥﹥﹥﹥   弛",
-	"弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥  ﹥     ﹥  ﹥   弛",
-	"弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥ ﹥﹥  ﹥  ﹥  ﹥﹥﹥   ﹥  ﹥   弛",
-	"弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥   弛",
-	"弛   ﹥﹥﹥    ﹥﹥   ﹥  ﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥  ﹥   弛",
-	"戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎"
+	dungeonTitle = vector<wstring>{
+	L"忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖",
+	L"弛                                      弛",
+	L"弛  ﹥﹥﹥  ﹥  ﹥ ﹥﹥﹥﹥  ﹥﹥﹥  ﹥﹥  ﹥﹥﹥﹥ ﹥﹥﹥﹥  弛",
+	L"弛  ﹥  ﹥ ﹥  ﹥ ﹥  ﹥ ﹥    ﹥  ﹥ ﹥    ﹥  ﹥  弛",
+	L"弛  ﹥  ﹥ ﹥  ﹥ ﹥  ﹥ ﹥ ﹥﹥ ﹥  ﹥ ﹥﹥﹥  ﹥  ﹥  弛",
+	L"弛  ﹥  ﹥ ﹥  ﹥ ﹥  ﹥ ﹥  ﹥ ﹥  ﹥ ﹥    ﹥  ﹥  弛",
+	L"弛  ﹥﹥﹥   ﹥﹥  ﹥  ﹥  ﹥﹥﹥  ﹥﹥  ﹥﹥﹥﹥ ﹥  ﹥  弛",
+	L"弛                                      弛",
+	L"戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎"
 	};
 
-	storeTitle = vector<string>{
-	"忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖",
-	"弛    ﹥﹥﹥  ﹥﹥﹥﹥   ﹥﹥   ﹥﹥﹥   ﹥﹥﹥﹥   弛",
-	"弛   ﹥      ﹥﹥   ﹥  ﹥  ﹥  ﹥  ﹥      弛",
-	"弛    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥   ﹥﹥﹥    弛",
-	"弛      ﹥   ﹥﹥   ﹥  ﹥  ﹥ ﹥   ﹥      弛",
-	"弛   ﹥﹥﹥    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   弛",
-	"戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎"
-	};
-
-	storeTitle = vector<string>{
-	"忙 式 忖",
-	"弛  ﹥弛",
-	"戌  式戎"
+	storeTitle = vector<wstring>{
+	L"忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖",
+	L"弛                            弛",
+	L"弛   ﹥﹥ ﹥﹥﹥﹥ ﹥﹥   ﹥﹥﹥   ﹥﹥﹥﹥  弛",
+	L"弛  ﹥    ﹥﹥ ﹥  ﹥  ﹥  ﹥  ﹥     弛",
+	L"弛   ﹥﹥  ﹥﹥ ﹥  ﹥  ﹥﹥﹥   ﹥﹥﹥   弛",
+	L"弛     ﹥ ﹥﹥ ﹥  ﹥  ﹥ ﹥   ﹥     弛",
+	L"弛   ﹥﹥  ﹥﹥  ﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥  弛",
+	L"弛                            弛",
+	L"戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎"
 	};
 
 	dungeonPos = Vec2{ 20, 10 };
-	storePos = Vec2{ 20, 50 };
+	storePos = Vec2{ 20, 20 };
 
 	lobby.clear();
 	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
@@ -99,7 +97,7 @@ void LobbyScene::Initialize()
 		}
 	}
 	
-//	InitTitle(lobby, dungeonTitle, dungeonPos);
+	InitTitle(lobby, dungeonTitle, dungeonPos);
 	InitTitle(lobby, storeTitle, storePos);
 
 	
