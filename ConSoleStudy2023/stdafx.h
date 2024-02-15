@@ -17,8 +17,8 @@ using namespace chrono;
 
 const int STAGE_SIZE_X = 51;
 const int STAGE_SIZE_Y = 51;
-const int LOBBY_SIZE_X = 21;
-const int LOBBY_SIZE_Y = 21;
+const int LOBBY_SIZE_X = 101;
+const int LOBBY_SIZE_Y = 101;
 
 const float EFFECT_MAX = 1000000.f;
 

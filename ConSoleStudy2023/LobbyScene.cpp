@@ -39,6 +39,55 @@ void LobbyScene::Initialize()
 		auto ui = uiMGR.AddUI<DebugUI>(21, 10);
 	}
 
+	/*
+
+	忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖
+	弛   ﹥﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥﹥﹥﹥   弛
+	弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥  ﹥     ﹥  ﹥   弛
+	弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥ ﹥﹥  ﹥  ﹥  ﹥﹥﹥   ﹥  ﹥   弛
+	弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥   弛
+	弛   ﹥﹥﹥    ﹥﹥   ﹥  ﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥  ﹥   弛
+	戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎
+
+	忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖
+	弛    ﹥﹥﹥  ﹥﹥﹥﹥   ﹥﹥   ﹥﹥﹥   ﹥﹥﹥﹥   弛
+	弛   ﹥      ﹥﹥   ﹥  ﹥  ﹥  ﹥  ﹥      弛
+	弛    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥   ﹥﹥﹥    弛
+	弛      ﹥   ﹥﹥   ﹥  ﹥  ﹥ ﹥   ﹥      弛
+	弛   ﹥﹥﹥    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   弛
+	戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎
+
+	*/
+
+	dungeonTitle = vector<string>{
+	"忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖",
+	"弛   ﹥﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥﹥﹥﹥   弛",
+	"弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥  ﹥     ﹥  ﹥   弛",
+	"弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥ ﹥﹥  ﹥  ﹥  ﹥﹥﹥   ﹥  ﹥   弛",
+	"弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥   弛",
+	"弛   ﹥﹥﹥    ﹥﹥   ﹥  ﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥  ﹥   弛",
+	"戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎"
+	};
+
+	storeTitle = vector<string>{
+	"忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖",
+	"弛    ﹥﹥﹥  ﹥﹥﹥﹥   ﹥﹥   ﹥﹥﹥   ﹥﹥﹥﹥   弛",
+	"弛   ﹥      ﹥﹥   ﹥  ﹥  ﹥  ﹥  ﹥      弛",
+	"弛    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥   ﹥﹥﹥    弛",
+	"弛      ﹥   ﹥﹥   ﹥  ﹥  ﹥ ﹥   ﹥      弛",
+	"弛   ﹥﹥﹥    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   弛",
+	"戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎"
+	};
+
+	storeTitle = vector<string>{
+	"忙 式 忖",
+	"弛  ﹥弛"
+	"戌  式戎"
+	};
+
+	dungeonPos = Vec2{ 20, 10 };
+	storePos = Vec2{ 20, 50 };
+
 	lobby.clear();
 	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
 		lobby.emplace_back();
@@ -49,6 +98,16 @@ void LobbyScene::Initialize()
 				lobby[i].emplace_back(E_TILE);
 		}
 	}
+	
+	storePos;
+	for (int i{}; i < storeTitle.size(); ++i) {
+		for (int j{}; j < storeTitle[i].size(); ++j) {
+
+		}
+	}
+//	lobby[][];
+
+	
 
 	scene.clear();
 	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {

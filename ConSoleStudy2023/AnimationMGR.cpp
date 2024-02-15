@@ -26,6 +26,10 @@ void AnimationMGR::Initialize()
 	Object_Shapes[E_OBJECT::E_TILE + 4] = "¦¢ ";
 	Object_Shapes[E_OBJECT::E_TILE + 5] = "¦« ";
 	Object_Shapes[E_OBJECT::E_TILE + 6] = "¡Ü";
+	Object_Shapes[E_OBJECT::E_TILE + 7] = "¦£ ";
+	Object_Shapes[E_OBJECT::E_TILE + 8] = "¦¤ ";
+	Object_Shapes[E_OBJECT::E_TILE + 9] = "¦¥ ";
+	Object_Shapes[E_OBJECT::E_TILE + 10] = "¦¦ ";
 	Object_Shapes[E_OBJECT::E_EFFECT] = "¨ç";
 	Object_Shapes[E_OBJECT::E_EFFECT + 1] = "¨è";
 	Object_Shapes[E_OBJECT::E_EFFECT + 2] = "¨é";
