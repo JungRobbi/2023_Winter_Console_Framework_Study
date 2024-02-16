@@ -390,6 +390,20 @@ void LobbyScene::Update(double elapsedTime)
 		toChangeScene = E_SCENE::E_LOBBY;
 	if (input.GetKey('2')) 
 		toChangeScene = E_SCENE::E_STAGE1;
+	if (input.GetKey('p')) {
+		auto pos = objects[my_id]->GetPos();
+		auto sBox1 = Vec2{ storePos.x - (int)storeTitle[0].size() / 2, storePos.y - (int)storeTitle.size() / 2 };
+		auto sBox2 = Vec2{ storePos.x + (int)storeTitle[0].size() / 2, storePos.y + (int)storeTitle.size() / 2 };
+		auto dBox1 = Vec2{ dungeonPos.x - (int)dungeonTitle[0].size() / 2, dungeonPos.y - (int)dungeonTitle.size() / 2 };
+		auto dBox2 = Vec2{ dungeonPos.x + (int)dungeonTitle[0].size() / 2, dungeonPos.y + (int)dungeonTitle.size() / 2 };
+
+		if (PointInBox(sBox1, sBox2, pos)) {
+			toChangeScene = E_SCENE::E_LOBBY;
+		}
+		else if (PointInBox(dBox1, dBox2, pos)) {
+			toChangeScene = E_SCENE::E_STAGE1;
+		}
+	}
 
 	DeleteObjects();
 }

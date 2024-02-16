@@ -94,3 +94,5 @@ class MapSize {
 public:
 	static Vec2 CURRENT_MAP_SIZE;
 };
+
+bool PointInBox(Vec2 boxPos1, Vec2 boxPos2, Vec2 point);
