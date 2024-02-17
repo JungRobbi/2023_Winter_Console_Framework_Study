@@ -114,7 +114,14 @@ void StageScene::Update(double elapsedTime)
 		if (nullptr == object.second)
 			continue;
 
-		if (object.second->GetType() == E_OBJECT::E_ENEMY) {
+		auto objectType = object.second->GetType();
+
+		if (objectType >= E_OBJECT::E_CLIENT &&
+			objectType < E_OBJECT::E_ENEMY) {
+
+		}
+		else if (objectType >= E_OBJECT::E_ENEMY &&
+			objectType < E_OBJECT::E_WALL) {
 
 			auto colliderList = CollideCheck(object.second->GetPos());
 			for (auto collideId : colliderList) {
@@ -122,8 +129,9 @@ void StageScene::Update(double elapsedTime)
 					continue;
 
 				if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
-					if (E_OBJECT::E_EFFECT_ATTACK == animationMGR.GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
-						RemoveObject(object.second->GetId());
+					if (E_OBJECT::E_EFFECT_ATTACK <= animationMGR.GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
+
+					
 					}
 				}
 			}
@@ -328,13 +336,16 @@ void StageScene::Update(double elapsedTime)
 			continue;
 		auto pos = object.second->GetPos();
 		auto ac = object.second->GetComponent<AnimationComponent>();
-		if (ac)
-			scene[pos.y][pos.x] = animationMGR.GetAnimationShape(object.second->GetType())[ac->GetAnimationState()];
+		if (ac) {
+			if (pos.x >= 0 && pos.y >= 0 &&
+				pos.x < MapSize::CURRENT_MAP_SIZE.x && pos.y < MapSize::CURRENT_MAP_SIZE.y)
+				scene[pos.y][pos.x] = animationMGR.GetAnimationShape(object.second->GetType())[ac->GetAnimationState()];
+		}
 	}
 
-	if (input.GetKey('1')) 
+	if (input.GetKey('1'))
 		toChangeScene = E_SCENE::E_LOBBY;
-	if (input.GetKey('2')) 
+	if (input.GetKey('2'))
 		toChangeScene = E_SCENE::E_STAGE1;
 
 	DeleteObjects();
@@ -390,7 +401,7 @@ void StageScene::ProcessPacket(char* p_Packet)
 		SC_ADD_MONSTER_PACKET* recvPacket = reinterpret_cast<SC_ADD_MONSTER_PACKET*>(p_Packet);
 
 		auto object = make_shared<Monster>(
-			Vec2{ recvPacket->posX, recvPacket->posY}, 
+			Vec2{ recvPacket->posX, recvPacket->posY },
 			recvPacket->monsterType, recvPacket->id);
 		//юс╫ц
 		object->SetTarget(objects[my_id]);

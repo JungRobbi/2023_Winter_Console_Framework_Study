@@ -53,7 +53,7 @@ void ShootSkill::Update(double elapsedTime)
 	auto movementComponent = GetComponent<MovementComponent>();
 	if (movementComponent) {
 		if (movementComponent->GetMoveable()) {
-			Move(direction, 1);
+			MoveUncond(direction, 1);
 			movementComponent->SetMoveable(false);
 		}
 	}

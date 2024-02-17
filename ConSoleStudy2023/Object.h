@@ -37,6 +37,7 @@ public:
 	int GetType();
 
 	void Move(E_DIRECTION dir, int step);
+	void MoveUncond(E_DIRECTION dir, int step);
 
 
 	template<class T>

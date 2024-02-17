@@ -46,6 +46,14 @@ void Scene::Initialize()
 
 void Scene::Update(double elapsedTime)
 {
+	for (auto& object : objects) {
+		auto component = object.second->GetComponent<StatusComponent>();
+		if (component) {
+			if (0 <= component->GetHP())
+				RemoveObject(object.second->GetId());
+		}
+	}
+
 	ProcessNetworkRecv();
 }
 

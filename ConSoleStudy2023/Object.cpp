@@ -77,3 +77,9 @@ void Object::Move(E_DIRECTION dir, int step)
 	position += dir;
 	direction = dir;
 }
+
+void Object::MoveUncond(E_DIRECTION dir, int step)
+{
+	position += dir;
+	direction = dir;
+}
