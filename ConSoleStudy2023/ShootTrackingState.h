@@ -26,7 +26,7 @@ public:
 					auto owner_pos = owner->GetPos();
 					E_DIRECTION dir;
 					Vec2 dirVec2 = targetPos - owner_pos;
-					if (abs(dirVec2.x) > abs(dirVec2.y))
+					if ((abs(dirVec2.x) < abs(dirVec2.y) && dirVec2.x != 0) || dirVec2.y == 0)
 						if (dirVec2.x < 0)
 							dir = E_DIRECTION::E_LEFT;
 						else
@@ -60,7 +60,7 @@ public:
 					}
 					owner->Move(dir, 1);
 					auto pos = target->GetPos();
-					if (1 >= DistanceVec2(pos, owner->GetPos())) {
+					if (3 >= DistanceVec2(pos, owner->GetPos())) {
 						dynamic_cast<Monster*>(owner)->SetFSMState(E_FSM_STATE::E_FSM_ATTACK);
 					}
 					else if (owner->GetComponent<StatusComponent>()->GetSight() < DistanceVec2(pos, owner->GetPos())) {

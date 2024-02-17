@@ -45,6 +45,10 @@ void ShootMonster::Start()
 			auto component = GetComponent<AnimationComponent>();
 			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(objectType).size());
 		}
+		{
+			auto component = GetComponent<StatusComponent>();
+			component->SetSight(5);
+		}
 	}
 }
 
