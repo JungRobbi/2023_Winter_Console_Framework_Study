@@ -153,6 +153,9 @@
     <ClCompile Include="InventoryComponent.cpp">
       <Filter>소스 파일\Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>소스 파일\Game\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="InventoryComponent.h">
       <Filter>소스 파일\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>소스 파일\Game\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
