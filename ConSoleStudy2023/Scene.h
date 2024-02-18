@@ -54,6 +54,7 @@ public:
 	void ProcessNetworkRecv();
 	virtual void ProcessPacket(char* p_Packet);
 
+	int GetObjectType(unsigned long long id);
 };
 
 void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::wstring>& title,

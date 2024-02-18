@@ -69,10 +69,12 @@ void Object::Move(E_DIRECTION dir, int step)
 {
 	auto colliderList = Scene::MainScene->CollideCheckForType(position + dir);
 	for (auto collideId : colliderList) {
-		if (collideId == E_OBJECT::E_CLIENT)
+		if (objectType >= E_OBJECT::E_EFFECT)
+			break;
+
+		if (Scene::MainScene->GetObjectType(collideId) >= E_OBJECT::E_EFFECT)
 			continue;
-		else
-			return;
+		return;
 	}
 	position += dir;
 	direction = dir;

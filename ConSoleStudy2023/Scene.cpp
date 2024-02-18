@@ -46,11 +46,27 @@ void Scene::Initialize()
 
 void Scene::Update(double elapsedTime)
 {
+	auto& timer = Timer::GetInstance();
+
 	for (auto& object : objects) {
+		if (nullptr == object.second)
+			continue;
+		object.second->Update(timer.GetElapsedTimeSeconds());
+	}
+
+	for (auto& object : objects) {
+		if (nullptr == object.second)
+			continue;
 		auto component = object.second->GetComponent<StatusComponent>();
 		if (component) {
-			if (0 <= component->GetHP())
-				RemoveObject(object.second->GetId());
+			if (0.f >= component->GetHP()) {
+				if (object.second->GetId() == my_id) {
+					toChangeScene = E_SCENE::E_LOBBY;
+				}
+				else {
+					RemoveObject(object.second->GetId());
+				}
+			}
 		}
 	}
 
@@ -190,6 +206,13 @@ void Scene::ProcessNetworkRecv()
 
 void Scene::ProcessPacket(char* p_Packet)
 {
+}
+
+int Scene::GetObjectType(unsigned long long id)
+{
+	if (objects.count(id))
+		return objects[id]->GetType();
+	return -1;
 }
 
 void InitTitle(std::vector<std::vector<int>>& map, const std::vector<std::wstring>& title, const Vec2& pos)

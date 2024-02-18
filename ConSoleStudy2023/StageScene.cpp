@@ -17,6 +17,7 @@
 #include "ShootSkill.h"
 #include "UIMGR.h"
 #include "DebugUI.h"
+#include "PlayerUI.h"
 
 StageScene::StageScene() : Scene()
 {
@@ -65,6 +66,9 @@ void StageScene::Initialize()
 			auto object = make_shared<Player>(Vec2{ 5, 5 }, E_OBJECT::E_CLIENT, my_id);
 			object->Start();
 			objects[my_id] = object;
+
+			auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
+			ui->SetPlayer(object);
 		}
 
 		int num_monster{ 10 };
@@ -117,12 +121,7 @@ void StageScene::Update(double elapsedTime)
 		auto objectType = object.second->GetType();
 
 		if (objectType >= E_OBJECT::E_CLIENT &&
-			objectType < E_OBJECT::E_ENEMY) {
-
-		}
-		else if (objectType >= E_OBJECT::E_ENEMY &&
 			objectType < E_OBJECT::E_WALL) {
-
 			auto colliderList = CollideCheck(object.second->GetPos());
 			for (auto collideId : colliderList) {
 				if (collideId == object.second->GetId())
@@ -130,8 +129,10 @@ void StageScene::Update(double elapsedTime)
 
 				if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
 					if (E_OBJECT::E_EFFECT_ATTACK <= animationMGR.GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
-
-					
+						object.second->GetComponent<StatusComponent>()->HitDamage(30.f * elapsedTime);
+					}
+					else if (E_OBJECT::E_EFFECT_ATTACK <= animationMGR.GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
+						object.second->GetComponent<StatusComponent>()->HitDamage(100.f * elapsedTime);
 					}
 				}
 			}
@@ -324,11 +325,6 @@ void StageScene::Update(double elapsedTime)
 
 	//Update
 	Scene::Update(elapsedTime);
-	for (auto& object : objects) {
-		if (nullptr == object.second)
-			continue;
-		object.second->Update(timer.GetElapsedTimeSeconds());
-	}
 
 	//Render
 	for (auto& object : objects) {

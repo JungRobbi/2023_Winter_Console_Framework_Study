@@ -4,6 +4,7 @@
 #include "AnimationComponent.h"
 #include "AnimationMGR.h"
 #include "AttackComponent.h"
+#include "InventoryComponent.h"
 
 Player::Player() : Object()
 {
@@ -26,6 +27,7 @@ void Player::Start()
 	AddComponent<AnimationComponent>();
 	AddComponent<StatusComponent>();
 	AddComponent<AttackComponent>();
+	AddComponent<InventoryComponent>();
 
 	Object::Start();
 

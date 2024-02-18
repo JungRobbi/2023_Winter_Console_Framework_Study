@@ -154,6 +154,7 @@
     <ClCompile Include="FSMState.cpp" />
     <ClCompile Include="GameFramework.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InventoryComponent.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="main.cpp">
@@ -194,6 +195,7 @@
     <ClInclude Include="FSMState.h" />
     <ClInclude Include="GameFramework.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InventoryComponent.h" />
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="LoginScene.h" />
     <ClInclude Include="Monster.h" />
