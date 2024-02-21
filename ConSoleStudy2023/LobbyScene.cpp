@@ -18,6 +18,7 @@
 #include "StatusComponent.h"
 #include "ShootSkill.h"
 #include "DebugUI.h"
+#include "Item.h"
 
 
 LobbyScene::LobbyScene() : Scene()
@@ -38,26 +39,6 @@ void LobbyScene::Initialize()
 	{
 		auto ui = uiMGR.AddUI<DebugUI>(21, 10);
 	}
-
-	/*
-
-	忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖
-	弛   ﹥﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥﹥﹥﹥   弛
-	弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥  ﹥     ﹥  ﹥   弛
-	弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥ ﹥﹥  ﹥  ﹥  ﹥﹥﹥   ﹥  ﹥   弛
-	弛   ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥  ﹥     ﹥  ﹥   弛
-	弛   ﹥﹥﹥    ﹥﹥   ﹥  ﹥   ﹥﹥﹥   ﹥﹥   ﹥﹥﹥﹥  ﹥  ﹥   弛
-	戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎
-
-	忙 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式忖
-	弛    ﹥﹥﹥  ﹥﹥﹥﹥   ﹥﹥   ﹥﹥﹥   ﹥﹥﹥﹥   弛
-	弛   ﹥      ﹥﹥   ﹥  ﹥  ﹥  ﹥  ﹥      弛
-	弛    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥   ﹥﹥﹥    弛
-	弛      ﹥   ﹥﹥   ﹥  ﹥  ﹥ ﹥   ﹥      弛
-	弛   ﹥﹥﹥    ﹥﹥    ﹥﹥   ﹥  ﹥  ﹥﹥﹥﹥   弛
-	戌 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式 式戎
-
-	*/
 
 	dungeonTitle = vector<wstring>{
 	L"忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖",
@@ -118,6 +99,10 @@ void LobbyScene::Initialize()
 
 			auto ui = uiMGR.AddUI<PlayerUI>(0, 21);
 			ui->SetPlayer(object);
+		}
+		{ // Item 儅撩
+			auto object = make_shared<Item>(Vec2{ 10, 10 }, E_OBJECT::E_ITEM, E_OBJECT::E_ITEM);
+			createQueue.push_back(object);
 		}
 	}
 	else { // Network O

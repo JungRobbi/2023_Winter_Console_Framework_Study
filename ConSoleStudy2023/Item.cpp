@@ -1,4 +1,6 @@
 #include "Item.h"
+#include "AnimationComponent.h"
+#include "AnimationMGR.h"
 
 
 Item::Item() : Object()
@@ -18,10 +20,20 @@ Item::~Item()
 void Item::Start()
 {
 	//AddComponent
+	AddComponent<AnimationComponent>();
+
 
 	Object::Start();
 
 	// Component °ª º¯°æ
+	{
+		auto& animationMGR = AnimationMGR::GetInstance();
+		{
+			auto component = GetComponent<AnimationComponent>();
+			component->SetAnimationStateMAX(animationMGR.GetAnimationShape(objectType).size());
+			component->SetAnimationSpeed(1.f);
+		}
+	}
 
 }
 
