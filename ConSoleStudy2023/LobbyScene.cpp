@@ -19,6 +19,7 @@
 #include "ShootSkill.h"
 #include "DebugUI.h"
 #include "Item.h"
+#include "InventoryComponent.h"
 
 
 LobbyScene::LobbyScene() : Scene()
@@ -138,16 +139,28 @@ void LobbyScene::Update(double elapsedTime)
 		if (nullptr == object.second)
 			continue;
 
-		if (object.second->GetType() == E_OBJECT::E_ENEMY) {
+		auto objectType = object.second->GetType();
+
+		if (objectType >= E_OBJECT::E_CLIENT &&
+			objectType < E_OBJECT::E_WALL) {
 
 			auto colliderList = CollideCheck(object.second->GetPos());
 			for (auto collideId : colliderList) {
 				if (collideId == object.second->GetId())
 					continue;
 
-				if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
-					if (E_OBJECT::E_EFFECT_ATTACK == animationMGR.GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
-						RemoveObject(object.second->GetId());
+				if (object.second->GetId() == my_id && objects[collideId]->GetType() >= E_OBJECT::E_ITEM) {
+					if (object.second->GetComponent<InventoryComponent>()) {
+						object.second->GetComponent<InventoryComponent>()->AddItem(E_OBJECT::E_ITEM + 1);
+					}
+					RemoveObject(collideId);
+				}
+				else if (objects[collideId]->GetType() >= E_OBJECT::E_EFFECT) {
+					if (E_OBJECT::E_EFFECT_ATTACK <= animationMGR.GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
+						object.second->GetComponent<StatusComponent>()->HitDamage(30.f * elapsedTime);
+					}
+					else if (E_OBJECT::E_EFFECT_ATTACK <= animationMGR.GetAnimationShape(objects[collideId]->GetType())[objects[collideId]->GetComponent<AnimationComponent>()->GetAnimationState()]) {
+						object.second->GetComponent<StatusComponent>()->HitDamage(100.f * elapsedTime);
 					}
 				}
 			}
@@ -314,27 +327,14 @@ void LobbyScene::Update(double elapsedTime)
 				if (p.x >= 0 && p.x < MapSize::CURRENT_MAP_SIZE.x &&
 					p.y >= 0 && p.y < MapSize::CURRENT_MAP_SIZE.y) {
 					shared_ptr<ShootSkill> object;
-					if (my_dir == E_DIRECTION::E_UP || my_dir == E_DIRECTION::E_DOWN) {
-						if (0 == static_cast<int>(skillTimer) % 4) {
-							object = make_shared<ShootSkill>(p + E_DIRECTION::E_LEFT, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-						}
-						else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
-							object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-						}
-						else {
-							object = make_shared<ShootSkill>(p + E_DIRECTION::E_RIGHT, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-						}
+					if (0 == static_cast<int>(skillTimer) % 4) {
+						object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
+					}
+					else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
+						object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
 					}
 					else {
-						if (0 == static_cast<int>(skillTimer) % 4) {
-							object = make_shared<ShootSkill>(p + E_DIRECTION::E_UP, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-						}
-						else if (1 == static_cast<int>(skillTimer) % 4 || 3 == static_cast<int>(skillTimer) % 4) {
-							object = make_shared<ShootSkill>(p, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-						}
-						else {
-							object = make_shared<ShootSkill>(p + E_DIRECTION::E_DOWN, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
-						}
+						object = make_shared<ShootSkill>(p + E_DIRECTION::E_DOWN, E_OBJECT::E_EFFECT + 2, global_effect_id++, 5.f, 1.f);
 					}
 					object->SetDirection(my_dir);
 					createQueue.push_back(object);

@@ -18,6 +18,6 @@ public:
     void Start();
     void Update(double elapsedTime);
     
-    void AddItem(E_OBJECT type);
+    void AddItem(int type);
 };
 

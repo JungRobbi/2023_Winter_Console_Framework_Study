@@ -72,8 +72,8 @@ void Object::Move(E_DIRECTION dir, int step)
 		if (objectType >= E_OBJECT::E_EFFECT)
 			break;
 
-		if (Scene::MainScene->GetObjectType(collideId) >= E_OBJECT::E_EFFECT)
-			continue;
+		if (Scene::MainScene->GetObjectType(collideId) >= E_OBJECT::E_ITEM)
+			continue;		
 		return;
 	}
 	position += dir;
