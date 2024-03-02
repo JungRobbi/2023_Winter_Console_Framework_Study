@@ -352,11 +352,6 @@ void LobbyScene::Update(double elapsedTime)
 
 	//Update
 	Scene::Update(elapsedTime);
-	for (auto& object : objects) {
-		if (nullptr == object.second)
-			continue;
-		object.second->Update(timer.GetElapsedTimeSeconds());
-	}
 
 	//Render
 	for (auto& object : objects) {

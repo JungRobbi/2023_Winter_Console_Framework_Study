@@ -42,14 +42,20 @@ void StageScene::Initialize()
 	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
 		stage.emplace_back();
 		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
+			stage[i].emplace_back(E_TILE);
+		}
+	}
+
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
 			if (i % 10 == 9 && j % 10 == 9)
-				stage[i].emplace_back(E_TILE + 5);
+				stage[i][j] = E_TILE + 5;
 			else if (j % 10 == 9)
-				stage[i].emplace_back(E_TILE + 4);
+				stage[i][j] = (int)E_TILE + 4;
 			else if (i % 10 == 9)
-				stage[i].emplace_back(E_TILE + 3);
+				stage[i][j] = (int)E_TILE + 3;
 			else
-				stage[i].emplace_back(E_TILE);
+				stage[i][j] = (int)E_TILE;
 		}
 	}
 
@@ -71,7 +77,7 @@ void StageScene::Initialize()
 			ui->SetPlayer(object);
 		}
 
-		int num_monster{ 10 };
+		int num_monster{ 5 };
 		for (int i{}; i < num_monster; ++i) {
 			AddMonster(Vec2{ (int)((MapSize::CURRENT_MAP_SIZE.x - 2) * rand_realUid(dre)) + 1, (int)((MapSize::CURRENT_MAP_SIZE.y - 2) * rand_realUid(dre)) + 1 }, E_OBJECT::E_ENEMY);
 		}
@@ -343,6 +349,17 @@ void StageScene::Update(double elapsedTime)
 		toChangeScene = E_SCENE::E_LOBBY;
 	if (input.GetKey('2'))
 		toChangeScene = E_SCENE::E_STAGE1;
+	
+	{
+		bool clear = true;
+		for (auto& object : objects) {
+			if (object.second->GetType() >= E_OBJECT::E_ENEMY &&
+				object.second->GetType() < E_OBJECT::E_WALL)
+				clear = false;
+		}
+		if (true == clear)
+			toChangeScene = E_SCENE::E_STAGE1;
+	}
 
 	DeleteObjects();
 }

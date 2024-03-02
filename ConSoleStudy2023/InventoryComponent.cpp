@@ -22,17 +22,17 @@ void InventoryComponent::Update(double elapsedTime)
 
 	str += " [INVENTORY]  "s + "\n"s;
 	cout << str;
-	for (auto item : inventory) {
-		if (item.second.objectType == -1 || item.second.num < 1)
+	for (int i{}; i < MAX_INVENTORY; ++i) {
+		if (inventory[i].objectType == -1 || inventory[i].num < 1)
 			continue;
 
-		str = ""s;
+		str = to_string(i + 1) + " : ";
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),
 			COORD{ short(uiPos.x), short(uiPos.y + 1) });
-		if (item.second.objectType == (int)E_OBJECT::E_ITEM + 1) {
-			str += "HP Potion : ";
+		if (inventory[i].objectType == (int)E_OBJECT::E_ITEM + 1) {
+			str += "HP Potion - ";
 		}
-		str += to_string(item.second.num);
+		str += to_string(inventory[i].num);
 		cout << str;
 	}
 }
