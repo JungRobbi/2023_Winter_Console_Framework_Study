@@ -39,25 +39,7 @@ void StageScene::Initialize()
 	}
 
 	stage.clear();
-	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
-		stage.emplace_back();
-		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
-			stage[i].emplace_back(E_TILE);
-		}
-	}
-
-	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
-		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
-			if (i % 10 == 9 && j % 10 == 9)
-				stage[i][j] = E_TILE + 5;
-			else if (j % 10 == 9)
-				stage[i][j] = (int)E_TILE + 4;
-			else if (i % 10 == 9)
-				stage[i][j] = (int)E_TILE + 3;
-			else
-				stage[i][j] = (int)E_TILE;
-		}
-	}
+	CreateRandomStage();
 
 	scene.clear();
 	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
@@ -454,4 +436,46 @@ void StageScene::ProcessPacket(char* p_Packet)
 
 	}
 	}
+}
+
+void StageScene::CreateRandomStage()
+{
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
+		stage.emplace_back();
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
+			stage[i].emplace_back(E_TILE);
+		}
+	}
+
+	for (int i{}; i < MapSize::CURRENT_MAP_SIZE.y; ++i) {
+		for (int j{}; j < MapSize::CURRENT_MAP_SIZE.x; ++j) {
+			if (i % 10 == 9 && j % 10 == 9)
+				stage[i][j] = E_TILE + 5;
+			else if (j % 10 == 9)
+				stage[i][j] = E_TILE + 4;
+			else if (i % 10 == 9)
+				stage[i][j] = E_TILE + 3;
+			else
+				stage[i][j] = E_TILE;
+		}
+	}
+
+	auto Rocknum = ((unsigned long long)MapSize::CURRENT_MAP_SIZE.x * MapSize::CURRENT_MAP_SIZE.y) / 100;
+
+	for (int k{}; k < Rocknum; ++k) {
+		Vec2 rPos{ (int)((MapSize::CURRENT_MAP_SIZE.x) * rand_realUid(dre)), (int)((MapSize::CURRENT_MAP_SIZE.y) * rand_realUid(dre)) };
+		Vec2 rSize{ (int)((MapSize::CURRENT_MAP_SIZE.x / 8) * rand_realUid(dre)), (int)((MapSize::CURRENT_MAP_SIZE.y / 10) * rand_realUid(dre)) };
+
+		for (int i{ rPos.y }; i < rPos.y + rSize.y; ++i) {
+			if (i < 0 || i >= MapSize::CURRENT_MAP_SIZE.y) 
+				continue;
+			for (int j{ rPos.x }; j < rPos.x + rSize.x; ++j) {
+				if (j < 0 || j >= MapSize::CURRENT_MAP_SIZE.x)
+					continue;
+				AddObject(Vec2{ j, i }, E_OBJECT::E_WALL);
+			}
+		}
+
+	}
+
 }

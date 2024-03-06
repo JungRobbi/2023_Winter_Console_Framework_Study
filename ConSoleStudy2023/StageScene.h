@@ -13,5 +13,7 @@ public:
 	virtual void Render();
 
 	virtual void ProcessPacket(char* p_Packet);
+
+	void CreateRandomStage();
 };
 
